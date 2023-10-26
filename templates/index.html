@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Philly Wifi</title>
+    </head>
+    <body>
+        <h1>Philly Wifi</h1>
+        <hr>
+
+        {% for pin in pins %}
+            <h3>{{pin['name']}}</h3>
+            <p>{{pin['address']}}</p>
+        {% endfor %}
+        <hr>
+        <a href="https://phillycommunitywireless.org/">About us</a>
+    </body>
+</html>
