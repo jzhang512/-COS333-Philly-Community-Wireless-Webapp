@@ -10,6 +10,16 @@
         {% for pin in pins %}
             <h3>{{pin['name']}}</h3>
             <p>{{pin['address']}}</p>
+            <p>Upload Speed: {{pin['ul_speed']}}, Download Speed: {{pin['dl_speed']}}</p>
+            <p>Tags: 
+                <ul> {% for tag in pin['tags'] %}
+                    <li>{{tag['category']}}: {{tag['name']}}</li>
+                {% endfor %} </ul>
+            </p>
+            {% if pin['descrip'] != ""%}
+                <p>Description: {{pin['descrip']}}</p>
+            {% endif %}
+            <br>
         {% endfor %}
         <hr>
         <a href="https://phillycommunitywireless.org/">About us</a>
