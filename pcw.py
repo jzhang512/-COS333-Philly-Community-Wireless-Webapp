@@ -11,7 +11,7 @@ def index():
     try:
         pins = database.get_pins()
     except Exception as ex:
-        print(Exception)
+        print(ex)
         html_code = flask.render_template('error.html')
         response = flask.make_response(html_code)
 
