@@ -49,11 +49,11 @@ def get_tags(category: str = ""):
 
     if category == 'cost':
         return mock_tags[0:3]
-    if category == 'cost':
+    if category == 'privacy':
         return mock_tags[3:6]
-    if category == 'cost':
+    if category == 'establishment':
         return mock_tags[6:9]
-    if category == 'cost':
+    if category == 'location':
         return mock_tags[9:10]
     return mock_tags
 
@@ -71,4 +71,5 @@ def get_reviews(pin_id: int):
         time: string ('YYYY-MM-DD HH:MM:SS')s
     }
     """
-    return [review['pin_id'] == pin_id for review in mock_reviews]
+
+    return list(filter(lambda rev: rev['pin_id'] == pin_id, mock_reviews))
