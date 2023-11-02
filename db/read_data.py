@@ -40,9 +40,19 @@ def get_pins_all():
                 table = query.all()
                 pins = []
                 for row in table:
-                    
-                    print(row[0].location_name)
-            
+                    pin = {}
+                    pin['unique_id'] = row[0].unique_id
+                    pin['name'] = row[0].location_name
+                    pin['address'] = row[0].address
+                    pin['latitude'] = row[1].latitude
+                    pin['longitude'] = row[1].longitude
+                    pin['ul_speed'] = row[0].upload_speed
+                    pin['dl_speed'] = row[0].download_speed
+                    pin['descrip'] = row[0].description
+
+                    pins.append(pin)
+
+                return pins
 
         finally:
             engine.dispose()
@@ -54,7 +64,7 @@ def get_pins_all():
 # ---------------------------------------------------------------------
 
 def main():
-    get_pins_all()
+    print(get_pins_all())
 
 if __name__ == '__main__':
     main()
