@@ -33,7 +33,7 @@ def get_pins():
     }
     """
     
-    return mock_pins
+    return db.read_data.get_pins_all()
 
 
 def get_tags(category: str = ""):
