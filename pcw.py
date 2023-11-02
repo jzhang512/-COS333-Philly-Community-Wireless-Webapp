@@ -1,6 +1,6 @@
 import flask
 
-import database
+import database_req
 
 
 app=flask.Flask(__name__)
@@ -9,8 +9,8 @@ app=flask.Flask(__name__)
 @app.route('/', methods=['GET'])
 def index():
     try:
-        pins = database.get_pins()
-        tags = database.get_tags()
+        pins = database_req.get_pins()
+        tags = database_req.get_tags()
     except Exception as ex:
         print(ex)
         html_code = flask.render_template('error.html')
@@ -30,7 +30,7 @@ def pin():
     except ValueError as ex:
         return flask.jsonify("Invalid Arg, not an int")
     try:
-        reviews = database.get_reviews(pin)
+        reviews = database_req.get_reviews(pin)
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")

@@ -15,7 +15,7 @@ import sys
 import sqlalchemy
 import sqlalchemy.orm
 import dotenv
-import database
+import db.database
 
 dotenv.load_dotenv()
 _DATABASE_URL = os.environ['DATABASE_URL']
@@ -33,9 +33,9 @@ def get_pins_all():
         try:
             with sqlalchemy.orm.Session(engine) as session:
                 
-                query = (session.query(database.Hotspots,
-                                       database.MapBox)
-                        .filter(database.Hotspots.unique_id == database.MapBox.unique_id))
+                query = (session.query(db.database.Hotspots,
+                                       db.database.MapBox)
+                        .filter(db.database.Hotspots.unique_id == db.database.MapBox.unique_id))
                 
                 table = query.all()
                 pins = []
