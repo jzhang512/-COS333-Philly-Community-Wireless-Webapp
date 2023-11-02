@@ -1,6 +1,10 @@
+# ---------------------------------------------------------------------
+# database.py
+# ---------------------------------------------------------------------
+
 """
-Contains complete database API used by server. All implementation should be in
-db package.
+Contains complete database API used by server. All implementation 
+should be in db package.
 """
 
 from db.mock_data import mock_pins, mock_reviews, mock_tags
