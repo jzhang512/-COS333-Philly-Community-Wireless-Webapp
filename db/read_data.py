@@ -18,10 +18,43 @@ import dotenv
 import database
 
 dotenv.load_dotenv()
-DATABASE_URL = os.environ['postgres://bltnirbj:VrUT9KZ3GeD-6DqxmBDyvTiLfHilj0q8@suleiman.db.elephantsql.com/bltnirbj']
+_DATABASE_URL = os.environ['DATABASE_URL']
+_DATABASE_URL = _DATABASE_URL.replace('postgres://', 'postgresql://')
 
 # ---------------------------------------------------------------------
 
+# Corresponds to data_req.py's get_pins().
+def get_pins_all():
+ 
+    try:
+        # echo = True for testing (writes to stdout each SQL statement)
+        engine = sqlalchemy.create_engine(_DATABASE_URL, echo = False)
+        
+        try:
+            with sqlalchemy.orm.Session(engine) as session:
+                
+                query = (session.query(database.Hotspots,
+                                       database.MapBox)
+                        .filter(database.Hotspots.unique_id == database.MapBox.unique_id))
+                
+                table = query.all()
+                pins = []
+                for row in table:
+                    
+                    print(row[0].location_name)
+            
 
+        finally:
+            engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + ex, file = sys.stderr)
+        sys.exit(1)
 
+# ---------------------------------------------------------------------
 
+def main():
+    get_pins_all()
+
+if __name__ == '__main__':
+    main()

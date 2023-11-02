@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------
-# database.py
+# database_req.py
 # ---------------------------------------------------------------------
 
 """
@@ -7,7 +7,12 @@ Contains complete database API used by server. All implementation
 should be in db package.
 """
 
+# ---------------------------------------------------------------------
+
 from db.mock_data import mock_pins, mock_reviews, mock_tags
+import db.read_data
+
+# ---------------------------------------------------------------------
 
 def get_pins():
     """
@@ -16,13 +21,13 @@ def get_pins():
     
     A pin should have the following fields:
     {
+        unique_id: int
         name: string
-        id: int
         address: string
         latitude: float
         longitude: float
-        ul_speed: float
-        dl_speed: float
+        ul_speed: real
+        dl_speed: real
         descrip: string
         tags: list of dicts (see get_tags for tag fields)
     }
