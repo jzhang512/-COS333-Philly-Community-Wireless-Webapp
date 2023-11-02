@@ -36,6 +36,7 @@ class Hotspots (Base):
     last_updated = sqlalchemy.Column(sqlalchemy.String)
     updated_by = sqlalchemy.Column(sqlalchemy.Integer)
     description = sqlalchemy.Column(sqlalchemy.String)
+    address = sqlalchemy.Column(sqlalchemy.String)
 
 # ----------------------------------
 

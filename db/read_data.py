@@ -17,4 +17,11 @@ import sqlalchemy.orm
 import dotenv
 import database
 
+dotenv.load_dotenv()
+DATABASE_URL = os.environ['postgres://bltnirbj:VrUT9KZ3GeD-6DqxmBDyvTiLfHilj0q8@suleiman.db.elephantsql.com/bltnirbj']
+
+# ---------------------------------------------------------------------
+
+
+
 
