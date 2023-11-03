@@ -62,7 +62,7 @@ def get_pins_all():
             _engine.dispose()
   
     except Exception as ex:
-        print(str(sys.argv[0]) + ": " + ex, file = sys.stderr)
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
         sys.exit(1)
 
 # ---------------------------------------------------------------------
@@ -79,7 +79,7 @@ def get_single_review(pin_id: int):
                 table = query.all()
                 reviews = []
                 for row in table:
-                    reviews.append((row[0].rating, row[0].comment, row[0].time))
+                    reviews.append((row.rating, row.comment, row.time))
 
                 return reviews
 
@@ -87,14 +87,14 @@ def get_single_review(pin_id: int):
             _engine.dispose()
   
     except Exception as ex:
-        print(str(sys.argv[0]) + ": " + ex, file = sys.stderr)
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
         sys.exit(1)
-
 
 # ---------------------------------------------------------------------
 
 def main():
     print(get_pins_all())
+    print(get_single_review(1))
 
 if __name__ == '__main__':
     main()
