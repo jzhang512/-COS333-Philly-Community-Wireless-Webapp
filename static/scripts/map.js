@@ -22,7 +22,7 @@ map.on('load', async () => {
 
             // call script to generate data for geojson
             features = generateFeatures(hotspots);
-            
+
             // Add a GeoJSON source with 2 points
             map.addSource('points', {
                 'type': 'geojson',
@@ -63,14 +63,24 @@ map.on('load', async () => {
             .setLngLat(coordinates)
             .setHTML(popupHTML)
             .addTo(map);
-        
+
         // Send requests to your Flask server
         const response1 = await fetch("/api/reviews?id=" + id);
         const reviews = await response1.json();
 
         const hotspot = getHotspot(hotspots, id);
-        
+
         // call script to populate popup with information
         fillPopup(hotspot, reviews);
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'points', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'points', () => {
+        map.getCanvas().style.cursor = '';
     });
 });
