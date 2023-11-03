@@ -8,6 +8,7 @@ app = flask.Flask(__name__, static_folder='images', template_folder='.')
 
 @app.route('/', methods=['GET'])
 def index():
+
     # build the html code
     html_code = flask.render_template('index.html')
     # print(html_code)
@@ -39,29 +40,33 @@ def info():
 
 @app.route('/get_all', methods=['GET'])
 def get_all():
-    try:
-        pins = database_req.get_pins()
-        tags = database_req.get_tags()
-    except Exception as ex:
-        print(ex)
-        html_code = flask.render_template('templates/error.html')
-        return flask.make_response(html_code)
 
-    # DEPRECATED FOR NOW
-    # html_code = flask.render_template(
-    #     'templates/popup.html', pins=pins, tags=tags)
+    html_code = flask.render_template('index.html')
     response = flask.make_response(html_code)
 
     return response
 
 
-@app.route('/pin', methods=['GET'])
+@app.route('/api/hotspots', methods=['GET'])
+def hotspots():
+    try:
+        pins = database_req.get_pins()
+    except Exception as ex:
+        print(ex)
+        html_code = flask.render_template('templates/error.html')
+        return flask.make_response(html_code)
+    
+    return flask.jsonify(pins)
+
+
+@app.route('/api/reviews', methods=['GET'])
 def pin():
     pin = flask.request.args.get("id")
     try:
         pin = int(pin)
     except ValueError as ex:
         return flask.jsonify("Invalid Arg, not an int")
+    
     try:
         reviews = database_req.get_reviews(pin)
     except Exception as ex:
