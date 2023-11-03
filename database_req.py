@@ -13,6 +13,7 @@ from db.mock_data import mock_pins, mock_reviews, mock_tags
 import db.read_data
 
 # ---------------------------------------------------------------------
+# Read-Only Functions (public user).
 
 def get_pins():
     """
@@ -35,6 +36,7 @@ def get_pins():
     
     return db.read_data.get_pins_all()
 
+# ----------------------------------
 
 def get_tags(category: str = ""):
     """
@@ -66,6 +68,7 @@ def get_tags(category: str = ""):
         return mock_tags[9:10]
     return mock_tags
 
+# ----------------------------------
 
 def get_reviews(pin_id: int):
     """
@@ -82,3 +85,91 @@ def get_reviews(pin_id: int):
     """
 
     return db.read_data.get_single_review(pin_id)
+
+# ---------------------------------------------------------------------
+# Write Functions (mostly admin use exception being user-left review).
+
+def add_user_review(unique_id, rating, comment, time):
+    """
+    Adds a user left review to the pending table.
+    """
+    return
+
+# ----------------------------------
+
+def remove_hotspots(remove_list):
+    """
+    Removes hotspots specified by list (via unique_id?) from the
+    database. Does nothing for hotspots that don't exist or given empty
+    list.
+    """
+    return
+
+# ----------------------------------
+
+def hide_hotspots(hide_list):
+    """
+    Hides hotspots specified by list on map and database. Alternative
+    to removing hotspot data (still want to keep the data but not show
+    it).
+    """
+    return
+
+# ----------------------------------
+
+def update_hotspots(hotspots, fields):
+    """
+    Updates the corresponding hotspots data.
+    """
+    return 
+
+# ----------------------------------
+
+def add_tags(tag_details):
+    """
+    Add new tags for classification. tag_details in dict format.
+    """
+    return
+
+# ----------------------------------
+
+def delete_tags(tag_id):
+    """
+    Delete tags.
+    """
+    return
+
+# ----------------------------------
+
+def update_tags(tag_ids):
+    """
+    Update the given tags' details. Does not assign tags to hotspots
+    (this is done in update_hotspots()).
+    """
+    return
+
+# ----------------------------------
+
+def decide_reviews(review_id):
+    """
+    Approve or reject the pending review. Approved reviews will move
+    to the reviews_approved table, otherwise delete.
+    """
+    return
+
+# ---------------------------------------------------------------------
+# Admin Functions.
+
+def create_username(username):
+    """
+    Creates a username supplied by admin for own account.
+    """
+    return
+
+# ----------------------------------
+
+def update_username(new_name):
+    """
+    Support the changing of admin username.
+    """
+    return
