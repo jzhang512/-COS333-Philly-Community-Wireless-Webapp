@@ -79,7 +79,10 @@ def get_single_review(pin_id: int):
                 table = query.all()
                 reviews = []
                 for row in table:
-                    reviews.append((row.rating, row.comment, row.time))
+                    reviews.append({
+                        'stars': row.rating,
+                        'text': row.comment,
+                        'time': row.time})
 
                 return reviews
 

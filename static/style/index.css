@@ -1,0 +1,105 @@
+li {
+    margin-bottom: 10px;
+    /* Add margin at the bottom of each list item */
+}
+
+.header {
+    background-color: #5263ED;
+    /* Dark background */
+    color: white;
+    /* White text color */
+    text-align: left;
+    /* Centered text */
+    padding: 5px 0;
+    /* Some padding */
+}
+
+.header img {
+    height: 75px;
+    /* Adjust the size of your SVG image */
+    margin-right: 15px;
+    /* Spacing between image and title */
+}
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.header h1 {
+    margin: 0;
+    /* Remove default margin */
+}
+
+.navigation {
+    background-color: #5263ED;
+    /* Slightly lighter background for nav */
+}
+
+.navigation ul {
+    list-style-type: none;
+    /* Remove bullet points */
+    padding: 0;
+    /* Remove default padding */
+    margin: 0;
+    /* Remove default margin */
+    overflow: hidden;
+    /* Clear floats */
+}
+
+.navigation li {
+    float: right;
+    /* Float items side by side */
+}
+
+.navigation li a {
+    display: block;
+    /* Make links fill their container */
+    color: white;
+    /* White text color */
+    text-align: center;
+    /* Center text */
+    padding: 14px 16px;
+    /* Padding */
+    text-decoration: none;
+    /* No underline on links */
+}
+
+.navigation li a:hover {
+    background-color: #6e7ce6;
+    /* Change background on hover */
+    color: white;
+    /* Change text color on hover */
+    text-decoration: underline;
+}
+
+#map {
+    width: calc(100vw - 200px);
+    /* subtract the width of the sidebar */
+    height: 100vh;
+    margin-left: 200px;
+    /* same as the sidebar width */
+}
+
+/* Popup customization */
+.mapboxgl-popup {
+    max-width: 2000px;
+}
+
+.mapboxgl-popup-content {
+    font-size: 10px;
+    line-height: 5px;
+    padding: 5px;
+}
+
+.mapboxgl-popup .more-info {
+    font-weight: bold;
+    color: #0000ff;
+    display: block;
+    margin-top: 20px;
+}

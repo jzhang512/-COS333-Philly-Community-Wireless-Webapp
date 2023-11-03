@@ -1,38 +1,18 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Philly Wifi</title>
-</head>
-
-<body>
-    {% for pin in pins %}
-    <h5>Location: {{pin['name']}}</h5>
-    <h6>Address: {{pin['address']}}</h6>
+<div id="popup">
+    <h5 id="location">Location: </h5>
+    <h6 id="address">Address: </h6>
     <hr>
-    <p>Upload Speed: <strong>{{pin['ul_speed']}}</strong></p>
-    <p> Download Speed: <strong>{{pin['dl_speed']}}</strong></p>
+    <p>Upload Speed: <strong id="ul_speed"></strong></p>
+    <p> Download Speed: <strong id="dl_speed"></strong></p>
 
-    {% if pin['descrip'] != ""%}
-    <p><strong>Description:</strong> {{pin['descrip']}}</p>
-    {% endif %}
-    {% endfor %}
+    <div id="desc_div"></div>
 
     <h6>Tags:</h6>
-    <ul> {% for tag in tags %}
-        <li>{{tag['category']}}: {{tag['name']}}</li>
-        {% endfor %}
+    <ul id="tags_list">
     </ul>
 
     <h6> Reviews: </h6>
-    <ul> {% for review in reviews %}
-        <li>Stars: {{review['stars']}}| {{review['text']}} <br><br> Timestamp: {{review['time']}}</li>
-        {% endfor %}
+    <ul id="review_list"> 
     </ul>
     <br>
-
-    <hr>
-    <a href="https://phillycommunitywireless.org/">About us</a>
-</body>
-
-</html>
+</div>
