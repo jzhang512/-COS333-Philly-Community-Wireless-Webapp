@@ -58,16 +58,16 @@ map.on('load', async () => {
 
         let id = e.features[0].properties.ID;
         let coordinates = e.features[0].geometry.coordinates
-        
-        // Send requests to your Flask server
-        const response1 = await fetch("/api/reviews?id=" + id);
-        const reviews = await response1.json();
 
         var popup = new mapboxgl.Popup({ offset: 25 })
             .setLngLat(coordinates)
             .setHTML(popupHTML)
             .addTo(map);
-            
+        
+        // Send requests to your Flask server
+        const response1 = await fetch("/api/reviews?id=" + id);
+        const reviews = await response1.json();
+
         const hotspot = getHotspot(hotspots, id);
         
         // call script to populate popup with information
