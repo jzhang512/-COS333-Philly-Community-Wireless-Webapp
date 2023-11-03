@@ -81,4 +81,4 @@ def get_reviews(pin_id: int):
     }
     """
 
-    return list(filter(lambda rev: rev['pin_id'] == pin_id, mock_reviews))
+    return db.read_data.get_single_review(pin_id)
