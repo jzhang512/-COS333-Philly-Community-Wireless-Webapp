@@ -22,6 +22,7 @@ class MapBox (Base):
                                   primary_key = True)
     longitude = sqlalchemy.Column(sqlalchemy.Float)
     latitude = sqlalchemy.Column(sqlalchemy.Float)
+    hidden = sqlalchemy.Column(sqlalchemy.Boolean)
 
 # ----------------------------------
 
@@ -81,6 +82,7 @@ class Reviews_Pending (Base):
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     comment = sqlalchemy.Column(sqlalchemy.String)
     time = sqlalchemy.Column(sqlalchemy.String)
+    review_id = sqlalchemy.Column(sqlalchemy.Integer)
 
 # ----------------------------------
 
