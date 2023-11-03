@@ -7,10 +7,9 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', async () => {
-    // Add an image to use as a custom marker
+    // Load hotspots and popup html
     const response = await fetch("/api/hotspots");
     const hotspots = await response.json();
-    features = generateFeatures(hotspots);
 
     const response2 = await fetch("/api/popup");
     const popupHTML = await response2.text();
@@ -21,6 +20,9 @@ map.on('load', async () => {
             if (error) throw error;
             map.addImage('custom-marker', image);
 
+            // call script to generate data for geojson
+            features = generateFeatures(hotspots);
+            
             // Add a GeoJSON source with 2 points
             map.addSource('points', {
                 'type': 'geojson',
@@ -68,6 +70,7 @@ map.on('load', async () => {
             
         const hotspot = getHotspot(hotspots, id);
         
+        // call script to populate popup with information
         fillPopup(hotspot, reviews);
     });
 });
