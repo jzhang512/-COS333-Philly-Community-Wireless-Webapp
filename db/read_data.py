@@ -26,17 +26,16 @@ dotenv.load_dotenv()
 _DATABASE_URL = os.environ['DATABASE_URL']
 _DATABASE_URL = _DATABASE_URL.replace('postgres://', 'postgresql://')
 
+# echo = True for testing (writes to stdout each SQL statement)
+_engine = sqlalchemy.create_engine(_DATABASE_URL, echo = False)
+
 # ---------------------------------------------------------------------
 
-# Corresponds to data_req.py's get_pins().
+# Corresponds to database_req.py's get_pins().
 def get_pins_all():
- 
     try:
-        # echo = True for testing (writes to stdout each SQL statement)
-        engine = sqlalchemy.create_engine(_DATABASE_URL, echo = False)
-        
         try:
-            with sqlalchemy.orm.Session(engine) as session:
+            with sqlalchemy.orm.Session(_engine) as session:
                 
                 query = (session.query(database.Hotspots,
                                        database.MapBox)
@@ -60,11 +59,37 @@ def get_pins_all():
                 return pins
 
         finally:
-            engine.dispose()
+            _engine.dispose()
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + ex, file = sys.stderr)
         sys.exit(1)
+
+# ---------------------------------------------------------------------
+
+# Corresponds to database_req.py's get_reviews().
+def get_single_review(pin_id: int):
+    try:
+        try:
+            with sqlalchemy.orm.Session(_engine) as session:
+                
+                query = (session.query(database.Reviews_Approved)
+                        .filter(database.Reviews_Approved.unique_id == pin_id))
+                
+                table = query.all()
+                reviews = []
+                for row in table:
+                    reviews.append((row[0].rating, row[0].comment, row[0].time))
+
+                return reviews
+
+        finally:
+            _engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + ex, file = sys.stderr)
+        sys.exit(1)
+
 
 # ---------------------------------------------------------------------
 
