@@ -17,7 +17,7 @@ def index():
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
     try:
-        pins = database_req.get_pins
+        pins = database_req.get_pins()
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
