@@ -12,6 +12,9 @@ map.on('load', async () => {
     const hotspots = await response.json();
     features = generateFeatures(hotspots);
 
+    const response2 = await fetch("/api/popup");
+    const popupHTML = await response2.text();
+
     map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
         (error, image) => {
@@ -58,9 +61,6 @@ map.on('load', async () => {
         const response1 = await fetch("/api/reviews?id=" + id);
         const reviews = await response1.json();
 
-        const response2 = await fetch("/api/popup");
-        const popupHTML = await response2.text();
-        
         var popup = new mapboxgl.Popup({ offset: 25 })
             .setLngLat(coordinates)
             .setHTML(popupHTML)
