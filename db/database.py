@@ -18,7 +18,7 @@ Base = sqlalchemy.ext.declarative.declarative_base()
 class MapBox (Base):
     __tablename__ = "mapbox_specific"
 
-    unique_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   primary_key = True)
     longitude = sqlalchemy.Column(sqlalchemy.Float)
     latitude = sqlalchemy.Column(sqlalchemy.Float)
@@ -29,7 +29,7 @@ class MapBox (Base):
 class Hotspots (Base):
     __tablename__ = "hotspots"
 
-    unique_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   primary_key = True)
     location_name = sqlalchemy.Column(sqlalchemy.String)
     upload_speed = sqlalchemy.Column(sqlalchemy.REAL)
@@ -44,7 +44,7 @@ class Hotspots (Base):
 class Hotspots_Tags (Base):
     __tablename__ = "hotspots_tags"
 
-    unique_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   primary_key = True)
     tag_id = sqlalchemy.Column(sqlalchemy.Integer,
                                primary_key = True)
@@ -65,7 +65,7 @@ class Tags (Base):
 class Reviews_Approved (Base):
     __tablename__ = "reviews_approved"
 
-    unique_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   primary_key = True)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     comment = sqlalchemy.Column(sqlalchemy.String)
@@ -77,7 +77,7 @@ class Reviews_Approved (Base):
 class Reviews_Pending (Base):
     __tablename__ = "reviews_pending"
 
-    unique_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   primary_key = True)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     comment = sqlalchemy.Column(sqlalchemy.String)

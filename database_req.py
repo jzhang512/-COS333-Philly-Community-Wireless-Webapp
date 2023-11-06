@@ -22,7 +22,7 @@ def get_pins():
     
     A pin should have the following fields:
     {
-        unique_id: int
+        hotspot_id: int
         name: string
         address: string
         latitude: float
@@ -89,7 +89,7 @@ def get_reviews(pin_id: int):
 # ---------------------------------------------------------------------
 # Write Functions (mostly admin use exception being user-left review).
 
-def add_user_review(unique_id, rating, comment, time):
+def add_user_review(hotspot_id, rating, comment, time):
     """
     Adds a user left review to the pending table.
     """
@@ -99,7 +99,7 @@ def add_user_review(unique_id, rating, comment, time):
 
 def remove_hotspots(remove_list):
     """
-    Removes hotspots specified by list (via unique_id?) from the
+    Removes hotspots specified by list (via hotspot_id?) from the
     database. Does nothing for hotspots that don't exist or given empty
     list.
     """
