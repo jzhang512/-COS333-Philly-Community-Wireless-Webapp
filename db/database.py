@@ -26,6 +26,22 @@ class MapBox (Base):
 
 # ----------------------------------
 
+# class Hotspots_Tags (Base):
+#     __tablename__ = "hotspots_tags"
+
+#     hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
+#                                   primary_key = True)
+#     tag_id = sqlalchemy.Column(sqlalchemy.Integer,
+#                                primary_key = True)
+hotspots_tags_many = sqlalchemy.Table(
+    "hotspots_tags",
+    Base.metadata,
+    sqlalchemy.Column("hotspot_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("hotspots.hotspot_id")),
+    sqlalchemy.Column("tag_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("tags.tag_id"))
+)
+
+# ----------------------------------
+
 class Hotspots (Base):
     __tablename__ = "hotspots"
 
@@ -39,16 +55,9 @@ class Hotspots (Base):
     description = sqlalchemy.Column(sqlalchemy.String)
     address = sqlalchemy.Column(sqlalchemy.String)
 
-# ----------------------------------
+    tags = sqlalchemy.orm.relationship("Tags", secondary = hotspots_tags_many, back_populates = "hotspots")
 
-class Hotspots_Tags (Base):
-    __tablename__ = "hotspots_tags"
 
-    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                  primary_key = True)
-    tag_id = sqlalchemy.Column(sqlalchemy.Integer,
-                               primary_key = True)
-    
 # ----------------------------------
     
 class Tags (Base):
@@ -59,6 +68,8 @@ class Tags (Base):
     tag_name = sqlalchemy.Column(sqlalchemy.String)
     category = sqlalchemy.Column(sqlalchemy.String)
     added_by = sqlalchemy.Column(sqlalchemy.Integer)
+
+    hotspots = sqlalchemy.orm.relationship("Hotspots", secondary = hotspots_tags_many, back_populates = "tags")
 
 # ----------------------------------
 

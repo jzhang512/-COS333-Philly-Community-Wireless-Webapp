@@ -47,7 +47,7 @@ def get_tags(category: str = ""):
     A tag should have the following fields:
     {
         tag_id: int
-        name: string
+        tag_name: string
         category: string
     }
 

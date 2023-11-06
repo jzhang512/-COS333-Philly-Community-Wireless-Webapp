@@ -15,7 +15,7 @@ function generateFeatures(hotspots) {
             'properties': {
                 'title': hotspot['name'],
                 'description': 'sample hotspot',
-                'ID': '' + hotspot['unique_id']
+                'ID': '' + hotspot['hotspot_id']
             }
         })
     })

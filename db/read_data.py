@@ -54,6 +54,17 @@ def get_pins_all():
                     pin['dl_speed'] = row[0].download_speed
                     pin['descrip'] = row[0].description
 
+                    tags = []
+                    tags_list = row[0].tags
+
+                    for tag in tags_list:
+                        ref = {"tag_id" : tag.tag_id,
+                               "tag_name" : tag.tag_name,
+                               "category" : tag.category}
+                        tags.append(ref)
+
+                    pin['tags'] = tags
+
                     pins.append(pin)
 
                 return pins
