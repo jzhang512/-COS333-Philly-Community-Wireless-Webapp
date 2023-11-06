@@ -38,7 +38,7 @@ def get_pins():
 
 # ----------------------------------
 
-def get_tags(category: str = ""):
+def get_tags_by_category(category: str = ""):
     """
     Returns a list of tags (each tag is represented as pin). If category is
     empty, returns all tags, otherwise returns only tags that match the given
@@ -55,18 +55,10 @@ def get_tags(category: str = ""):
         'cost',
         'privacy' (maybe rename to accessibility?),
         'establishment',
-        'location' (indoor/outdoor, maybe pick better name?)
+        'accessibility'
     """
 
-    if category == 'cost':
-        return mock_tags[0:3]
-    if category == 'privacy':
-        return mock_tags[3:6]
-    if category == 'establishment':
-        return mock_tags[6:9]
-    if category == 'location':
-        return mock_tags[9:10]
-    return mock_tags
+    return db.read_data.get_tags_category(category)
 
 # ----------------------------------
 

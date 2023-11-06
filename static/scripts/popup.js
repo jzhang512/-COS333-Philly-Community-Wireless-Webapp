@@ -32,12 +32,25 @@ function fillPopup(hotspot, reviews) {
         descDiv.appendChild(descPara);
     }
 
-    // TODO implement tags
+    // Add tags
     const tagsList = document.getElementById('tags_list');
-    const tag = document.createElement("li");
-    const tagText = document.createTextNode("No tags to display.");
-    tag.appendChild(tagText);
-    tagsList.appendChild(tag);
+    tags = hotspot['tags']
+    if (tags.length > 0) {
+        for (const key in tags) {
+            if (tags.hasOwnProperty(key)) {
+                const name = tags[key].tag_name;
+                const li = document.createElement("li");
+                li.textContent = name;
+                tagsList.appendChild(li)
+            }
+        }
+        console.log(tags)
+    }
+    else {  // no tags for given hotspot
+        const tag = document.createElement("li");
+        tag.textContent = "No tags to display.";
+        tagsList.appendChild(tag);
+    }
 
     // Add Reviews
     const reviewList = document.getElementById('review_list');

@@ -106,9 +106,51 @@ def get_single_review(pin_id: int):
 
 # ---------------------------------------------------------------------
 
+# Corresponds to database_req.py's get_tags_by_category().
+def get_tags_category(cat: str = ""):
+    try:
+        try:
+            with sqlalchemy.orm.Session(_engine) as session:
+                
+                if cat:
+                    query = (session.query(database.Tags)
+                            .filter(database.Tags.category == cat))
+                else:   # cat empty string
+                    query = session.query(database.Tags)  
+                
+                table = query.all()
+                tags = []
+                for row in table:
+                    tags.append({
+                        'tag_id': row.tag_id,
+                        'tag_name': row.tag_name,
+                        'category': row.category})
+
+                return tags
+
+        finally:
+            _engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+        sys.exit(1)
+
+
+# ---------------------------------------------------------------------
+
 def main():
     print(get_pins_all())
     print(get_single_review(1))
+
+    # Tags
+    print(get_tags_category())
+    print(get_tags_category("Cost"))
+    print(get_tags_category("cost"))    # should be nothing
+    print(get_tags_category("Privacy"))
+    print(get_tags_category("Password"))
+    print(get_tags_category("Amenities"))
+    print(get_tags_category("Type_Establishment"))
+    print(get_tags_category("Accessibility"))
 
 if __name__ == '__main__':
     main()
