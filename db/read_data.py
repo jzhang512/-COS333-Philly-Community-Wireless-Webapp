@@ -39,13 +39,13 @@ def get_pins_all():
                 
                 query = (session.query(database.Hotspots,
                                        database.MapBox)
-                        .filter(database.Hotspots.unique_id == database.MapBox.unique_id))
+                        .filter(database.Hotspots.hotspot_id == database.MapBox.hotspot_id))
                 
                 table = query.all()
                 pins = []
                 for row in table:
                     pin = {}
-                    pin['unique_id'] = row[0].unique_id
+                    pin['hotspot_id'] = row[0].hotspot_id
                     pin['name'] = row[0].location_name
                     pin['address'] = row[0].address
                     pin['latitude'] = row[1].latitude
@@ -74,7 +74,7 @@ def get_single_review(pin_id: int):
             with sqlalchemy.orm.Session(_engine) as session:
                 
                 query = (session.query(database.Reviews_Approved)
-                        .filter(database.Reviews_Approved.unique_id == pin_id))
+                        .filter(database.Reviews_Approved.hotspot_id == pin_id))
                 
                 table = query.all()
                 reviews = []
