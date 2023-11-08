@@ -27,7 +27,7 @@ def hotspots():
         print(ex)
         html_code = flask.render_template('templates/error.html')
         return flask.make_response(html_code)
-    
+
     return flask.jsonify(pins)
 
 
@@ -36,19 +36,18 @@ def pin():
     pin = flask.request.args.get("id")
     try:
         pin = int(pin)
-    except ValueError as ex:
-        return flask.jsonify("Invalid Arg, not an int")
-    
-    try:
         reviews = database_req.get_reviews(pin)
+        return flask.jsonify(reviews)
+
+    except ValueError as ex:
+        print(ex)
+        return flask.jsonify("Invalid Arg, not an int")
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-
-    return flask.jsonify(reviews)
 
 
 @app.route('/api/popup', methods=['GET'])
 def popup():
     html_code = flask.render_template('popup.html')
-    return flask.make_response(html_code) 
+    return flask.make_response(html_code)

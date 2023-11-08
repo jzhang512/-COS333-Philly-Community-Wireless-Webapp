@@ -66,6 +66,7 @@ map.on('load', async () => {
 
         // Send requests to your Flask server
         const response1 = await fetch("/api/reviews?id=" + id);
+        
         const reviews = await response1.json();
 
         const hotspot = getHotspot(hotspots, id);
