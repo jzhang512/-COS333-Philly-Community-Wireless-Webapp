@@ -40,7 +40,7 @@ def pin():
     pin = flask.request.args.get("id")
     try:
         pin = int(pin)
-        reviews = database_req.get_reviews(pin)
+        reviews = database_req.get_reviews_by_hotspot(pin)
         return flask.jsonify(reviews)
 
     except ValueError as ex:

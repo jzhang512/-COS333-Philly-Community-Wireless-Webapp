@@ -62,7 +62,7 @@ def get_tags_by_category(category: str = ""):
 
 # ----------------------------------
 
-def get_reviews(pin_id: int):
+def get_reviews_by_hotspot(pin_id: int):
     """
     Returns a list of of reviews associated with pin with given pin_id. Each
     pin is represented as a dict.
@@ -72,11 +72,28 @@ def get_reviews(pin_id: int):
         pin_id: int
         text: string
         stars: int (1-5)
-        time: string ('YYYY-MM-DD HH:MM:SS')s
+        time: string ('YYYY-MM-DD HH:MM:SS')
     }
     """
 
     return db.read_data.get_single_review(pin_id)
+
+# ----------------------------------
+
+def get_pending_reviews():
+    """
+    Returns a list of unapproved reviews. Each review is represented as a dict.
+
+    A review should have the following fields:
+    {
+        pin_id: int
+        text: string
+        stars: int (1-5)
+        time: string ('YYYY-MM-DD HH:MM:SS')
+    }
+    """
+
+    return []
 
 # ---------------------------------------------------------------------
 # Write Functions (mostly admin use exception being user-left review).
