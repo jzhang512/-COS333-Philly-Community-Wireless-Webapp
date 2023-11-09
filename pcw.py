@@ -26,17 +26,6 @@ def admin():
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
     try:
-        tags = database_req.get_tags_by_category()
-    except Exception as ex:
-        print(ex)
-        return flask.jsonify("Database Error")
-
-    return flask.jsonify(tags)
-
-
-@app.route('/api/tags', methods=['GET'])
-def hotspots():
-    try:
         pins = database_req.get_pins()
     except Exception as ex:
         print(ex)
@@ -45,9 +34,20 @@ def hotspots():
     return flask.jsonify(pins)
 
 
+@app.route('/api/tags', methods=['GET'])
+def tags():
+    try:
+        tags = database_req.get_tags_by_category()
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Database Error")
+
+    return flask.jsonify(tags)
+
+
 @app.route('/api/reviews', methods=['GET'])
 def pin():
-    pin = flask.request.args.get("id")
+    pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
         reviews = database_req.get_reviews_by_hotspot(pin)
@@ -63,12 +63,21 @@ def pin():
 
 @app.route('/api/publish_review', methods=['POST'])
 def publish_review():
-    pass
-
+    try:
+        review = flask.request.get_json()
+        hotspot_id = review['pin_id']
+        rating = review['stars']
+        comment = review['text']
+        time = review['time']
+        database_req.add_user_review(hotspot_id, rating, comment, time)
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error") 
+    
 
 @app.route('/api/approve_review', methods=['POST'])
 def approve_review():
-    pin = flask.request.args.get("id")
+    pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
         database_req.approve_review(pin)
@@ -81,9 +90,9 @@ def approve_review():
         return flask.jsonify("Database Error")
     
 
-@app.route('/api/approve_review', methods=['POST'])
+@app.route('/api/reject_review', methods=['POST'])
 def reject_review():
-    pin = flask.request.args.get("id")
+    pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
         database_req.reject_review(pin)
