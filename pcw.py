@@ -46,7 +46,7 @@ def tags():
 
 
 @app.route('/api/reviews', methods=['GET'])
-def pin():
+def review_pin():
     pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
@@ -60,6 +60,17 @@ def pin():
         print(ex)
         return flask.jsonify("Database Error")
     
+
+@app.route('/api/pending_reviews', methods=['GET'])
+def pending_reviews():
+    try:
+        reviews = database_req.get_pending_reviews()
+        return flask.jsonify(reviews)
+
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Database Error")    
+
 
 @app.route('/api/publish_review', methods=['POST'])
 def publish_review():
