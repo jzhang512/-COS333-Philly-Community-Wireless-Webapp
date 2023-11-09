@@ -5,7 +5,7 @@
 
 """
 Contains SQL Alchemy implementation of read-only data queries.
-Implemented in database.py.
+Implemented in database_req.py.
 """
 
 # ---------------------------------------------------------------------
@@ -15,6 +15,7 @@ import sys
 import sqlalchemy
 import sqlalchemy.orm
 import dotenv
+
 
 """Ugly but it's necessary for local testing to work."""
 try:
