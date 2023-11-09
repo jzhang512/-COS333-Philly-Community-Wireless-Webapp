@@ -1,24 +1,11 @@
-li {
-    margin-bottom: 10px;
-    /* Add margin at the bottom of each list item */
-}
-
-.header {
+.navbar {
     background-color: #5263ED;
-    /* Dark background */
-    color: white;
-    /* White text color */
-    text-align: left;
-    /* Centered text */
-    padding: 5px 0;
-    /* Some padding */
 }
 
-.header img {
-    height: 75px;
-    /* Adjust the size of your SVG image */
-    margin-right: 15px;
-    /* Spacing between image and title */
+.nav-link {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
 }
 
 .sidebar {
@@ -31,75 +18,79 @@ li {
     overflow: auto;
 }
 
-.header h1 {
-    margin: 0;
-    /* Remove default margin */
-}
-
-.navigation {
-    background-color: #5263ED;
-    /* Slightly lighter background for nav */
-}
-
-.navigation ul {
-    list-style-type: none;
-    /* Remove bullet points */
-    padding: 0;
-    /* Remove default padding */
-    margin: 0;
-    /* Remove default margin */
-    overflow: hidden;
-    /* Clear floats */
-}
-
-.navigation li {
-    float: right;
-    /* Float items side by side */
-}
-
-.navigation li a {
-    display: block;
-    /* Make links fill their container */
-    color: white;
-    /* White text color */
-    text-align: center;
-    /* Center text */
-    padding: 14px 16px;
-    /* Padding */
-    text-decoration: none;
-    /* No underline on links */
-}
-
-.navigation li a:hover {
-    background-color: #6e7ce6;
-    /* Change background on hover */
-    color: white;
-    /* Change text color on hover */
-    text-decoration: underline;
+.tag {
+    width: fit-content;
+    background-color: green;
+    margin: 5px;
 }
 
 #map {
-    width: calc(100vw - 200px);
+    width: 100vw;
     /* subtract the width of the sidebar */
     height: 100vh;
-    margin-left: 200px;
+    /* margin-left: 200px; */
     /* same as the sidebar width */
 }
 
-/* Popup customization */
-.mapboxgl-popup {
-    max-width: 2000px;
+.modal.left .modal-dialog {
+    position: fixed;
+    right: 0;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
 }
 
-.mapboxgl-popup-content {
-    font-size: 10px;
-    line-height: 5px;
-    padding: 5px;
+.modal.left .modal-content {
+    height: 100%;
+    overflow-y: auto;
 }
 
-.mapboxgl-popup .more-info {
-    font-weight: bold;
-    color: #0000ff;
-    display: block;
-    margin-top: 20px;
+.modal.right .modal-body {
+    padding: 15px 15px 80px;
+}
+
+.modal.right.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.right.fade.show .modal-dialog {
+    right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+    border-radius: 0;
+    border: none;
+}
+
+.modal-header {
+    border-bottom-color: #eeeeee;
+    background-color: #fafafa;
+}
+
+/* ----- v CAN BE DELETED v ----- */
+
+.demo {
+    padding-top: 60px;
+    padding-bottom: 110px;
+}
+
+.btn-demo {
+    margin: 15px;
+    padding: 10px 15px;
+    border-radius: 0;
+    font-size: 16px;
+    background-color: #ffffff;
+}
+
+.btn-demo:focus {
+    outline: 0;
 }

@@ -11,9 +11,6 @@ map.on('load', async () => {
     const response = await fetch("/api/hotspots");
     const hotspots = await response.json();
 
-    const response2 = await fetch("/api/popup");
-    const popupHTML = await response2.text();
-
     map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
         (error, image) => {
@@ -57,21 +54,20 @@ map.on('load', async () => {
         }
 
         let id = e.features[0].properties.ID;
-        let coordinates = e.features[0].geometry.coordinates
-
-        var popup = new mapboxgl.Popup({ offset: 25 })
-            .setLngLat(coordinates)
-            .setHTML(popupHTML)
-            .addTo(map);
+        let coordinates = e.features[0].geometry.coordinates;
 
         // Send requests to your Flask server
         const response1 = await fetch("/api/reviews?id=" + id);
+
         const reviews = await response1.json();
 
         const hotspot = getHotspot(hotspots, id);
 
         // call script to populate popup with information
         fillPopup(hotspot, reviews);
+
+        $('#exampleModal').modal('show');
+        console.log('activated modal');
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
