@@ -2,9 +2,7 @@
 # Contains all flask code.
 # ---------------------------------------------------------------------
 import flask
-
 import database_req
-
 
 app = flask.Flask(__name__)
 
