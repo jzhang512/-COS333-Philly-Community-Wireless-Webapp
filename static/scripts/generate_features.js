@@ -1,5 +1,6 @@
 function generateFeatures(hotspots, tagIds=[]) {
     // Only adds features that contain ALL tags in tagIds
+    // Only pass tag_id's, not the whole dictionary
     data = {
         'type': 'FeatureCollection',
         'features': []
