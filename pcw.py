@@ -45,9 +45,3 @@ def pin():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-
-
-@app.route('/api/popup', methods=['GET'])
-def popup():
-    html_code = flask.render_template('popup.html')
-    return flask.make_response(html_code)
