@@ -11,10 +11,14 @@ app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
-
-    # build the html code
     html_code = flask.render_template('index.html')
-    # print(html_code)
+    response = flask.make_response(html_code)
+    return response
+
+
+@app.route('/admin', methods=['GET'])
+def admin():
+    html_code = flask.render_template('admin.html')
     response = flask.make_response(html_code)
     return response
 
