@@ -9,7 +9,6 @@ should be in db package.
 
 # ---------------------------------------------------------------------
 
-from db.mock_data import mock_pins, mock_reviews, mock_tags
 import db.read_data
 
 # ---------------------------------------------------------------------
@@ -87,13 +86,14 @@ def get_pending_reviews():
     A review should have the following fields:
     {
         pin_id: int
+        review_id: int
         text: string
         stars: int (1-5)
         time: string ('YYYY-MM-DD HH:MM:SS')
     }
     """
 
-    return []
+    return db.read_data.get_pending_reviews()
 
 # ---------------------------------------------------------------------
 # Write Functions (mostly admin use exception being user-left review).
@@ -161,8 +161,7 @@ def update_tags(tag_ids):
 
 def approve_review(review_id):
     """
-    Approve or reject the pending review. Approved reviews will move
-    to the reviews_approved table, otherwise delete.
+    Approve the pending review. Review will move to the reviews_approved table.
     """
     return
 
@@ -170,8 +169,7 @@ def approve_review(review_id):
 
 def reject_review(review_id):
     """
-    Approve or reject the pending review. Approved reviews will move
-    to the reviews_approved table, otherwise delete.
+    Reject the pending review. Review will be deleted.
     """
     return
 

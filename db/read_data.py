@@ -107,6 +107,35 @@ def get_single_review(pin_id: int):
 
 # ---------------------------------------------------------------------
 
+# Corresponds to database_req.py's get_reviews().
+def get_pending_reviews():
+    try:
+        try:
+            with sqlalchemy.orm.Session(_engine) as session:
+                
+                query = (session.query(database.Reviews_Pending))
+                
+                table = query.all()
+                reviews = []
+                for row in table:
+                    reviews.append({
+                        'pin_id': row.hotspot_id,
+                        'review_id': row.review_id,
+                        'stars': row.rating,
+                        'text': row.comment,
+                        'time': row.time})
+
+                return reviews
+
+        finally:
+            _engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+        sys.exit(1)
+
+# ---------------------------------------------------------------------
+
 # Corresponds to database_req.py's get_tags_by_category().
 def get_tags_category(cat: str = ""):
     try:
