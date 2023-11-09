@@ -1,3 +1,5 @@
+window.onload = fillReviews()
+
 function fillReviews(reviews) {
     const reviewsDiv = document.getElementById('review-list');
 
@@ -15,7 +17,7 @@ function fillReviews(reviews) {
 }
 
 function displayActive(review) {
-    const activeDiv = document.getElementById("review-list");
+    const activeDiv = document.getElementById("active-card");
     activeDiv.innerHTML = '';
     if (review == null) {
         const cardText = document.createElement("p");
@@ -60,18 +62,34 @@ function displayActive(review) {
         activeDiv.appendChild(cardDiv);
 
         verify.addEventListener('click', function () {
-            manageReview(true);
+            manageReview(true, review["pin_id"]);
         });
         deny.addEventListener('click', function () {
-            manageReview(false);
+            manageReview(false, review["pin_id"]);
         });
     }
 }
 
-async function manageReview(isVerify) {
+async function manageReview(isVerify, id) {
     if (isVerify) {
         // Load hotspots and popup html
-        const response = await fetch("/api/hotspots");
-        const hotspots = await response.json();
+        const response = await fetch("/api/approve_review?id=" + id);
+
+        const activeDiv = document.getElementById("active-card");
+        activeDiv.innerHTML = '';
+        const cardText = document.createElement("p");
+        cardText.textContent = "No review selected";
+        activeDiv.appendChild(cardText);
+
+    }
+    else {
+        // Load hotspots and popup html
+        const response = await fetch("/api/reject_review?id=" + id);
+
+        const activeDiv = document.getElementById("active-card");
+        activeDiv.innerHTML = '';
+        const cardText = document.createElement("p");
+        cardText.textContent = "No review selected";
+        activeDiv.appendChild(cardText);
     }
 }
