@@ -159,7 +159,16 @@ def update_tags(tag_ids):
 
 # ----------------------------------
 
-def decide_reviews(review_id):
+def approve_review(review_id):
+    """
+    Approve or reject the pending review. Approved reviews will move
+    to the reviews_approved table, otherwise delete.
+    """
+    return
+
+# ----------------------------------
+
+def reject_review(review_id):
     """
     Approve or reject the pending review. Approved reviews will move
     to the reviews_approved table, otherwise delete.
