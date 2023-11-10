@@ -121,6 +121,7 @@ def main():
     #       "description": "new description bois"
     #  }]
     #  update_hotspots_imp(to_update)
+    return
 
 # ---------------------------------------------------------------------
 
