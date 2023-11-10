@@ -10,6 +10,7 @@ should be in db package.
 # ---------------------------------------------------------------------
 
 import db.read_data
+import db.write_data
 
 # ---------------------------------------------------------------------
 # Read-Only Functions (public user).
@@ -107,8 +108,11 @@ def add_user_review(hotspot_id, rating, comment, time):
     comment: text
     time: timestamp (need to verify valid format)
     """
-    return
+    
+    db.write_data.add_user_review_imp(hotspot_id, rating,
+                                             comment, time)
 
+    return # nothing to return
 # ----------------------------------
 
 def remove_hotspots(remove_list):
@@ -119,7 +123,8 @@ def remove_hotspots(remove_list):
 
     remove_list: list of ints
     """
-    return
+
+    return  # nothing to return
 
 # ----------------------------------
 
@@ -131,7 +136,10 @@ def hide_hotspots(hide_list):
 
     hide_list: list of ints
     """
-    return
+
+    db.write_data.visualization_hotspots(hide_list, True)
+
+    return  # nothing to return 
 
 # ----------------------------------
 
@@ -141,7 +149,10 @@ def reveal_hotspots(reveal_list):
 
     reveal_list: list of ints
     """
-    return
+
+    db.write_data.visualization_hotspots(reveal_list, False)
+
+    return  # nothing to return
 
 # ----------------------------------
 
@@ -154,13 +165,13 @@ def update_hotspots(hotspots):
     A hotspot should contain the following fields:
     {
         hotspot_id: int
-        name: string
+        location_name: string
         address: string
         latitude: float
         longitude: float
-        ul_speed: real
-        dl_speed: real
-        descrip: string
+        upload_speed: real
+        download_speed: real
+        description: string
     }
     """
     return 
