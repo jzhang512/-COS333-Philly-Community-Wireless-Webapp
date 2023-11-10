@@ -93,7 +93,9 @@ class Reviews_Pending (Base):
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     comment = sqlalchemy.Column(sqlalchemy.String)
     time = sqlalchemy.Column(sqlalchemy.String)
-    review_id = sqlalchemy.Column(sqlalchemy.Integer)
+    review_id = sqlalchemy.Column(sqlalchemy.Integer,
+                                  sqlalchemy.Sequence("review_id_seq",
+                                                      start=1))
 
 # ----------------------------------
 
