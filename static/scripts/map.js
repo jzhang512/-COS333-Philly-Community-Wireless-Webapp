@@ -43,6 +43,13 @@ map.on('load', async () => {
                     'text-anchor': 'top'
                 }
             });
+
+            //     map.addLayer({
+            //         'id': 'points',
+            //         'type': 'circle',
+            //         'source': 'points',
+
+            //     })
         });
 
     map.on('click', 'points', async (e) => {
