@@ -46,10 +46,31 @@
         </div>
     </nav>
 
-    <div class="container">
+    <!-- <div class="container text-center" style="margin-top:20%">
+        <div class="row">
+            <div class="col card">
+                <div class="card-body">col</div>
+            </div>
+            <div class="col card">
+                <div class="card-body">col</div>
+            </div>
+            <div class="col card">
+                <div class="card-body">col</div>
+            </div>
+            <div class="col card">
+                <div class="card-body">col</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 card">col-8</div>
+            <div class="col-4 card">col-4</div>
+        </div>
+    </div> -->
+
+    <div class="container text-center" style="margin-top: 20%;">
         <div class="row main-grid">
-            <div class="col" id="review-list">blah</div>
-            <div class="col" id="active-card">blah blah</div>
+            <div class="col reviews" id="review-list"></div>
+            <div class="col card active" id="active-card">No review to show.</div>
         </div>
     </div>
     <script src="{{url_for('static', filename='scripts/verify.js')}}"></script>

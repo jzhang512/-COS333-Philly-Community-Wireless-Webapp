@@ -57,7 +57,7 @@ def review_pin():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-    
+
 
 @app.route('/api/pending_reviews', methods=['GET'])
 def pending_reviews():
@@ -67,7 +67,7 @@ def pending_reviews():
 
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")    
+        return flask.jsonify("Database Error")
 
 
 @app.route('/api/publish_review', methods=['POST'])
@@ -81,15 +81,16 @@ def publish_review():
         database_req.add_user_review(hotspot_id, rating, comment, time)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error") 
-    
+        return flask.jsonify("Error")
+
 
 @app.route('/api/approve_review', methods=['POST'])
 def approve_review():
     pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
-        database_req.approve_review(pin)
+        # database_req.approve_review(pin)
+        print("approve", pin)
         return flask.jsonify("Success")
     except ValueError as ex:
         print(ex)
@@ -97,14 +98,15 @@ def approve_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-    
+
 
 @app.route('/api/reject_review', methods=['POST'])
 def reject_review():
     pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
-        database_req.reject_review(pin)
+        print("reject", pin)
+        # database_req.reject_review(pin)
         return flask.jsonify("Success")
     except ValueError as ex:
         print(ex)
@@ -112,4 +114,3 @@ def reject_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-    

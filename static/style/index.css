@@ -24,6 +24,42 @@
     margin: 5px;
 }
 
+.reviews {
+    margin: 20px;
+    height: 350px;
+}
+
+.review-elem:hover {
+    background-color: #f1f1f1;
+}
+
+.verify {
+    margin: 5px;
+    background-color: green;
+}
+
+.verify:hover {
+    background-color: darkgreen;
+}
+
+.deny {
+    margin: 5px;
+    background-color: red;
+}
+
+.deny:hover {
+    background-color: darkred;
+}
+
+.review-elem {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.active {
+    margin: 20px;
+}
+
 #map {
     width: 100vw;
     /* subtract the width of the sidebar */
@@ -53,9 +89,9 @@
     padding: 15px 15px 80px;
 }
 
-.main-grid {
+/* .main-grid {
     margin: 200px;
-}
+} */
 
 .modal.right.fade .modal-dialog {
     left: -320px;
