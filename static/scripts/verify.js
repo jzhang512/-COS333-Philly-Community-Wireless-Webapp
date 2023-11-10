@@ -1,16 +1,25 @@
-window.onload = fillReviews()
+
+window.onload = fetchAndFill();
+console.log("did a thing!");
+async function fetchAndFill() {
+    const response = await fetch("/api/pending_reviews");
+    const reviews = await response.json();
+    fillReviews(reviews);
+}
 
 function fillReviews(reviews) {
     const reviewsDiv = document.getElementById('review-list');
+    reviewsDiv.innerHTML = "";
 
     if (reviews.length == 0) {
         reviewsDiv.textContent = "No unverified reviews.";
     }
 
-    for (const review in reviews) {
-        reviewsDiv.innerHTML = "";
-        const newReview = document.createElement("p");
-        newReview.textContent = "Review " + review['pin_id'];
+    for (const review of reviews) {
+        console.log(review);
+        const newReview = document.createElement("div");
+        newReview.classList.add("row");
+        newReview.textContent = "Review " + review['review_id'];
         reviewsDiv.appendChild(newReview);
     }
 
@@ -26,7 +35,7 @@ function displayActive(review) {
     }
 
     else {
-
+        console.log("creating active card!");
         const cardDiv = document.createElement("div");
         cardDiv.classList.add("card");
         const cardBody = document.createElement("div");
@@ -62,10 +71,10 @@ function displayActive(review) {
         activeDiv.appendChild(cardDiv);
 
         verify.addEventListener('click', function () {
-            manageReview(true, review["pin_id"]);
+            manageReview(true, review["review_id"]);
         });
         deny.addEventListener('click', function () {
-            manageReview(false, review["pin_id"]);
+            manageReview(false, review["review_id"]);
         });
     }
 }

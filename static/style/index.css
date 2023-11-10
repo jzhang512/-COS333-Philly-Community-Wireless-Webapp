@@ -53,6 +53,10 @@
     padding: 15px 15px 80px;
 }
 
+.main-grid {
+    margin: 200px;
+}
+
 .modal.right.fade .modal-dialog {
     left: -320px;
     -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
