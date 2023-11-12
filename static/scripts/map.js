@@ -6,6 +6,9 @@ var map = new mapboxgl.Map({
     zoom: 11
 });
 
+let stored_hotspot = null;
+let stored_reviews = null;
+
 map.on('load', async () => {
     // Load hotspots and popup html
     const response = await fetch("/api/hotspots");
@@ -69,6 +72,9 @@ map.on('load', async () => {
         const reviews = await response1.json();
 
         const hotspot = getHotspot(hotspots, id);
+
+        stored_hotspot = hotspot;
+        stored_reviews = reviews;
 
         // call script to populate popup with information
         fillPopup(hotspot, reviews);

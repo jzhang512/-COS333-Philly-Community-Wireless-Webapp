@@ -60,12 +60,15 @@ function fillPopup(hotspot, reviews) {
     // Add Reviews
     const reviewList = document.getElementById('review-list');
     reviewList.innerHTML = '';
+    const addReviewBtn = document.getElementById('add_review');
+
     if (reviews.length == 0) {
         const review = document.createElement("p");
         const reviewText = document.createTextNode("No reviews.");
         review.appendChild(reviewText);
         reviewList.appendChild(review);
     }
+
     let i = 1;
     for (const review of reviews) {
         const cardDiv = document.createElement("div");
@@ -96,4 +99,6 @@ function fillPopup(hotspot, reviews) {
         cardDiv.appendChild(cardBody);
         reviewList.appendChild(cardDiv);
     }
+
+    // addReviewBtn.addEventListener('click', makeNewReview);
 }
