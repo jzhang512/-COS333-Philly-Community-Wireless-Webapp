@@ -46,19 +46,13 @@ map.on('load', async () => {
                     'text-anchor': 'top'
                 }
             });
-
-            //     map.addLayer({
-            //         'id': 'points',
-            //         'type': 'circle',
-            //         'source': 'points',
-
-            //     })
         });
 
     map.on('click', 'points', async (e) => {
         map.flyTo({
             center: e.features[0].geometry.coordinates
         });
+
         while (Math.abs(e.lngLat.lng - e.features[0].geometry.coordinates[0]) > 180) {
             e.features[0].geometry.coordinates[0] += e.lngLat.lng > e.features[0].geometry.coordinates[0] ? 360 : -360;
         }
@@ -79,7 +73,7 @@ map.on('load', async () => {
         // call script to populate popup with information
         fillPopup(hotspot, reviews);
 
-        $('#exampleModal').modal('show');
+        $('#sidebar').modal('show');
         console.log('activated modal');
     });
 
