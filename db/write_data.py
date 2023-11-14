@@ -15,13 +15,14 @@ import sys
 import sqlalchemy
 import sqlalchemy.orm
 import dotenv
-from read_data import _engine
 
 """Ugly but it's necessary for local testing to work."""
 try:
+    from .read_data import _engine
     from . import database as db # Try importing as part of a package
 except ImportError:
     import database as db
+    from read_data import _engine
 
 # ---------------------------------------------------------------------
 
