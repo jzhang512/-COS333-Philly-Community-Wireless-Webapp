@@ -13,6 +13,15 @@ import db.read_data
 import db.write_data
 
 # ---------------------------------------------------------------------
+
+class InvalidFormat(Exception):
+    def __init__(self, string):
+        self.error = string
+    
+    def __str__(self):
+        return self.error
+
+# ---------------------------------------------------------------------
 # Read-Only Functions (public user).
 
 def get_pins():
@@ -108,6 +117,15 @@ def add_user_review(hotspot_id, rating, comment, time):
     comment: text
     time: timestamp (need to verify valid format)
     """
+
+    """Validate data"""
+    if (int(rating) != rating or rating < 1 or rating > 5):
+        raise InvalidFormat("rating must be int in range [1, 5].\n" + 
+                            f"    Given: {rating}")
+    if (int(hotspot_id) != hotspot_id):
+        raise InvalidFormat("hotspot_id must be int.\n"+
+                            f"    Given: {hotspot_id}")
+    # TODO: validate timestamp
     
     db.write_data.add_user_review_imp(hotspot_id, rating,
                                              comment, time)
@@ -123,6 +141,8 @@ def remove_hotspots(remove_list):
 
     remove_list: list of ints
     """
+    
+    # TODO validate format of data
 
     return  # nothing to return
 
@@ -137,6 +157,8 @@ def hide_hotspots(hide_list):
     hide_list: list of ints
     """
 
+    # TODO validate format of data
+
     db.write_data.visualization_hotspots(hide_list, True)
 
     return  # nothing to return 
@@ -149,6 +171,8 @@ def reveal_hotspots(reveal_list):
 
     reveal_list: list of ints
     """
+
+    # TODO validate format of data
 
     db.write_data.visualization_hotspots(reveal_list, False)
 
@@ -174,6 +198,9 @@ def update_hotspots(hotspots):
         description: string
     }
     """
+
+    # TODO validate format of data
+
     return 
 
 # ----------------------------------
@@ -196,6 +223,9 @@ def create_hotspots(hotspots):
         tags: list of ints
     }
     """
+
+    # TODO validate format of data
+
     return 
 
 # ----------------------------------
@@ -211,6 +241,9 @@ def update_hotspot_tags(hotspot_tags):
         tags: list of ints
     }
     """
+
+    # TODO validate format of data
+
     return 
 
 # ----------------------------------
@@ -232,6 +265,9 @@ def add_tags(tag_details):
         'establishment',
         'accessibility'
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -243,6 +279,9 @@ def delete_tags(tag_ids):
 
     tag_ids: list of ints
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -265,6 +304,9 @@ def update_tags(tags):
         'establishment',
         'accessibility'
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -275,6 +317,11 @@ def approve_review(review_id):
 
     review_id: int
     """
+
+    if (int(review_id) != review_id):
+        raise InvalidFormat("review_id must be int.\n"+
+                            f"    Given: {review_id}")
+
     return
 
 # ----------------------------------
@@ -285,6 +332,11 @@ def reject_review(review_id):
 
     review_id: int
     """
+
+    if (int(review_id) != review_id):
+        raise InvalidFormat("review_id must be int.\n"+
+                            f"    Given: {review_id}")
+
     return
 
 # ---------------------------------------------------------------------
@@ -296,6 +348,9 @@ def create_username(username):
 
     username: string (check for valid format)
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -307,4 +362,7 @@ def update_username(admin_id, new_name):
     admin_id: int
     new_name: string (check for valid format)
     """
+
+    # TODO validate format of data
+
     return
