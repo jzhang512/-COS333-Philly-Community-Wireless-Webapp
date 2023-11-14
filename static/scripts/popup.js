@@ -44,12 +44,27 @@ function fillPopup(hotspot, reviews) {
         let card = $('<div>').addClass('card');
         let body = $('<div>').addClass('card-body');
         let title = $('<h5>').addClass('card-title').text("Review " + review['pin_id']);
-        // let starDiv = makeStars(review['stars']);
+        let starDiv = makeStars(review['stars']);
         let timeFoot = $('<div>').addClass('card-footer').text(review['time']);
         let text = $('<p>').text(review['text']);
 
-        body.append(title, text);
+        body.append(title, starDiv, text);
         card.append(body, timeFoot);
         $('#review-list').append(card);
     }
+}
+
+function makeStars(numStars) {
+    let num = parseInt(numStars);
+    let container = $('<div>').addClass('d-flex', 'justify-content-center');
+
+    for (let i = 0; i < num; i++) {
+        let star = $('<span>').addClass("d-inline-block");
+        let icon = document.createElement("i");
+        icon.classList.add("fas", "fa-star", "star");
+        star.append(icon);
+        container.append(star);
+    }
+
+    return container
 }
