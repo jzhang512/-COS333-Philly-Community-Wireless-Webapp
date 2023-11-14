@@ -10,6 +10,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{url_for('static', filename='style/index.css')}}">
+    <script src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
 </head>
 
 <body>
@@ -57,23 +58,68 @@
                     <h1 class="modal-title fs-5" id="review-label">New Review</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <!-- <label for="recipient-name" class="col-form-label">:</label>
-                            <input type="text" class="form-control" id="recipient-name"> -->
+
+                <form>
+                    <div class="modal-body">
+
+                        <div class="container-wrapper">
+                            <div class="container d-flex align-items-center justify-content-center">
+                                <div class="row justify-content-center">
+
+                                    <!-- star rating -->
+                                    <div class="rating-wrapper">
+
+                                        <!-- star 5 -->
+                                        <input type="radio" id="5-star-rating" class="star-rating" name="star-rating"
+                                            value="5">
+                                        <label for="5-star-rating" class="star-label">
+                                            <i class="fas fa-star d-inline-block"></i>
+                                        </label>
+
+                                        <!-- star 4 -->
+                                        <input type="radio" id="4-star-rating" class="star-rating" name="star-rating"
+                                            value="4">
+                                        <label for="4-star-rating" class="star-label star">
+                                            <i class="fas fa-star d-inline-block"></i>
+                                        </label>
+
+                                        <!-- star 3 -->
+                                        <input type="radio" id="3-star-rating" class="star-rating" name="star-rating"
+                                            value="3">
+                                        <label for="3-star-rating" class="star-label star">
+                                            <i class="fas fa-star d-inline-block"></i>
+                                        </label>
+
+                                        <!-- star 2 -->
+                                        <input type="radio" id="2-star-rating" class="star-rating" name="star-rating"
+                                            value="2">
+                                        <label for="2-star-rating" class="star-label star">
+                                            <i class="fas fa-star d-inline-block"></i>
+                                        </label>
+
+                                        <!-- star 1 -->
+                                        <input type="radio" id="1-star-rating" class="star-rating" name="star-rating"
+                                            value="1">
+                                        <label for="1-star-rating" class="star-label star">
+                                            <i class="fas fa-star d-inline-block"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="mb-3">
-                            <label for="review-text" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="review-text"></textarea>
+                            <label for="review-text" class="col-form-label">Comment:</label>
+                            <textarea rows="4" class="form-control" name="text" id="review-text"></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                        data-bs-target="#sidebar">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="close-review" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            data-bs-toggle="modal" data-bs-target="#sidebar">Close</button>
+                        <button id="submit-review" class="btn btn-primary" data-bs-dismiss="modal"
+                            data-bs-toggle="modal" data-bs-target="#sidebar">Submit Review</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -115,7 +161,7 @@
 
                         <div class="container d-flex justify-content-between">
                             <h5>Reviews</h5>
-                            <button id="add_review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
+                            <button id="add-review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
                                 data-bs-dismiss="modal" data-bs-toggle="modal">Add Review</button>
                         </div>
                         <br>

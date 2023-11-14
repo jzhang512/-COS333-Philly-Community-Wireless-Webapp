@@ -1,6 +1,7 @@
 # ---------------------------------------------------------------------
 # Contains all flask code.
 # ---------------------------------------------------------------------
+
 import flask
 import database_req
 
@@ -73,12 +74,14 @@ def pending_reviews():
 @app.route('/api/publish_review', methods=['POST'])
 def publish_review():
     try:
-        review = flask.request.get_json()
+        review = flask.request.json
+        print(review)
         hotspot_id = review['pin_id']
         rating = review['stars']
         comment = review['text']
         time = review['time']
         database_req.add_user_review(hotspot_id, rating, comment, time)
+        return flask.jsonify("Success")
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
@@ -89,8 +92,8 @@ def approve_review():
     pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
-        # database_req.approve_review(pin)
-        print("approve", pin)
+        database_req.approve_review(pin)
+        # print("approve", pin)
         return flask.jsonify("Success")
     except ValueError as ex:
         print(ex)
@@ -105,8 +108,8 @@ def reject_review():
     pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
-        print("reject", pin)
-        # database_req.reject_review(pin)
+        # print("reject", pin)
+        database_req.reject_review(pin)
         return flask.jsonify("Success")
     except ValueError as ex:
         print(ex)

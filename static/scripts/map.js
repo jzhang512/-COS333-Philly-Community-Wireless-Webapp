@@ -6,8 +6,7 @@ var map = new mapboxgl.Map({
     zoom: 11
 });
 
-let stored_hotspot = null;
-let stored_reviews = null;
+let active_id = null;
 
 map.on('load', async () => {
     // Load hotspots and popup html
@@ -48,6 +47,7 @@ map.on('load', async () => {
             });
         });
 
+    // Handle point-click on map
     map.on('click', 'points', async (e) => {
         map.flyTo({
             center: e.features[0].geometry.coordinates
@@ -58,23 +58,21 @@ map.on('load', async () => {
         }
 
         let id = e.features[0].properties.ID;
-        let coordinates = e.features[0].geometry.coordinates;
+        active_id = id;
+
+        // let coordinates = e.features[0].geometry.coordinates;
 
         // Send requests to your Flask server
-        const response1 = await fetch("/api/reviews?id=" + id);
-
-        const reviews = await response1.json();
+        const review_response = await fetch("/api/reviews?id=" + id);
+        const reviews = await review_response.json();
 
         const hotspot = getHotspot(hotspots, id);
-
-        stored_hotspot = hotspot;
-        stored_reviews = reviews;
 
         // call script to populate popup with information
         fillPopup(hotspot, reviews);
 
         $('#sidebar').modal('show');
-        console.log('activated modal');
+        // console.log('activated modal');
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
