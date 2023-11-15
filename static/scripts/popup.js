@@ -57,7 +57,7 @@ function fillPopup(hotspot, reviews) {
 
 function makeStars(numStars) {
     let num = parseInt(numStars);
-    let container = $('<div>').addClass('d-flex', 'justify-content-center');
+    let container = $('<div>').addClass('d-flex justify-content-center');
 
     for (let i = 0; i < num; i++) {
         let star = $('<span>').addClass("d-inline-block");

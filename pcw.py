@@ -21,6 +21,12 @@ def admin():
     response = flask.make_response(html_code)
     return response
 
+# @app.route('/admin-dash', methods=['GET'])
+# def admin():
+#     html_code = flask.render_template('admin-dash.html')
+#     response = flask.make_response(html_code)
+#     return response
+
 
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
@@ -64,6 +70,7 @@ def review_pin():
 def pending_reviews():
     try:
         reviews = database_req.get_pending_reviews()
+        print(reviews)
         return flask.jsonify(reviews)
 
     except Exception as ex:
