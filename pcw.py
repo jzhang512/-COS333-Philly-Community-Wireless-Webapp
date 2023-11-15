@@ -21,12 +21,6 @@ def admin():
     response = flask.make_response(html_code)
     return response
 
-########################################################################
-##########################   API Endpoints   ###########################
-########################################################################
-
-##############################   Read   ################################
-
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
     try:
@@ -69,6 +63,7 @@ def review_pin():
 def pending_reviews():
     try:
         reviews = database_req.get_pending_reviews()
+        print(reviews)
         return flask.jsonify(reviews)
 
     except Exception as ex:

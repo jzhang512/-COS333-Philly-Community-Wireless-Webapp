@@ -98,7 +98,7 @@ def get_pending_reviews():
         time: string ('YYYY-MM-DD HH:MM:SS')
     }
     """
-
+    
     return db.read_data.get_pending_reviews()
 
 # ---------------------------------------------------------------------

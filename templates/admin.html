@@ -46,6 +46,9 @@
         </div>
     </nav>
 
+    <br>
+    <br>
+    <br>
     <!-- <div class="container text-center" style="margin-top:20%">
         <div class="row">
             <div class="col card">
@@ -66,15 +69,36 @@
             <div class="col-4 card">col-4</div>
         </div>
     </div> -->
-
-    <div class="container text-center" style="margin-top: 20%;">
+    <div class="container-fluid" id="results-div">
+        <div class="my-5">
+            <div class="row">
+                <div role="button" class="m-2 col p-5 text-center bg-body-tertiary rounded-3" id="pending-review">
+                    <h1 class="text-body-emphasis border-bottom user-select-none">Pending Reviews</h1>
+                    <p class="lead user-select-none">
+                        Approve/deny any new user-generated reviews.
+                    </p>
+                </div>
+                <div class="m-2 col p-5 text-center bg-body-tertiary rounded-3">
+                    <h1 class="text-body-emphasis border-bottom">Update Map</h1>
+                    <p class="lead">
+                        Add/remove hotspot locations on the map.
+                    </p>
+                </div>
+                <div class="m-2 col p-5 text-center bg-body-tertiary rounded-3">
+                    <h1 class="text-body-emphasis">Usage & Statistics</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 
+    <div class="container-fluid text-center">
         <div class="row main-grid">
             <div class="col reviews" id="review-list"></div>
             <div class="col card active" id="active-card">No review to show.</div>
         </div>
-    </div>
+    </div> -->
     <script src="{{url_for('static', filename='scripts/verify.js')}}"></script>
-
+    <script src="{{url_for('static', filename='scripts/admin.js')}}"></script>
 </body>
 
 </html>

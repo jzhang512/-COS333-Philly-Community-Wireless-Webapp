@@ -179,3 +179,7 @@ svg {
 .star-rating:checked~label {
     color: #ffd40f;
 }
+
+.star {
+    color: #ffd40f;
+}
