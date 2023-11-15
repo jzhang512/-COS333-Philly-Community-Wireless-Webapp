@@ -21,13 +21,6 @@ def admin():
     response = flask.make_response(html_code)
     return response
 
-# @app.route('/admin-dash', methods=['GET'])
-# def admin():
-#     html_code = flask.render_template('admin-dash.html')
-#     response = flask.make_response(html_code)
-#     return response
-
-
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
     try:
@@ -76,6 +69,37 @@ def pending_reviews():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
+    
+#############################   Create   ###############################
+
+@app.route('/api/create_hotspots', methods=['POST'])
+def create_hotspots():
+    try:
+        hotspots = flask.request.json
+        print(hotspots)
+        database_req.create_hotspots(hotspots)
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
+    
+
+@app.route('/api/create_tags', methods=['POST'])
+def create_tags():
+    try:
+        tags = flask.request.json
+        print(tags)
+        database_req.add_tags(tags)
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
 
 
 @app.route('/api/publish_review', methods=['POST'])
@@ -83,16 +107,49 @@ def publish_review():
     try:
         review = flask.request.json
         print(review)
-        hotspot_id = review['pin_id']
-        rating = review['stars']
-        comment = review['text']
-        time = review['time']
-        database_req.add_user_review(hotspot_id, rating, comment, time)
+        database_req.add_user_review(review)
         return flask.jsonify("Success")
+    except ValueError as ex:
+        print(ex)
+        return flask.jsonify(f"Error: hotspot_id and rating must be ints.")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
 
+#############################   Modify   ###############################
+
+@app.route('/api/modify_hotspots', methods=['POST'])
+def modify_hotspots():
+    try:
+        hotspots = flask.request.json
+        print(hotspots)
+        database_req.update_hotspots(hotspots)
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
+    
+
+@app.route('/api/modify_hotspots_tags', methods=['POST'])
+def modify_hotspots_tags():
+    try:
+        hotspots = flask.request.json
+        print(hotspots)
+        database_req.update_hotspot_tags(hotspots)
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
+    
 
 @app.route('/api/approve_review', methods=['POST'])
 def approve_review():
@@ -100,7 +157,6 @@ def approve_review():
     try:
         pin = int(pin)
         database_req.approve_review(pin)
-        # print("approve", pin)
         return flask.jsonify("Success")
     except ValueError as ex:
         print(ex)
@@ -115,7 +171,6 @@ def reject_review():
     pin = flask.request.args.get("id", default="")
     try:
         pin = int(pin)
-        # print("reject", pin)
         database_req.reject_review(pin)
         return flask.jsonify("Success")
     except ValueError as ex:

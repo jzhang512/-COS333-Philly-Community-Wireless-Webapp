@@ -11,6 +11,11 @@ should be in db package.
 
 import db.read_data
 import db.write_data
+import db.validate
+
+# ---------------------------------------------------------------------
+
+InvalidFormat = db.validate.InvalidFormat
 
 # ---------------------------------------------------------------------
 # Read-Only Functions (public user).
@@ -99,15 +104,27 @@ def get_pending_reviews():
 # ---------------------------------------------------------------------
 # Write Functions (mostly admin use exception being user-left review).
 
-def add_user_review(hotspot_id, rating, comment, time):
+def add_user_review(review):
     """
     Adds a user left review to the pending table.
 
     hotspot_id: int
     rating: int (1-5)
-    comment: text
+    text: string
     time: timestamp (need to verify valid format)
     """
+
+    """Validate data"""
+    db.validate.check_fields(review, "review", 
+                             ['hotspot_id', 'rating', 'text', 'time'])
+    hotspot_id = review['hotspot_id']
+    rating = review['rating']
+    comment = review['text']
+    time = review['time']
+    db.validate.validate_int(hotspot_id, "hotspot_id")
+    db.validate.validate_int(rating, "rating", range=(1, 5))
+    db.validate.validate_str(comment, "comment")
+    # TODO: validate timestamp
     
     db.write_data.add_user_review_imp(hotspot_id, rating,
                                              comment, time)
@@ -123,6 +140,8 @@ def remove_hotspots(remove_list):
 
     remove_list: list of ints
     """
+    
+    # TODO validate format of data
 
     return  # nothing to return
 
@@ -137,6 +156,8 @@ def hide_hotspots(hide_list):
     hide_list: list of ints
     """
 
+    # TODO validate format of data
+
     db.write_data.visualization_hotspots(hide_list, True)
 
     return  # nothing to return 
@@ -149,6 +170,8 @@ def reveal_hotspots(reveal_list):
 
     reveal_list: list of ints
     """
+
+    # TODO validate format of data
 
     db.write_data.visualization_hotspots(reveal_list, False)
 
@@ -174,6 +197,9 @@ def update_hotspots(hotspots):
         description: string
     }
     """
+
+    # TODO validate format of data
+
     return 
 
 # ----------------------------------
@@ -196,6 +222,18 @@ def create_hotspots(hotspots):
         tags: list of ints
     }
     """
+
+    # TODO validate format of data for floats
+    fields = ['name', 'address', 'latitude', 'longitude', 'ul_speed', 
+              'dl_speed', 'descrip', 'tags']
+    db.validate.validate_list(hotspots)
+    for hotspot in hotspots:
+        db.validate.check_fields(hotspot, "dict", fields)
+        db.validate.validate_str(hotspot['name'])
+        db.validate.validate_str(hotspot['address'])
+        db.validate.validate_str(hotspot['descrip'])
+        db.validate.validate_list_ints(hotspots['tags'])
+
     return 
 
 # ----------------------------------
@@ -211,6 +249,9 @@ def update_hotspot_tags(hotspot_tags):
         tags: list of ints
     }
     """
+
+    # TODO validate format of data
+
     return 
 
 # ----------------------------------
@@ -232,6 +273,9 @@ def add_tags(tag_details):
         'establishment',
         'accessibility'
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -243,6 +287,9 @@ def delete_tags(tag_ids):
 
     tag_ids: list of ints
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -265,6 +312,9 @@ def update_tags(tags):
         'establishment',
         'accessibility'
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -275,6 +325,9 @@ def approve_review(review_id):
 
     review_id: int
     """
+
+    db.validate.validate_int(review_id)
+
     return
 
 # ----------------------------------
@@ -285,6 +338,9 @@ def reject_review(review_id):
 
     review_id: int
     """
+
+    db.validate.validate_int(review_id)
+
     return
 
 # ---------------------------------------------------------------------
@@ -296,6 +352,9 @@ def create_username(username):
 
     username: string (check for valid format)
     """
+
+    # TODO validate format of data
+
     return
 
 # ----------------------------------
@@ -307,4 +366,7 @@ def update_username(admin_id, new_name):
     admin_id: int
     new_name: string (check for valid format)
     """
+
+    # TODO validate format of data
+
     return

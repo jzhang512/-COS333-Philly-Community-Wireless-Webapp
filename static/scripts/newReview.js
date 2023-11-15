@@ -14,8 +14,8 @@ function submitReview() {
     if (stars <= 0 || stars > 5) {
         return
     }
-    review["pin_id"] = active_id;
-    review["stars"] = stars;
+    review["hotspot_id"] = active_id;
+    review["rating"] = stars;
     review["text"] = $("#review-text").val();
     review["time"] = new Date();
 
