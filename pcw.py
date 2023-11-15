@@ -112,12 +112,11 @@ def publish_review():
     try:
         review = flask.request.json
         print(review)
-        hotspot_id = review['pin_id']
-        rating = review['stars']
-        comment = review['text']
-        time = review['time']
-        database_req.add_user_review(hotspot_id, rating, comment, time)
+        database_req.add_user_review(review)
         return flask.jsonify("Success")
+    except ValueError as ex:
+        print(ex)
+        return flask.jsonify(f"Error: hotspot_id and rating must be ints.")
     except database_req.InvalidFormat as ex:
         print(ex)
         return flask.jsonify(f"Error: {ex}")

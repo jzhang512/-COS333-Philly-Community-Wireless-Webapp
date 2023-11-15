@@ -11,15 +11,11 @@ should be in db package.
 
 import db.read_data
 import db.write_data
+import db.validate
 
 # ---------------------------------------------------------------------
 
-class InvalidFormat(Exception):
-    def __init__(self, string):
-        self.error = string
-    
-    def __str__(self):
-        return self.error
+InvalidFormat = db.validate.InvalidFormat
 
 # ---------------------------------------------------------------------
 # Read-Only Functions (public user).
@@ -108,23 +104,26 @@ def get_pending_reviews():
 # ---------------------------------------------------------------------
 # Write Functions (mostly admin use exception being user-left review).
 
-def add_user_review(hotspot_id, rating, comment, time):
+def add_user_review(review):
     """
     Adds a user left review to the pending table.
 
     hotspot_id: int
     rating: int (1-5)
-    comment: text
+    text: string
     time: timestamp (need to verify valid format)
     """
 
     """Validate data"""
-    if (int(rating) != rating or rating < 1 or rating > 5):
-        raise InvalidFormat("rating must be int in range [1, 5].\n" + 
-                            f"    Given: {rating}")
-    if (int(hotspot_id) != hotspot_id):
-        raise InvalidFormat("hotspot_id must be int.\n"+
-                            f"    Given: {hotspot_id}")
+    db.validate.check_fields(review, "review", 
+                             ['hotspot_id', 'rating', 'text', 'time'])
+    hotspot_id = review['hotspot_id']
+    rating = review['rating']
+    comment = review['text']
+    time = review['time']
+    db.validate.validate_int(hotspot_id, "hotspot_id")
+    db.validate.validate_int(rating, "rating", range=(1, 5))
+    db.validate.validate_str(comment, "comment")
     # TODO: validate timestamp
     
     db.write_data.add_user_review_imp(hotspot_id, rating,
@@ -224,7 +223,16 @@ def create_hotspots(hotspots):
     }
     """
 
-    # TODO validate format of data
+    # TODO validate format of data for floats
+    fields = ['name', 'address', 'latitude', 'longitude', 'ul_speed', 
+              'dl_speed', 'descrip', 'tags']
+    db.validate.validate_list(hotspots)
+    for hotspot in hotspots:
+        db.validate.check_fields(hotspot, "dict", fields)
+        db.validate.validate_str(hotspot['name'])
+        db.validate.validate_str(hotspot['address'])
+        db.validate.validate_str(hotspot['descrip'])
+        db.validate.validate_list_ints(hotspots['tags'])
 
     return 
 
@@ -318,9 +326,7 @@ def approve_review(review_id):
     review_id: int
     """
 
-    if (int(review_id) != review_id):
-        raise InvalidFormat("review_id must be int.\n"+
-                            f"    Given: {review_id}")
+    db.validate.validate_int(review_id)
 
     return
 
@@ -333,9 +339,7 @@ def reject_review(review_id):
     review_id: int
     """
 
-    if (int(review_id) != review_id):
-        raise InvalidFormat("review_id must be int.\n"+
-                            f"    Given: {review_id}")
+    db.validate.validate_int(review_id)
 
     return
 
