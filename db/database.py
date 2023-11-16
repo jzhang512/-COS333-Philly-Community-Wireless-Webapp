@@ -18,7 +18,7 @@ Base = sqlalchemy.ext.declarative.declarative_base()
 class MapBox (Base):
     __tablename__ = "mapbox_specific"
 
-    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer, 
                                   primary_key = True)
     longitude = sqlalchemy.Column(sqlalchemy.Float)
     latitude = sqlalchemy.Column(sqlalchemy.Float)
@@ -45,7 +45,9 @@ hotspots_tags_many = sqlalchemy.Table(
 class Hotspots (Base):
     __tablename__ = "hotspots"
 
-    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer, 
+                                   sqlalchemy.Sequence("hotspot_id_seq",
+                                                      start=30), 
                                   primary_key = True)
     location_name = sqlalchemy.Column(sqlalchemy.String)
     upload_speed = sqlalchemy.Column(sqlalchemy.REAL)

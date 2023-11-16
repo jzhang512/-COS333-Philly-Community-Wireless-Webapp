@@ -88,7 +88,7 @@ def update_hotspots_imp(hotspots):
                                    "download_speed": hotspot["download_speed"],
                                    "description": hotspot["description"]}
 
-                    stmt = sqlalchemy.update(db.Hotspots).values(hotspots_info).where(db.Hotspots.hotspot_id == id)
+                    stmt = sqlalchemy.insert(db.Hotspots).values(hotspots_info)
                     session.execute(stmt)
 
                     # mapbox_specific table
@@ -96,7 +96,7 @@ def update_hotspots_imp(hotspots):
                                    "longitude" : hotspot["longitude"],
                                    "latitude" : hotspot["latitude"]}
                     
-                    stmt = sqlalchemy.update(db.MapBox).values(mapbox_info).where(db.MapBox.hotspot_id == id)
+                    stmt = sqlalchemy.insert(db.MapBox).values(mapbox_info)
                     session.execute(stmt)         
                
                session.commit()
@@ -106,6 +106,48 @@ def update_hotspots_imp(hotspots):
      finally:
           _engine.dispose()
 
+
+# ---------------------------------------------------------------------
+
+def create_hotspots_imp(hotspots_to_create):
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+               
+               for hotspot in hotspots_to_create:
+                  
+                    # hotspots table
+                    hotspots_info = {"location_name": hotspot["location_name"],
+                                   "address": hotspot["address"],
+                                   "upload_speed": hotspot["upload_speed"],
+                                   "download_speed": hotspot["download_speed"],
+                                   "description": hotspot["description"]}
+
+                    stmt = sqlalchemy.insert(db.Hotspots).values(hotspots_info)
+                    result = session.execute(stmt)
+
+                    generated_id = result.inserted_primary_key[0]
+
+                    # mapbox_specific table
+                    mapbox_info = {"hotspot_id": generated_id,
+                                   "longitude" : hotspot["longitude"],
+                                   "latitude" : hotspot["latitude"]}
+                    
+                    stmt = sqlalchemy.insert(db.MapBox).values(mapbox_info)
+                    session.execute(stmt)
+
+                    # assumes that the tags given are valid and are int
+                    for tag in hotspot["tags"]:
+                         insert = {"hotspot_id": generated_id, "tag_id": tag}
+
+                         stmt = sqlalchemy.insert(db.hotspots_tags_many).values(insert)
+                         session.execute(stmt)
+
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+         _engine.dispose()
 
 # ---------------------------------------------------------------------
 
@@ -140,12 +182,6 @@ def approve_review(review_id):
 
 # ---------------------------------------------------------------------
 
-# def update_hotspots(hotspots):
-    
-
-
-# ---------------------------------------------------------------------
-
 def delete_pending_review(review_id):
      try: 
         with sqlalchemy.orm.Session(_engine) as session:
@@ -177,6 +213,20 @@ def main():
     #       "description": "new description bois"
     #  }]
     #  update_hotspots_imp(to_update)
+
+#     to_add = [{
+#           "location_name": "test add",
+#           "address": "234 test",
+#           "latitude": "	39.952583",
+#           "longitude": "-75.165222",
+#           "upload_speed": "234",
+#           "download_speed": "19",
+#           "description": "new description bois",
+#           "tags": [2,10]
+#      }]
+    
+#     create_hotspots_imp(to_add)
+
     return
 
 # ---------------------------------------------------------------------
