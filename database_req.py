@@ -326,9 +326,11 @@ def approve_review(review_id):
     review_id: int
     """
 
-    db.validate.validate_int(review_id)
+    db.validate.validate_int(review_id, "review_id")
 
-    return
+    db.write_data.approve_review(review_id)
+
+    return  # returns nothing
 
 # ----------------------------------
 
@@ -339,7 +341,9 @@ def reject_review(review_id):
     review_id: int
     """
 
-    db.validate.validate_int(review_id)
+    db.validate.validate_int(review_id, "review_id")
+    
+    db.write_data.delete_pending_review(review_id)
 
     return
 

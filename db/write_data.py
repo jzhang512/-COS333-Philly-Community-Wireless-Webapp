@@ -109,6 +109,55 @@ def update_hotspots_imp(hotspots):
 
 # ---------------------------------------------------------------------
 
+def approve_review(review_id):
+     try: 
+        with sqlalchemy.orm.Session(_engine) as session:
+          # Get from pending table.
+          retrieve = (session.query(db.Reviews_Pending)
+                     .filter(db.Reviews_Pending.review_id == review_id)).all()
+          
+          
+          hotspot_id = retrieve[0].hotspot_id
+          rating = retrieve[0].rating
+          comment = retrieve[0].comment
+          time = retrieve[0].time
+           
+           # Add to approved table.
+          insert = db.Reviews_Approved(hotspot_id = hotspot_id,
+                                     rating = rating, comment = comment,
+                                     time = time)
+
+          # Data transfer
+          session.add(insert)
+          session.delete(retrieve[0])   # Delete from pending table
+
+          session.commit()
+     except Exception as ex: 
+        session.rollback()
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+          _engine.dispose()
+
+# ---------------------------------------------------------------------
+
+def delete_pending_review(review_id):
+     try: 
+        with sqlalchemy.orm.Session(_engine) as session:
+          # Get from pending table.
+          retrieve = (session.query(db.Reviews_Pending)
+                     .filter(db.Reviews_Pending.review_id == review_id)).all()
+          
+          session.delete(retrieve[0])   # Delete from pending table
+
+          session.commit()
+     except Exception as ex: 
+        session.rollback()
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+          _engine.dispose()
+
+# ---------------------------------------------------------------------
+
 def main():
      # visualization_hotspots([23], False)
     #  to_update = [{
