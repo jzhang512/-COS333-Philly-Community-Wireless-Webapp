@@ -370,3 +370,15 @@ def update_username(admin_id, new_name):
     # TODO validate format of data
 
     return
+
+# ----------------------------------
+
+def main():
+    pending_reviews = get_pending_reviews()
+
+    for review in pending_reviews:
+        print(review)
+
+
+if __name__ == "__main__":
+    main()

@@ -26,7 +26,7 @@ except ImportError:
 
 # ---------------------------------------------------------------------
 
-# Uses SERIAL & SEQUENCE to imlement id attribution. Maxes out at 2
+# Uses SERIAL & SEQUENCE to implement id attribution. Maxes out at 2
 # billion. Shouldn't be a problem for now, but could be in the future!!
 # Will throw error once it maxes out.
 def add_user_review_imp(hotspot_id, rating, comment, time):
@@ -43,7 +43,7 @@ def add_user_review_imp(hotspot_id, rating, comment, time):
         session.rollback()
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
     finally:
-            _engine.dispose()
+          _engine.dispose()
 
 # ---------------------------------------------------------------------
 
