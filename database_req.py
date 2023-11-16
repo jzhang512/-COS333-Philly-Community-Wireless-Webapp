@@ -199,6 +199,7 @@ def update_hotspots(hotspots):
     """
 
     # TODO validate format of data
+    db.write_data.update_hotspots_imp(hotspots)
 
     return 
 
@@ -212,13 +213,13 @@ def create_hotspots(hotspots):
     
     A hotspot should contain the following fields:
     {
-        name: string
+        location_name: string
         address: string
         latitude: float
         longitude: float
-        ul_speed: real
-        dl_speed: real
-        descrip: string
+        upload_speed: real
+        download_speed: real
+        description: string
         tags: list of ints
     }
     """
