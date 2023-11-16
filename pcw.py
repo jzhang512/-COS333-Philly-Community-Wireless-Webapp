@@ -14,7 +14,6 @@ def index():
     response = flask.make_response(html_code)
     return response
 
-
 @app.route('/admin', methods=['GET'])
 def admin():
     html_code = flask.render_template('admin.html')

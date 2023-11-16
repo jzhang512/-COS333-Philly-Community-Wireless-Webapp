@@ -1,5 +1,4 @@
 $('document').ready(setup);
-$('#pending-review').click(setPendingReview);
 
 function setup() {
     console.log("setup!");
@@ -24,5 +23,7 @@ function handleError() {
 
 function setPendingReview() {
     console.log("set reviews");
+
     
 }
+

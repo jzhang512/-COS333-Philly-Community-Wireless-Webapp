@@ -26,20 +26,13 @@
                         <a class="nav-link" aria-current="page" href="/">Map</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="/admin">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#">Reviews</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Admin
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="admin">Log In</a></li>
-                            <li><a class="dropdown-item" href="#">Sign Up</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Hotspots</a>
                     </li>
                 </ul>
             </div>
@@ -72,19 +65,19 @@
     <div class="container-fluid" id="results-div">
         <div class="my-5">
             <div class="row">
-                <div role="button" class="m-2 col p-5 text-center bg-body-tertiary rounded-3" id="pending-review">
+                <div role="button" class="jumbo m-2 col p-5 text-center rounded-3" id="pending-review">
                     <h1 class="text-body-emphasis border-bottom user-select-none">Pending Reviews</h1>
                     <p class="lead user-select-none">
                         Approve/deny any new user-generated reviews.
                     </p>
                 </div>
-                <div class="m-2 col p-5 text-center bg-body-tertiary rounded-3">
-                    <h1 class="text-body-emphasis border-bottom">Update Map</h1>
+                <div role="button" class="jumbo m-2 col p-5 text-center rounded-3" id="update-map">
+                    <h1 class=" text-body-emphasis border-bottom">Update Map</h1>
                     <p class="lead">
                         Add/remove hotspot locations on the map.
                     </p>
                 </div>
-                <div class="m-2 col p-5 text-center bg-body-tertiary rounded-3">
+                <div class="jumbo m-2 col p-5 text-center rounded-3">
                     <h1 class="text-body-emphasis">Usage & Statistics</h1>
                 </div>
             </div>
@@ -99,6 +92,7 @@
     </div> -->
     <script src="{{url_for('static', filename='scripts/verify.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/admin.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/update.js')}}"></script>
 </body>
 
 </html>

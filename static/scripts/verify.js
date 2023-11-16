@@ -1,7 +1,7 @@
 
-$('#pending-review').click(setup);
+$('#pending-review').click(setupReview);
 
-async function setup() {
+async function setupReview() {
     const response = await fetch("/api/pending_reviews");
     const reviews = await response.json();
     fillReviews(reviews);
@@ -10,9 +10,9 @@ async function setup() {
 function fillReviews(reviews) {
     $("#results-div").empty();
 
-    let grid = $('<div>').addClass("row main-grid");
-    let reviewList = $('<div>').addClass("col reviews");
-    let activeCard = $('<div>').addClass("col card active").text("No review selected.");
+    let grid = $('<div/>').addClass("row main-grid");
+    let reviewList = $('<div/>').addClass("col reviews");
+    let activeCard = $('<div/>').addClass("col card active-card").text("No review selected.");
     activeCard.prop('id', 'active-card');
 
     if (reviews.length == 0) {
@@ -22,9 +22,9 @@ function fillReviews(reviews) {
     for (let review of reviews) {
         console.log(review);
 
-        let revCard = $("<div>").addClass("row card review-elem");
+        let revCard = $("<div/>").addClass("row card review-elem");
         revCard.prop('id', review['review_id']);
-        let revTitle = $("<div>").addClass("card-title").text("Review " + review['review_id'])
+        let revTitle = $("<div/>").addClass("card-title").text("Review " + review['review_id'])
 
         revCard.append(revTitle);
         reviewList.append(revCard);
