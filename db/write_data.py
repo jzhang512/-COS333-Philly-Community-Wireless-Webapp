@@ -125,7 +125,7 @@ def approve_review(review_id):
            # Add to approved table.
           insert = db.Reviews_Approved(hotspot_id = hotspot_id,
                                      rating = rating, comment = comment,
-                                     time = time)
+                                     time = time, review_id = review_id)
 
           # Data transfer
           session.add(insert)
@@ -137,6 +137,12 @@ def approve_review(review_id):
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
      finally:
           _engine.dispose()
+
+# ---------------------------------------------------------------------
+
+# def update_hotspots(hotspots):
+    
+
 
 # ---------------------------------------------------------------------
 

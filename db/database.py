@@ -76,12 +76,13 @@ class Tags (Base):
 class Reviews_Approved (Base):
     __tablename__ = "reviews_approved"
 
-    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                  primary_key = True)
+    hotspot_id = sqlalchemy.Column(sqlalchemy.Integer)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     comment = sqlalchemy.Column(sqlalchemy.String)
     time = sqlalchemy.Column(sqlalchemy.String)
     approved_by = sqlalchemy.Column(sqlalchemy.Integer)
+    review_id = sqlalchemy.Column(sqlalchemy.Integer,
+                                  primary_key = True)
 
 # ----------------------------------
 
