@@ -2,20 +2,33 @@
     background-color: #5263ED;
 }
 
+.navbar-active-sidebar {
+    margin-left: 320px;
+}
+
 .nav-link {
     margin: 0;
     padding: 0;
     color: #ffffff;
 }
 
-.sidebar {
-    margin: 0;
-    padding: 0;
-    width: 200px;
-    background-color: #f1f1f1;
+.left-sidebar {
     position: fixed;
+    top: 0;
+    left: -320px; /* Adjust width as necessary */
+    width: 320px;
     height: 100%;
-    overflow: auto;
+    background-color: #7884dd;
+    overflow-y: auto;
+    z-index: 1050; /* Higher than the navbar */
+}
+
+.left-sidebar .card-group-header {
+    background-color: #ffd40f;
+}
+
+.left-sidebar-active {
+    left: 0px;
 }
 
 .tag {
@@ -60,12 +73,13 @@
     margin: 20px;
 }
 
-#map {
+.inactive-sidebar-map {
     width: 100vw;
-    /* subtract the width of the sidebar */
     height: 100vh;
-    /* margin-left: 200px; */
-    /* same as the sidebar width */
+}
+
+.active-sidebar-map {
+    margin-left: 320px;
 }
 
 .modal.left .modal-dialog {
@@ -177,9 +191,5 @@ svg {
 .star-label:hover,
 .star-label:hover~label,
 .star-rating:checked~label {
-    color: #ffd40f;
-}
-
-.star {
     color: #ffd40f;
 }
