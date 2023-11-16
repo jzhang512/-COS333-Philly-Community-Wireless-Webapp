@@ -114,7 +114,7 @@ def get_pending_reviews():
             with sqlalchemy.orm.Session(_engine) as session:
                 
                 query = session.query(database.Reviews_Pending)
-                print(session.execute(query).all())
+                # print(session.execute(query).all())
                 
                 table = query.all()
                 reviews = []
