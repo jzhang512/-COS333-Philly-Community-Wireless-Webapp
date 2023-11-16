@@ -193,13 +193,3 @@ svg {
 .star-rating:checked~label {
     color: #ffd40f;
 }
-
-/* filter stuff */
-.filter {
-    background-color: #7884dd;
-    width: 50vw;
-}
-
-.form-check {
-    display: inline-block;
-}

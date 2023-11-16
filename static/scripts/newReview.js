@@ -5,7 +5,6 @@ $("#close-review").click(clearReview);
 function clearReview() {
     $('#review-text').val('');
     $('input[name="star-rating"]:checked').prop('checked', false);
-    // $('#stars').val('');
 }
 
 function submitReview() {
@@ -15,11 +14,10 @@ function submitReview() {
     if (stars <= 0 || stars > 5) {
         return
     }
-    review["pin_id"] = active_id;
-    review["stars"] = stars;
+    review["hotspot_id"] = active_id;
+    review["rating"] = stars;
     review["text"] = $("#review-text").val();
     review["time"] = new Date();
-    // review["stars"] = $("#stars").val();
 
     let requestData = {
         type: 'POST',

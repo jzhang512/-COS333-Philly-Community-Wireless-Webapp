@@ -1,43 +1,48 @@
 
-window.onload = fetchAndFill();
-console.log("did a thing!");
-async function fetchAndFill() {
+$('#pending-review').click(setup);
+
+async function setup() {
     const response = await fetch("/api/pending_reviews");
     const reviews = await response.json();
     fillReviews(reviews);
 }
 
 function fillReviews(reviews) {
-    const reviewsDiv = document.getElementById('review-list');
-    reviewsDiv.innerHTML = "";
+    $("#results-div").empty();
+
+    let grid = $('<div>').addClass("row main-grid");
+    let reviewList = $('<div>').addClass("col reviews");
+    let activeCard = $('<div>').addClass("col card active").text("No review selected.");
+    activeCard.prop('id', 'active-card');
 
     if (reviews.length == 0) {
-        reviewsDiv.textContent = "No unverified reviews.";
+        reviewList.text("No pending reviews at this time.")
     }
 
-    for (const review of reviews) {
+    for (let review of reviews) {
         console.log(review);
-        const newReview = document.createElement("div");
-        newReview.classList.add("row");
-        newReview.classList.add("card");
-        newReview.classList.add("review-elem");
-        newReview.id = review["review_id"];
-        const reviewTitle = document.createElement("div");
-        reviewTitle.classList.add("card-title");
-        reviewTitle.textContent = "Review " + review['review_id'];
-        newReview.appendChild(reviewTitle);
-        reviewsDiv.appendChild(newReview);
 
-        newReview.addEventListener('click', function () {
+        let revCard = $("<div>").addClass("row card review-elem");
+        revCard.prop('id', review['review_id']);
+        let revTitle = $("<div>").addClass("card-title").text("Review " + review['review_id'])
+
+        revCard.append(revTitle);
+        reviewList.append(revCard);
+
+        revCard.click(function () {
             displayActive(review);
         });
     }
+    grid.append(reviewList, activeCard);
+    $("#results-div").append(grid);
 
 }
 
 function displayActive(review) {
-    const activeDiv = document.getElementById("active-card");
-    activeDiv.innerHTML = '';
+    console.log("display active");
+    let activeDiv = $('#active-card');
+    activeDiv.empty();
+
     if (review == null) {
         const cardText = document.createElement("p");
         cardText.textContent = "No review selected";
@@ -86,7 +91,7 @@ function displayActive(review) {
         cardBody.appendChild(deny);
 
         // cardDiv.appendChild(cardBody);
-        activeDiv.appendChild(cardBody);
+        activeDiv.append(cardBody);
 
         verify.addEventListener('click', function () {
             manageReview(true, review["review_id"]);
