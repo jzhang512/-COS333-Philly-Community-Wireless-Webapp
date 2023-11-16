@@ -22,12 +22,37 @@ def validate_int(val, name, range=None, string_allowed=True):
     """
     try:
         int(val)
-    except ValueError as ex:
+    except (ValueError, TypeError) as ex:
         _raise(f"{name} must be of type int.", val)
-    if (int(val) != val):
+    if (int(val) != val or type(val) == bool):
         if (not string_allowed or str(val) != val):
             _raise(f"{name} must be of type int.", val)
     val = int(val)
+    if (range is not None):
+        assert len(range) == 2
+        assert range[0] <= range[1]
+        if val < range[0] or val > range[1]:
+            _raise(f"{name} must be in range {range}.", val)
+
+
+def validate_float(val, name, range=None, string_allowed=True):
+    """
+    Validates that a value is a float. If range is provided also validates
+    that a value is within the proper range.
+
+    val: Any (variable to check)
+    name: string (name of variable, used for error messages)
+    range: tuple of 2 ints (first must be less than or equal to second)
+    string_allowed: bool (whether or not strings of ints are allowed)
+    """
+    try:
+        float(val)
+    except (ValueError, TypeError) as ex:
+        _raise(f"{name} must be of type float.", val)
+    if (float(val) != val or type(val) == bool):
+        if (not string_allowed or str(val) != val):
+            _raise(f"{name} must be of type float.", val)
+    val = float(val)
     if (range is not None):
         assert len(range) == 2
         assert range[0] <= range[1]
@@ -98,6 +123,7 @@ def validate_list_dicts(val, name, fields):
 
 
 def test():
+    ##############################  Ints  ##############################
     validate_int(0, "test_int")
     validate_int(-1, "test_int")
     validate_int(23, "test_int")
@@ -107,13 +133,37 @@ def test():
     validate_int(4, "test_int_w_range", (4, 4))
 
     _test_invalid(validate_int, 2.5, "invalid")
+    _test_invalid(validate_int, [], "invalid")
+    _test_invalid(validate_int, {}, "invalid")
     _test_invalid(validate_int, "", "invalid")
     _test_invalid(validate_int, "abc", "invalid")
     _test_invalid(validate_int, "5", "invalid", string_allowed=False)
     _test_invalid(validate_int, 6, "invalid", range=(1, 5))
-    # _test_invalid(validate_int, True, "invalid") # This works and it shouldn't
+    _test_invalid(validate_int, True, "invalid")
     _test_invalid(validate_int, "adk", "invalid")
 
+    #############################  Floats  #############################
+    validate_float(0, "test_float")
+    validate_float(0., "test_float")
+    validate_float(2.5, "test_float")
+    validate_float(-1, "test_float")
+    validate_float(-1.23, "test_float")
+    validate_float("0", "test_float")
+    validate_float("0.25", "test_float")
+    validate_float("3", "test_float", range=(1, 5))
+    validate_float("2.5", "test_float", range=(2.5, 4))
+    validate_float("5", "test_float", range=(5, 5))
+
+    _test_invalid(validate_float, "", "invalid")
+    _test_invalid(validate_float, {}, "invalid")
+    _test_invalid(validate_float, [], "invalid")
+    _test_invalid(validate_float, [0.], "invalid")
+    _test_invalid(validate_float, True, "invalid")
+    _test_invalid(validate_float, "2.5", "invalid", string_allowed=False)
+    _test_invalid(validate_float, "0", "invalid", string_allowed=False)
+    _test_invalid(validate_float, -1, "invalid", range=(1, 5))
+
+    ############################  Strings  #############################
     validate_str("str", "test_str")
     validate_str("", "test_str")
 
@@ -124,6 +174,7 @@ def test():
     _test_invalid(validate_str, True, "invalid")
     _test_invalid(validate_str, None, "invalid")
 
+    #############################  Dicts  ##############################
     test_dict = {"a": 0, "b": 1, "c": 2, "1": 1, "2": 2, "3": 3}
     check_fields(test_dict, "test_dict", ["a"])
     check_fields(test_dict, "test_dict", [])
@@ -140,6 +191,7 @@ def test():
     _test_invalid(check_fields, "", "invalid", [])
     _test_invalid(check_fields, ["a", "b", "c"], "invalid", [])
 
+    ##########################  List of Ints  ##########################
     validate_list_ints([], "test_list")
     validate_list_ints([1, 2, 3], "test_list")
     validate_list_ints([-1, 0, 1], "test_list")
@@ -159,10 +211,11 @@ def test():
     _test_invalid(validate_list_ints, ["a"], "invalid")
     _test_invalid(validate_list_ints, [1, 2, "a"], "invalid")
     _test_invalid(validate_list_ints, [1, "2", 3], "invalid", string_allowed=False)
-    # _test_invalid(validate_list_ints, [True], "invalid") # Shouldn't work 
+    _test_invalid(validate_list_ints, [True], "invalid") 
     _test_invalid(validate_list_ints, "[1, 2, 3]", "invalid")
     _test_invalid(validate_list_ints, [1, 2.5, 3], "invalid")
 
+    #########################  List of Dicts  ##########################
     test_dict1 = {"a": 0, "b": 1, "c": 2, "1": 1, "2": 2, "3": 3}
     test_dict2 = {"a": "a", "b": "b", "c": "c"}
     test_dict3 = {"1": "a", "2": "b", "3": "c"}
