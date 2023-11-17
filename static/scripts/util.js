@@ -1,4 +1,4 @@
-function getHotspot(hotspots, id) {
+function getHotspot(id) {
     for (const hotspot of hotspots) {
         if (hotspot['hotspot_id'] == id) return hotspot;
     }

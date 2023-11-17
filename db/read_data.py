@@ -75,7 +75,7 @@ def get_pins_all():
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        sys.exit(1)
+        raise Exception("Database Error")
 
 # ---------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ def get_single_review(pin_id: int):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        sys.exit(1)
+        raise Exception("Database Error")
 
 # ---------------------------------------------------------------------
 
@@ -133,7 +133,7 @@ def get_pending_reviews():
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        sys.exit(1)
+        raise Exception("Database Error")
 
 # ---------------------------------------------------------------------
 
@@ -164,7 +164,7 @@ def get_tags_category(cat: str = ""):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        sys.exit(1)
+        raise Exception("Database Error")
 
 
 # ---------------------------------------------------------------------
