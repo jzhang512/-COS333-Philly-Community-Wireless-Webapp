@@ -23,6 +23,17 @@
     z-index: 1050; /* Higher than the navbar */
 }
 
+article h6.title {
+    text-align: center;
+}
+
+#leftSidebar-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
 .left-sidebar .card-group-header {
     background-color: #ffd40f;
 }
