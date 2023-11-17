@@ -180,6 +180,35 @@ def create_hotspots_imp(hotspots_to_create):
 
 # ---------------------------------------------------------------------
 
+def update_hotspots_tags(hotspots_and_tags):
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+               
+               # Possibly inefficient (removes all then adds all).
+               for hotspot in hotspots_and_tags:
+                    hotspot_id = hotspot["hotspot_id"]
+                    tags = hotspot["tags"]
+
+                    stmt = sqlalchemy.delete(db.hotspots_tags_many).where(db.hotspots_tags_many.c.hotspot_id == hotspot_id)
+                    session.execute(stmt)
+
+                    # assumes that the tags given are valid and are int
+                    for tag in tags:
+                         insert = {"hotspot_id": hotspot_id, "tag_id": tag}
+
+                         stmt = sqlalchemy.insert(db.hotspots_tags_many).values(insert)
+                         session.execute(stmt)
+               
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+         _engine.dispose()
+        
+
+# ---------------------------------------------------------------------
+
 def approve_review(review_id):
      try: 
         with sqlalchemy.orm.Session(_engine) as session:
@@ -256,7 +285,9 @@ def main():
     
 #     create_hotspots_imp(to_add)
 
-     remove_hotspots([96])
+     # remove_hotspots([96])
+
+     # update_hotspots_tags([{"hotspot_id": 43, "tags": [1,9]}])
 
      return
 
