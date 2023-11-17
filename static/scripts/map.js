@@ -14,6 +14,11 @@ map.on('load', async () => {
     const response = await fetch("/api/hotspots");
     hotspots = await response.json();
 
+    if (hotspots == "Database Error") {
+        hotspots = [];
+        alert("Database Error");
+    }
+
     map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
         (error, image) => {
@@ -43,7 +48,11 @@ map.on('load', async () => {
 
         // Send requests to your Flask server
         const review_response = await fetch("/api/reviews?id=" + id);
-        const reviews = await review_response.json();
+        let reviews = await review_response.json();
+        if (reviews == "Database Error") {
+            reviews = [];
+            alert("Database Error");
+        }
 
         const hotspot = getHotspot(hotspots, id);
 
