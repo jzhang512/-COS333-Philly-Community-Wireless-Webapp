@@ -116,16 +116,15 @@ def update_hotspots_imp(hotspots):
                                    "upload_speed": hotspot["upload_speed"],
                                    "download_speed": hotspot["download_speed"],
                                    "description": hotspot["description"]}
-
-                    stmt = sqlalchemy.insert(db.Hotspots).values(hotspots_info)
+                    
+                    stmt = sqlalchemy.update(db.Hotspots).values(hotspots_info).where(db.Hotspots.hotspot_id == id)
                     session.execute(stmt)
-
                     # mapbox_specific table
                     mapbox_info = {"hotspot_id": hotspot["hotspot_id"],
                                    "longitude" : hotspot["longitude"],
                                    "latitude" : hotspot["latitude"]}
                     
-                    stmt = sqlalchemy.insert(db.MapBox).values(mapbox_info)
+                    stmt = sqlalchemy.update(db.MapBox).values(mapbox_info).where(db.MapBox.hotspot_id == id)
                     session.execute(stmt)         
                
                session.commit()
@@ -134,7 +133,6 @@ def update_hotspots_imp(hotspots):
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
      finally:
           _engine.dispose()
-
 
 # ---------------------------------------------------------------------
 
@@ -185,6 +183,7 @@ def update_hotspots_tags(hotspots_and_tags):
           with sqlalchemy.orm.Session(_engine) as session:
                
                # Possibly inefficient (removes all then adds all).
+               # Assumes that hotspot_ids given are valid. TODO
                for hotspot in hotspots_and_tags:
                     hotspot_id = hotspot["hotspot_id"]
                     tags = hotspot["tags"]
@@ -206,6 +205,76 @@ def update_hotspots_tags(hotspots_and_tags):
      finally:
          _engine.dispose()
         
+
+# ---------------------------------------------------------------------
+
+# TODO added_by based on the admin
+def add_new_tags(tags_to_add):
+    
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+                   
+               for tag_detail in tags_to_add:
+
+                    tag_name = tag_detail["tag_name"]
+                    category = tag_detail["category"]
+
+                    new_tag = {"tag_name": tag_name,
+                               "category": category}
+                    
+                    stmt = sqlalchemy.insert(db.Tags).values(new_tag)
+                    session.execute(stmt)
+    
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+         _engine.dispose()
+
+
+# ---------------------------------------------------------------------
+
+def delete_existing_tags(tag_id_list):
+
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+                   
+               for tag_id in tag_id_list:
+                    
+                    stmt = sqlalchemy.delete(db.Tags).where(db.Tags.tag_id == tag_id)
+                    session.execute(stmt)
+    
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+         _engine.dispose()
+
+# ---------------------------------------------------------------------
+
+def update_tags_imp(tags_to_update):
+
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+                   
+               for tag_dict in tags_to_update:
+                    tag_id = tag_dict["tag_id"]
+
+                    updated_info = {"tag_name": tag_dict["tag_name"],
+                                    "category": tag_dict["category"]}
+
+                    stmt = sqlalchemy.update(db.Tags).values(updated_info).where(db.Tags.tag_id == tag_id)
+                    session.execute(stmt)
+    
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+         _engine.dispose()
+
 
 # ---------------------------------------------------------------------
 
@@ -288,6 +357,12 @@ def main():
      # remove_hotspots([96])
 
      # update_hotspots_tags([{"hotspot_id": 43, "tags": [1,9]}])
+
+     # add_new_tags([{"tag_name":"test_tag", "category": "testCat"}])
+
+     # delete_existing_tags([18])
+
+     # update_tags_imp([{"tag_id":18, "tag_name":"testtest","category":"cat"}])
 
      return
 

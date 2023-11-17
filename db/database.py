@@ -66,6 +66,8 @@ class Tags (Base):
     __tablename__ = "tags"
 
     tag_id = sqlalchemy.Column(sqlalchemy.Integer,
+                                sqlalchemy.Sequence("tag_id_seq",
+                                                      start=18),
                                primary_key = True)
     tag_name = sqlalchemy.Column(sqlalchemy.String)
     category = sqlalchemy.Column(sqlalchemy.String)
