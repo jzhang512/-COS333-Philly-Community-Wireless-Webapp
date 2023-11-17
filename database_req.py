@@ -367,30 +367,22 @@ def reject_review(review_id):
     return
 
 # ---------------------------------------------------------------------
-# Admin Functions.
+# Admin Logistical Functions.
 
-def create_username(username):
+# Removed the create username function. Perhaps it should only be 
+# update (it handle both cases, no need to delinate between the two?
+# We'll need an admin_id either way.
+def update_admin_username(admin_id, username):
     """
-    Creates a username supplied by admin for own account.
+    Updates the username supplied by admin for own account.
 
+    admin_id: int
     username: string (check for valid format)
     """
 
     # TODO validate format of data
 
-    return
-
-# ----------------------------------
-
-def update_username(admin_id, new_name):
-    """
-    Support the changing of admin username.
-
-    admin_id: int
-    new_name: string (check for valid format)
-    """
-
-    # TODO validate format of data
+    db.write_data.update_admin_username(admin_id, username)
 
     return
 
