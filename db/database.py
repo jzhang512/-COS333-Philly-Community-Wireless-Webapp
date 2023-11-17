@@ -111,3 +111,4 @@ class Admin (Base):
                                  primary_key = True)
     last_online = sqlalchemy.Column(sqlalchemy.String)
     admin_key = sqlalchemy.Column(sqlalchemy.String)    # validation
+    admin_username = sqlalchemy.Column(sqlalchemy.String)

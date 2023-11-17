@@ -327,6 +327,25 @@ def delete_pending_review(review_id):
 
 # ---------------------------------------------------------------------
 
+def update_admin_username(admin_id, username):
+
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+
+               update = {"admin_username":username}
+                   
+               stmt = sqlalchemy.update(db.Admin).values(update).where(db.Admin.admin_id == admin_id)
+               session.execute(stmt)
+
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+     finally:
+         _engine.dispose()
+
+# ---------------------------------------------------------------------
+
 def main():
      # visualization_hotspots([23], False)
     #  to_update = [{
@@ -363,6 +382,8 @@ def main():
      # delete_existing_tags([18])
 
      # update_tags_imp([{"tag_id":18, "tag_name":"testtest","category":"cat"}])
+
+     # update_admin_username(87, "Jahhhmeezz")
 
      return
 
