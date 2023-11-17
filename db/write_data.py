@@ -47,10 +47,39 @@ def add_user_review_imp(hotspot_id, rating, comment, time):
 
 # ---------------------------------------------------------------------
 
-# TODO: shit looks hard rn b/c need to take away all traces
-def remove_hotspots(list):
-     return
+def remove_hotspots(remove_list):
+    
+    try: 
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+          for hotspot_id in remove_list:
+               # Remove from hotspots table.
+               stmt = sqlalchemy.delete(db.Hotspots).where(db.Hotspots.hotspot_id == hotspot_id)
+               session.execute(stmt)
 
+               # Remove from hotspots_tags table.
+               stmt = sqlalchemy.delete(db.hotspots_tags_many).where(db.hotspots_tags_many.c.hotspot_id == hotspot_id)
+               session.execute(stmt)
+
+               # Remove from mapbox_specific table.
+               stmt = sqlalchemy.delete(db.MapBox).where(db.MapBox.hotspot_id == hotspot_id)
+               session.execute(stmt)
+
+               # Remvoe from reviews_approved table.
+               stmt = sqlalchemy.delete(db.Reviews_Approved).where(db.Reviews_Approved.hotspot_id == hotspot_id)
+               session.execute(stmt)
+
+               # Remove from reviews_pending table. 
+               stmt = sqlalchemy.delete(db.Reviews_Pending).where(db.Reviews_Pending.hotspot_id == hotspot_id)
+               session.execute(stmt)
+
+          session.commit()
+    except Exception as ex: 
+        session.rollback()
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+    finally:
+          _engine.dispose()
+    
 
 # ---------------------------------------------------------------------
 
@@ -227,7 +256,9 @@ def main():
     
 #     create_hotspots_imp(to_add)
 
-    return
+     remove_hotspots([96])
+
+     return
 
 # ---------------------------------------------------------------------
 

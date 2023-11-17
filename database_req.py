@@ -143,6 +143,8 @@ def remove_hotspots(remove_list):
     
     # TODO validate format of data
 
+    db.write_data.remove_hotspots(remove_list)
+
     return  # nothing to return
 
 # ----------------------------------
@@ -235,7 +237,9 @@ def create_hotspots(hotspots):
         db.validate.validate_str(hotspot['descrip'])
         db.validate.validate_list_ints(hotspots['tags'])
 
-    return 
+    db.write_data.create_hotspots_imp(hotspots)
+
+    return # nothing to return
 
 # ----------------------------------
 
