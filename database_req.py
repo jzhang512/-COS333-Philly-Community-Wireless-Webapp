@@ -243,7 +243,7 @@ def create_hotspots(hotspots):
 
 # ----------------------------------
 
-def update_hotspot_tags(hotspot_tags):
+def update_hotspot_tags(hotspots_and_tags):
     """
     Updates the corresponding hotspots' tags. hotspot_tags is a list of dicts. 
     Each dict MUST contain a hotspot_id and a list of tag_id's.
@@ -256,15 +256,18 @@ def update_hotspot_tags(hotspot_tags):
     """
 
     # TODO validate format of data
+    db.write_data.update_hotspots_tags(hotspots_and_tags)
 
-    return 
+    return # returns nothing
 
 # ----------------------------------
 
-def add_tags(tag_details):
+# TODO will likely need to add to function here, admin_id of person
+# who added these new tags
+def add_tags(tags_to_add):
     """
-    Add new tags for classification. tag_details is a list of dicts. Tag_id is 
-    NOT provided.
+    Add new tags to classify hotspots. tags_to_add is a list of dicts. 
+    Do not provide tag_id.
 
     A tag should have the following fields:
     {
@@ -272,16 +275,20 @@ def add_tags(tag_details):
         category: string
     }
 
-    Valid categories are (we can add more as necessary):
-        'cost',
-        'privacy' (maybe rename to accessibility?),
-        'establishment',
-        'accessibility'
+    Valid/current categories are (we can add more as necessary):
+        'Cost',
+        'Privacy',
+        'Establishment',
+        'Amenities'
+        'Accessibility',
+        'Password'
     """
 
     # TODO validate format of data
 
-    return
+    db.write_data.add_new_tags(tags_to_add)
+
+    return  # nothing to return
 
 # ----------------------------------
 
@@ -295,7 +302,9 @@ def delete_tags(tag_ids):
 
     # TODO validate format of data
 
-    return
+    db.write_data.delete_existing_tags(tag_ids)
+
+    return  # nothing to return
 
 # ----------------------------------
 
@@ -303,6 +312,7 @@ def update_tags(tags):
     """
     Update the given tags' details. Does not assign tags to hotspots
     (this is done in update_hotspot_tags()). tag_ids is a list of dicts.
+    Cannot change tag_id.
 
     A tag should have the following fields:
     {
@@ -311,14 +321,18 @@ def update_tags(tags):
         category: string
     }
 
-    Valid categories are (we can add more as necessary):
-        'cost',
-        'privacy' (maybe rename to accessibility?),
-        'establishment',
-        'accessibility'
+    Valid/current categories are (we can add more as necessary):
+        'Cost',
+        'Privacy',
+        'Establishment',
+        'Amenities'
+        'Accessibility',
+        'Password'
     """
 
     # TODO validate format of data
+
+    db.write_data.update_tags_imp(tags)
 
     return
 
