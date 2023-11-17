@@ -9,21 +9,39 @@ var map = new mapboxgl.Map({
 let active_id = null;
 let hotspots;
 
-map.on('load', async () => {
-    // Load hotspots and popup html
+$(document).ready(async () => {
     const response = await fetch("/api/hotspots");
     hotspots = await response.json();
+
+    if (hotspots == "Database Error") {
+        hotspots = [];
+        alert("Database error fetching hotspots");
+    }
+
+    hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
+
+    // call script to generate data for geojson
+    features = generateFeatures(hotspots);
+    addLayer(features);
+
+    updateHotspotsList(hotspots);
+});
+
+map.on('load', async () => {
+    // Load hotspots and popup html
+    // const response = await fetch("/api/hotspots");
+    // hotspots = await response.json();
+
+    // if (hotspots == "Database Error") {
+    //     hotspots = [];
+    //     alert("Database Error");
+    // }
 
     map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
         (error, image) => {
             if (error) throw error;
             map.addImage('custom-marker', image);
-
-            // call script to generate data for geojson
-            features = generateFeatures(hotspots);
-
-            addLayer(features);
         });
 
     // Handle point-click on map
@@ -41,17 +59,8 @@ map.on('load', async () => {
 
         // let coordinates = e.features[0].geometry.coordinates;
 
-        // Send requests to your Flask server
-        const review_response = await fetch("/api/reviews?id=" + id);
-        const reviews = await review_response.json();
-
-        const hotspot = getHotspot(hotspots, id);
-
-        // call script to populate popup with information
-        fillPopup(hotspot, reviews);
-
-        $('#sidebar').modal('show');
-        // console.log('activated modal');
+        const hotspot = getHotspot(id);
+        makePopup(hotspot);
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.

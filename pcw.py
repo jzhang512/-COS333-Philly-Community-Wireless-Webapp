@@ -21,6 +21,7 @@ def admin():
     response = flask.make_response(html_code)
     return response
 
+
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
     try:
