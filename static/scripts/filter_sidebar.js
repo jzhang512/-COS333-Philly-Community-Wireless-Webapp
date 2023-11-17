@@ -1,8 +1,31 @@
 let tags;
 
+function updateHotspotsList(hotspots) {
+    $('#hotspotsList').empty();
+
+    hotspots.forEach((hotspot) => {
+        $('#hotspotsList').append(
+            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
+            .text(hotspot['name'])
+            //$('<li class="list-group-item"></li>').text(hotspot['name'])
+        );
+    });
+
+    $(document).on("click",".list-group-item-action", function () {
+        let id = parseInt($(this).attr('id'));
+        let hotspot = getHotspot(id);
+        makePopup(hotspot);
+     });
+}
+
 $(document).ready(async function() {
     const response = await fetch("/api/tags");
     tags = await response.json();
+
+    if (tags == "Database Error") {
+        tags = [];
+        alert("Database error fetching tags");
+    }
 
     tags.sort((a, b) => a['tag_name'].localeCompare(b['tag_name']))
     console.log
@@ -32,8 +55,10 @@ $(document).ready(async function() {
 
         console.log('Selected Radio Button ID:', tagArray);
 
-        features = generateFeatures(hotspots, tagArray);
+        hotspotsFiltered = filterByTag(hotspots, tagArray);
+        features = generateFeatures(hotspotsFiltered);
         addLayer(features, remove=true);
+        updateHotspotsList(hotspotsFiltered);
     });
 
     $('#clear-filter').click(function() {
@@ -42,8 +67,10 @@ $(document).ready(async function() {
         $('input[name="btnEstablishment"]').prop('checked', false);
         $('input[name="btnAccessibility"]').prop('checked', false);
         $('input[name="btnPassword"]').prop('checked', false);
+
         features = generateFeatures(hotspots);
         addLayer(features, remove=true);
+        updateHotspotsList(hotspots);
     })
 
     tags.forEach((tag) => {

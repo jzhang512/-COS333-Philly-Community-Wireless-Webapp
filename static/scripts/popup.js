@@ -1,3 +1,19 @@
+async function makePopup(hotspot) {
+    // Send requests to your Flask server
+    let id = hotspot['hotspot_id'];
+    const review_response = await fetch("/api/reviews?id=" + id);
+    let reviews = await review_response.json();
+    if (reviews == "Database Error") {
+        reviews = [];
+        alert("Database Error");
+    }
+
+    // call script to populate popup with information
+    fillPopup(hotspot, reviews);
+
+    $('#sidebar').modal('show');
+}
+
 function fillPopup(hotspot, reviews) {
     // Add name
     $('#hotspot-title').text(hotspot['name']);

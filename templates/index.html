@@ -54,7 +54,7 @@
     </nav>
 
     <div id="leftSidebar" class="left-sidebar">
-        <div class="card" id="filter">
+        <div class="card overflow-auto h-50" id="filter">
             <div class="card-header" style: center>
                 Find the best WiFi!
             </div>
@@ -95,9 +95,12 @@
             <button id="apply-filter" type="button" class="btn btn-success btn-block">Apply Filter</button>
             <button id="clear-filter" type="button" class="btn btn-secondary btn-block">Clear Filter</button>
         </div>
+        <div class="overflow-auto list-group" id="hotspotsList">
+
+        </div>
     </div>
 
-    <div id='map' class="inactive-sidebar-map"></div>
+    <div id='map' class="inactive-sidebar-map w-auto"></div>
    
     <div class="modal fade" id="newReview" tabindex="-1" aria-labelledby="review-label" aria-hidden="true">
         <div class="modal-dialog">
