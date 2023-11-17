@@ -69,7 +69,7 @@
     cursor: pointer;
 }
 
-.active {
+.active-card {
     margin: 20px;
 }
 
@@ -192,4 +192,17 @@ svg {
 .star-label:hover~label,
 .star-rating:checked~label {
     color: #ffd40f;
+}
+
+.star {
+    color: #ffd40f;
+}
+
+
+.jumbo:hover {
+    background-color: #e6e6e8;
+}
+
+.jumbo {
+    background-color: #f6f6f8;
 }

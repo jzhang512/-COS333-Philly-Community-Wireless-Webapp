@@ -1,13 +1,7 @@
-function generateFeatures(hotspots, tagIds=[]) {
-    // Only adds features that contain ALL tags in tagIds
-    // Only pass tag_id's, not the whole dictionary
-    data = {
-        'type': 'FeatureCollection',
-        'features': []
-    };
+function filterByTag(hotspots, tagIds=[]) {
+    let hotspotsFiltered = [];
 
     hotspots.forEach((hotspot) => {
-        // add tag_id's to set for faster lookup
         hotspotTagIds = new Set();
         hotspot['tags'].forEach((tag) => hotspotTagIds.add(tag['tag_id']));
 
@@ -16,8 +10,21 @@ function generateFeatures(hotspots, tagIds=[]) {
         tagIds.forEach((id) => {
             if (!hotspotTagIds.has(id)) add = false;
         })
-        if (!add) return;
+        if (add) hotspotsFiltered.push(hotspot);
+    })
 
+    return hotspotsFiltered;
+}
+
+function generateFeatures(hotspots) {
+    // Only adds features that contain ALL tags in tagIds
+    // Only pass tag_id's, not the whole dictionary
+    data = {
+        'type': 'FeatureCollection',
+        'features': []
+    };
+
+    hotspots.forEach((hotspot) => {
         data['features'].push({
             // feature for Mapbox DC
             'type': 'Feature',
