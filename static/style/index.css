@@ -3,7 +3,7 @@
 }
 
 .navbar-active-sidebar {
-    margin-left: 320px;
+    margin-left: 0px;
 }
 
 .nav-link {
@@ -14,11 +14,11 @@
 
 .left-sidebar {
     position: fixed;
-    top: 0;
+    top: 70px;
     left: -320px; /* Adjust width as necessary */
     width: 320px;
-    height: 100%;
-    background-color: #7884dd;
+    height: 95%;
+    background-color: #f1f1f1;
     overflow-y: auto;
     z-index: 1050; /* Higher than the navbar */
 }
