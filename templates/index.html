@@ -55,8 +55,8 @@
 
     <div id="leftSidebar" class="left-sidebar">
         <div class="card overflow-auto h-50" id="filter">
-            <div class="card-header" style: center>
-                Find the best WiFi!
+            <div id="leftSidebar-title" class="card-header">
+                Find the Best WiFi!
             </div>
             <article class="card-group-item">
                 <header class="card-header">
@@ -91,13 +91,18 @@
                 </div> <!-- card-body.// -->
             </article> <!-- card-group-item.// -->
         </div>
-        <div>
-            <button id="apply-filter" type="button" class="btn btn-success btn-block">Apply Filter</button>
-            <button id="clear-filter" type="button" class="btn btn-secondary btn-block">Clear Filter</button>
-        </div>
-        <div class="overflow-auto list-group" id="hotspotsList">
-
-        </div>
+        <article>
+            <div style="text-align: center;">
+                <button id="apply-filter" type="button" class="btn btn-success btn-block">Apply Filter</button>
+                <button id="clear-filter" type="button" class="btn btn-secondary btn-block">Clear Filter</button>
+            </div>
+        </article>
+        <article>
+            <header class="card-header">
+                <h6 class="title">WiFi Hotspots Near You!</h6>
+            </header>
+            <div class="overflow-auto list-group" id="hotspotsList">
+        </article> 
     </div>
 
     <div id='map' class="inactive-sidebar-map w-auto"></div>
