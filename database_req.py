@@ -143,6 +143,8 @@ def remove_hotspots(remove_list):
     
     # TODO validate format of data
 
+    db.write_data.remove_hotspots(remove_list)
+
     return  # nothing to return
 
 # ----------------------------------
@@ -199,6 +201,7 @@ def update_hotspots(hotspots):
     """
 
     # TODO validate format of data
+    db.write_data.update_hotspots_imp(hotspots)
 
     return 
 
@@ -212,13 +215,13 @@ def create_hotspots(hotspots):
     
     A hotspot should contain the following fields:
     {
-        name: string
+        location_name: string
         address: string
         latitude: float
         longitude: float
-        ul_speed: real
-        dl_speed: real
-        descrip: string
+        upload_speed: real
+        download_speed: real
+        description: string
         tags: list of ints
     }
     """
@@ -234,11 +237,13 @@ def create_hotspots(hotspots):
         db.validate.validate_str(hotspot['descrip'])
         db.validate.validate_list_ints(hotspots['tags'])
 
-    return 
+    db.write_data.create_hotspots_imp(hotspots)
+
+    return # nothing to return
 
 # ----------------------------------
 
-def update_hotspot_tags(hotspot_tags):
+def update_hotspot_tags(hotspots_and_tags):
     """
     Updates the corresponding hotspots' tags. hotspot_tags is a list of dicts. 
     Each dict MUST contain a hotspot_id and a list of tag_id's.
@@ -251,15 +256,18 @@ def update_hotspot_tags(hotspot_tags):
     """
 
     # TODO validate format of data
+    db.write_data.update_hotspots_tags(hotspots_and_tags)
 
-    return 
+    return # returns nothing
 
 # ----------------------------------
 
-def add_tags(tag_details):
+# TODO will likely need to add to function here, admin_id of person
+# who added these new tags
+def add_tags(tags_to_add):
     """
-    Add new tags for classification. tag_details is a list of dicts. Tag_id is 
-    NOT provided.
+    Add new tags to classify hotspots. tags_to_add is a list of dicts. 
+    Do not provide tag_id.
 
     A tag should have the following fields:
     {
@@ -267,16 +275,20 @@ def add_tags(tag_details):
         category: string
     }
 
-    Valid categories are (we can add more as necessary):
-        'cost',
-        'privacy' (maybe rename to accessibility?),
-        'establishment',
-        'accessibility'
+    Valid/current categories are (we can add more as necessary):
+        'Cost',
+        'Privacy',
+        'Establishment',
+        'Amenities'
+        'Accessibility',
+        'Password'
     """
 
     # TODO validate format of data
 
-    return
+    db.write_data.add_new_tags(tags_to_add)
+
+    return  # nothing to return
 
 # ----------------------------------
 
@@ -290,7 +302,9 @@ def delete_tags(tag_ids):
 
     # TODO validate format of data
 
-    return
+    db.write_data.delete_existing_tags(tag_ids)
+
+    return  # nothing to return
 
 # ----------------------------------
 
@@ -298,6 +312,7 @@ def update_tags(tags):
     """
     Update the given tags' details. Does not assign tags to hotspots
     (this is done in update_hotspot_tags()). tag_ids is a list of dicts.
+    Cannot change tag_id.
 
     A tag should have the following fields:
     {
@@ -306,14 +321,18 @@ def update_tags(tags):
         category: string
     }
 
-    Valid categories are (we can add more as necessary):
-        'cost',
-        'privacy' (maybe rename to accessibility?),
-        'establishment',
-        'accessibility'
+    Valid/current categories are (we can add more as necessary):
+        'Cost',
+        'Privacy',
+        'Establishment',
+        'Amenities'
+        'Accessibility',
+        'Password'
     """
 
     # TODO validate format of data
+
+    db.write_data.update_tags_imp(tags)
 
     return
 
@@ -326,9 +345,11 @@ def approve_review(review_id):
     review_id: int
     """
 
-    db.validate.validate_int(review_id)
+    db.validate.validate_int(review_id, "review_id")
 
-    return
+    db.write_data.approve_review(review_id)
+
+    return  # returns nothing
 
 # ----------------------------------
 
@@ -339,34 +360,40 @@ def reject_review(review_id):
     review_id: int
     """
 
-    db.validate.validate_int(review_id)
+    db.validate.validate_int(review_id, "review_id")
+    
+    db.write_data.delete_pending_review(review_id)
 
     return
 
 # ---------------------------------------------------------------------
-# Admin Functions.
+# Admin Logistical Functions.
 
-def create_username(username):
+# Removed the create username function. Perhaps it should only be 
+# update (it handle both cases, no need to delinate between the two?
+# We'll need an admin_id either way.
+def update_admin_username(admin_id, username):
     """
-    Creates a username supplied by admin for own account.
+    Updates the username supplied by admin for own account.
 
+    admin_id: int
     username: string (check for valid format)
     """
 
     # TODO validate format of data
 
+    db.write_data.update_admin_username(admin_id, username)
+
     return
 
 # ----------------------------------
 
-def update_username(admin_id, new_name):
-    """
-    Support the changing of admin username.
+def main():
+    pending_reviews = get_pending_reviews()
 
-    admin_id: int
-    new_name: string (check for valid format)
-    """
+    for review in pending_reviews:
+        print(review)
 
-    # TODO validate format of data
 
-    return
+if __name__ == "__main__":
+    main()
