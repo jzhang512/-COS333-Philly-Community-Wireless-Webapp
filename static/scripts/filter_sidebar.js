@@ -1,6 +1,8 @@
+let tags;
+
 $(document).ready(async function() {
     const response = await fetch("/api/tags");
-    const tags = await response.json();
+    tags = await response.json();
 
     tags.sort((a, b) => a['tag_name'].localeCompare(b['tag_name']))
     console.log
@@ -19,15 +21,30 @@ $(document).ready(async function() {
         // Find the ID of the checked radio button
         let tagArray = []
 
-        tagArray.push($('input[name="btnCost"]:checked').attr('id'));
-        tagArray.push($('input[name="btnEstablishment"]:checked').attr('id'));
-        tagArray.push($('input[name="btnAccessibility"]:checked').attr('id'));
-        tagArray.push($('input[name="btnPassword"]:checked').attr('id'));
+        if ($('input[name="btnCost"]:checked').attr('id'))
+            tagArray.push(parseInt($('input[name="btnCost"]:checked').attr('id')));
+        if ($('input[name="btnEstablishment"]:checked').attr('id'))
+            tagArray.push(parseInt($('input[name="btnEstablishment"]:checked').attr('id')));
+        if ($('input[name="btnAccessibility"]:checked').attr('id'))
+            tagArray.push(parseInt($('input[name="btnAccessibility"]:checked').attr('id')));
+        if ($('input[name="btnPassword"]:checked').attr('id'))    
+            tagArray.push(parseInt($('input[name="btnPassword"]:checked').attr('id')));
 
         console.log('Selected Radio Button ID:', tagArray);
 
-        generateFeatures(hotspots, tagArray)
+        features = generateFeatures(hotspots, tagArray);
+        addLayer(features, remove=true);
     });
+
+    $('#clear-filter').click(function() {
+        console.log('Clear filter');
+        $('input[name="btnCost"]').prop('checked', false);
+        $('input[name="btnEstablishment"]').prop('checked', false);
+        $('input[name="btnAccessibility"]').prop('checked', false);
+        $('input[name="btnPassword"]').prop('checked', false);
+        features = generateFeatures(hotspots);
+        addLayer(features, remove=true);
+    })
 
     tags.forEach((tag) => {
         let category = tag['category'];

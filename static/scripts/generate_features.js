@@ -10,6 +10,7 @@ function generateFeatures(hotspots, tagIds=[]) {
         // add tag_id's to set for faster lookup
         hotspotTagIds = new Set();
         hotspot['tags'].forEach((tag) => hotspotTagIds.add(tag['tag_id']));
+        let setToString = new Array(...hotspotTagIds).join(' ');
 
         // if hotspot doesn't have right tags then move to next one
         add = true;
