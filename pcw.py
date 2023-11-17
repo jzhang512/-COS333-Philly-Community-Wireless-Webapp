@@ -14,11 +14,13 @@ def index():
     response = flask.make_response(html_code)
     return response
 
+
 @app.route('/admin', methods=['GET'])
 def admin():
     html_code = flask.render_template('admin.html')
     response = flask.make_response(html_code)
     return response
+
 
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
@@ -68,8 +70,9 @@ def pending_reviews():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-    
+
 #############################   Create   ###############################
+
 
 @app.route('/api/create_hotspots', methods=['POST'])
 def create_hotspots():
@@ -84,7 +87,7 @@ def create_hotspots():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
-    
+
 
 @app.route('/api/create_tags', methods=['POST'])
 def create_tags():
@@ -120,6 +123,7 @@ def publish_review():
 
 #############################   Modify   ###############################
 
+
 @app.route('/api/modify_hotspots', methods=['POST'])
 def modify_hotspots():
     try:
@@ -133,7 +137,7 @@ def modify_hotspots():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
-    
+
 
 @app.route('/api/modify_hotspots_tags', methods=['POST'])
 def modify_hotspots_tags():
@@ -148,7 +152,7 @@ def modify_hotspots_tags():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
-    
+
 
 @app.route('/api/approve_review', methods=['POST'])
 def approve_review():

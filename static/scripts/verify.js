@@ -10,6 +10,8 @@ async function setupReview() {
 function fillReviews(reviews) {
     $("#results-div").empty();
 
+    $('<h2/>').addClass("m-3").text("Approve/Deny Reviews").appendTo('#results-div');
+
     let grid = $('<div/>').addClass("row main-grid");
     let reviewList = $('<div/>').addClass("col reviews");
     let activeCard = $('<div/>').addClass("col card active-card").text("No review selected.");
