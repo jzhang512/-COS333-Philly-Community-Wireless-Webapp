@@ -35,136 +35,136 @@ _engine = sqlalchemy.create_engine(_DATABASE_URL, echo = False)
 # Corresponds to database_req.py's get_pins().
 def get_pins_all():
     try:
-        try:
-            with sqlalchemy.orm.Session(_engine) as session:
-                
-                query = (session.query(database.Hotspots,
-                                       database.MapBox)
-                        .filter(database.Hotspots.hotspot_id == database.MapBox.hotspot_id))
-                
-                table = query.all()
-                pins = []
-                for row in table:
-                    pin = {}
-                    pin['hotspot_id'] = row[0].hotspot_id
-                    pin['name'] = row[0].location_name
-                    pin['address'] = row[0].address
-                    pin['latitude'] = row[1].latitude
-                    pin['longitude'] = row[1].longitude
-                    pin['ul_speed'] = row[0].upload_speed
-                    pin['dl_speed'] = row[0].download_speed
-                    pin['descrip'] = row[0].description
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+            query = (session.query(database.Hotspots,
+                                    database.MapBox)
+                    .filter(database.Hotspots.hotspot_id == database.MapBox.hotspot_id))
+            
+            table = query.all()
+            pins = []
+            for row in table:
+                pin = {}
+                pin['hotspot_id'] = row[0].hotspot_id
+                pin['name'] = row[0].location_name
+                pin['address'] = row[0].address
+                pin['latitude'] = row[1].latitude
+                pin['longitude'] = row[1].longitude
+                pin['ul_speed'] = row[0].upload_speed
+                pin['dl_speed'] = row[0].download_speed
+                pin['descrip'] = row[0].description
 
-                    tags = []
-                    tags_list = row[0].tags
+                tags = []
+                tags_list = row[0].tags
 
-                    for tag in tags_list:
-                        ref = {"tag_id" : tag.tag_id,
-                               "tag_name" : tag.tag_name,
-                               "category" : tag.category}
-                        tags.append(ref)
+                for tag in tags_list:
+                    ref = {"tag_id" : tag.tag_id,
+                            "tag_name" : tag.tag_name,
+                            "category" : tag.category}
+                    tags.append(ref)
 
-                    pin['tags'] = tags
+                pin['tags'] = tags
 
-                    pins.append(pin)
+                pins.append(pin)
 
-                return pins
+            return pins
 
-        finally:
-            _engine.dispose()
+        # finally:
+        #     _engine.dispose()
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error")
+        sys.exit(1)
 
 # ---------------------------------------------------------------------
 
 # Corresponds to database_req.py's get_reviews().
 def get_single_review(pin_id: int):
     try:
-        try:
-            with sqlalchemy.orm.Session(_engine) as session:
-                
-                query = (session.query(database.Reviews_Approved)
-                        .filter(database.Reviews_Approved.hotspot_id == pin_id))
-                
-                table = query.all()
-                reviews = []
-                for row in table:
-                    reviews.append({
-                        'stars': row.rating,
-                        'text': row.comment,
-                        'time': row.time})
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+            query = (session.query(database.Reviews_Approved)
+                    .filter(database.Reviews_Approved.hotspot_id == pin_id))
+            
+            table = query.all()
+            reviews = []
+            for row in table:
+                reviews.append({
+                    'stars': row.rating,
+                    'text': row.comment,
+                    'time': row.time})
 
-                return reviews
+            return reviews
 
-        finally:
-            _engine.dispose()
+        # finally:
+        #     _engine.dispose()
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error")
+        sys.exit(1)
 
 # ---------------------------------------------------------------------
 
 # Corresponds to database_req.py's get_reviews().
 def get_pending_reviews():
     try:
-        try:
-            with sqlalchemy.orm.Session(_engine) as session:
-                
-                query = session.query(database.Reviews_Pending)
-                # print(session.execute(query).all())
-                
-                table = query.all()
-                reviews = []
-                for row in table:
-                    reviews.append({
-                        'pin_id': row.hotspot_id,
-                        'review_id': row.review_id,
-                        'stars': row.rating,
-                        'text': row.comment,
-                        'time': row.time})
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+            query = session.query(database.Reviews_Pending)
+            # print(session.execute(query).all())
+            
+            table = query.all()
+            reviews = []
+            for row in table:
+                reviews.append({
+                    'pin_id': row.hotspot_id,
+                    'review_id': row.review_id,
+                    'stars': row.rating,
+                    'text': row.comment,
+                    'time': row.time})
 
-                return reviews
+            return reviews
 
-        finally:
-            _engine.dispose()
+        # finally:
+        #     _engine.dispose()
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error")
+        sys.exit(1)
 
 # ---------------------------------------------------------------------
 
 # Corresponds to database_req.py's get_tags_by_category().
 def get_tags_category(cat: str = ""):
     try:
-        try:
-            with sqlalchemy.orm.Session(_engine) as session:
-                
-                if cat:
-                    query = (session.query(database.Tags)
-                            .filter(database.Tags.category == cat))
-                else:   # cat empty string
-                    query = session.query(database.Tags)  
-                
-                table = query.all()
-                tags = []
-                for row in table:
-                    tags.append({
-                        'tag_id': row.tag_id,
-                        'tag_name': row.tag_name,
-                        'category': row.category})
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+            if cat:
+                query = (session.query(database.Tags)
+                        .filter(database.Tags.category == cat))
+            else:   # cat empty string
+                query = session.query(database.Tags)  
+            
+            table = query.all()
+            tags = []
+            for row in table:
+                tags.append({
+                    'tag_id': row.tag_id,
+                    'tag_name': row.tag_name,
+                    'category': row.category})
 
-                return tags
+            return tags
 
-        finally:
-            _engine.dispose()
+        # finally:
+        #     _engine.dispose()
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error")
+        sys.exit(1)
 
 
 # ---------------------------------------------------------------------
