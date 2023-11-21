@@ -1,9 +1,9 @@
-$('#update-map').click(setupMap);
 // $('#new-hotspot').click(createNewHotspot);
 let hotspots = null;
 let tags = null;
 
 function setupMap() {
+    history.pushState(null, "Update Map", "/admin/update");
     $("#results-div").empty();
 
     let requestData = {

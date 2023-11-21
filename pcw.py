@@ -15,8 +15,10 @@ def index():
     return response
 
 
+@app.route('/admin/<path:admin_path>', methods=['GET'])
 @app.route('/admin', methods=['GET'])
-def admin():
+@app.route('/admin/', methods=['GET'])
+def admin(admin_path=None):
     html_code = flask.render_template('admin.html')
     response = flask.make_response(html_code)
     return response
