@@ -1,7 +1,8 @@
 
-$('#pending-review').click(setupReview);
+// $('#pending-review').click(setupReview);
 
 async function setupReview() {
+    history.pushState(null, "Verify Reviews", "/admin/reviews");
     const response = await fetch("/api/pending_reviews");
     const reviews = await response.json();
     fillReviews(reviews);

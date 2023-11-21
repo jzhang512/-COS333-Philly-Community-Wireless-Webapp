@@ -64,6 +64,7 @@ function fillPopup(hotspot, reviews) {
         let starDiv = makeStars(review['stars']);
         let timeFoot = $('<div>').addClass('card-footer').text(review['time']);
         let text = $('<p>').text(review['text']);
+        $('<br/>').appendTo('#review-list');
         title.append(starDiv);
         body.append(title, text);
         card.append(body, timeFoot);
