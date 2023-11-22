@@ -1,5 +1,6 @@
 # ---------------------------------------------------------------------
 # Acts like the runserver.
+# Port is not hardcoded but use 5000
 # ---------------------------------------------------------------------
 
 from argparse import ArgumentParser
@@ -28,7 +29,8 @@ def main():
 
     # TODO: dispose at close of application
     try:
-        pcw.app.run(host='0.0.0.0', port=port, debug=True)
+        pcw.app.run(host='0.0.0.0', port=port, debug=True, 
+        ssl_context=('cert.pem', 'key.pem'))
     except Exception as ex:
         print(sys.argv[0] + ": " + str(ex), file=sys.stderr)
         sys.exit(1)

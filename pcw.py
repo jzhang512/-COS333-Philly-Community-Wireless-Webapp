@@ -2,11 +2,35 @@
 # Contains all flask code.
 # ---------------------------------------------------------------------
 
+import os
 import flask
 import database_req
+import auth
 
+# ---------------------------------------------------------------------
 app = flask.Flask(__name__)
 
+app.secret_key = os.environ['APP_SECRET_KEY']
+# ---------------------------------------------------------------------
+
+# Routes for authentication
+@app.route('/login', methods=['GET'])
+def login():
+    return auth.login()
+
+@app.route('/login/callback', methods=['GET'])
+def callback():
+    return auth.callback()
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    return auth.logout()
+
+@app.route('/logoutgoogle', methods=['GET'])
+def logoutgoogle():
+    return auth.logoutgoogle()
+
+# ---------------------------------------------------------------------
 
 @app.route('/', methods=['GET'])
 def index():
