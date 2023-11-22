@@ -26,6 +26,7 @@ def handle_args():
 def main():
     port = handle_args()
 
+    # TODO: dispose at close of application
     try:
         pcw.app.run(host='0.0.0.0', port=port, debug=True)
     except Exception as ex:
