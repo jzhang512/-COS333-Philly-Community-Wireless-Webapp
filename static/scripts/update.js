@@ -129,6 +129,12 @@ function makeHotspotCard(hotspot) {
     $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control mb-3', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
 
+    $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '', disabled: '' }).appendTo(hotspotCard);
+
+    $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '', disabled: '' }).appendTo(hotspotCard);
+
     $('<label/>', { for: 'hotspot-tags' + id, text: 'Tags:', class: 'form-label' }).appendTo(hotspotCard);
     // $('<input/>', { type: 'text', id: 'hotspot-tags', class: 'form-control', 'aria-describedby': 'tag-info', value: tags }).appendTo(hotspotCard);
     $("<br/>").appendTo(hotspotCard);
@@ -145,12 +151,6 @@ function makeHotspotCard(hotspot) {
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3', value: hotspot ? hotspot['descrip'] : '' }).appendTo(hotspotCard);
-
-    $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '' }).appendTo(hotspotCard);
-
-    $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '' }).appendTo(hotspotCard);
 
     let add = $('<button/>', { type: 'button', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
 
@@ -220,7 +220,7 @@ function addHotspot() {
 
 function updateHotspot(id) {
     if (!verifyHotspot(id)) {
-        console.log("error with verification");
+        alert("error with verification");
         return
     }
 
@@ -271,6 +271,7 @@ function verifyHotspot(id = 'new') {
             let points = data['features']
             if (points.length == 0) {
                 console.log("ADDRESS ERROR!");
+                alert("address invalid");
                 result = false;
             }
             else {
@@ -288,11 +289,4 @@ function verifyHotspot(id = 'new') {
     $.ajax(addressRequestData);
 
     return result;
-}
-
-function handleAddrResponse(data) {
-
-
-
-
 }
