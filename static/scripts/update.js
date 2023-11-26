@@ -129,6 +129,12 @@ function makeHotspotCard(hotspot) {
     $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control mb-3', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
 
+    $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '', disabled: '' }).appendTo(hotspotCard);
+
+    $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '', disabled: '' }).appendTo(hotspotCard);
+
     $('<label/>', { for: 'hotspot-tags' + id, text: 'Tags:', class: 'form-label' }).appendTo(hotspotCard);
     // $('<input/>', { type: 'text', id: 'hotspot-tags', class: 'form-control', 'aria-describedby': 'tag-info', value: tags }).appendTo(hotspotCard);
     $("<br/>").appendTo(hotspotCard);
@@ -145,12 +151,6 @@ function makeHotspotCard(hotspot) {
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3', value: hotspot ? hotspot['descrip'] : '' }).appendTo(hotspotCard);
-
-    $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '' }).appendTo(hotspotCard);
-
-    $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '' }).appendTo(hotspotCard);
 
     let add = $('<button/>', { type: 'button', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
 
@@ -199,6 +199,11 @@ function buildHotspot(id = 'new') {
 }
 
 function addHotspot() {
+    if (!verifyHotspot()) {
+        console.log("error with verification");
+        return
+    }
+
     let hotspot = buildHotspot();
 
     let addRequest = {
@@ -214,6 +219,11 @@ function addHotspot() {
 }
 
 function updateHotspot(id) {
+    if (!verifyHotspot(id)) {
+        alert("error with verification");
+        return
+    }
+
     let hotspot = buildHotspot(id);
 
     let updateRequest = {
@@ -246,4 +256,37 @@ function cancelQuery(id) {
     let hotspot = getHotspot(hotspots, id);
     $('#list-' + id).append(makeHotspotCard(hotspot));
     $(".selectpicker").selectpicker('render');
+}
+
+function verifyHotspot(id = 'new') {
+    let address = $('#hotspot-address' + id).val();
+    let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + address + ".json?proximity=ip&access_token=pk.eyJ1IjoianY4Mjk0IiwiYSI6ImNsbzRzdjQyZjA0bDgycW51ejdtYXBteWEifQ.5epqP-7J4pRUTJAmYygM8A"
+    let result = true;
+
+    let addressRequestData = {
+        type: 'GET',
+        url: url,
+        async: false,
+        success: function (data) {
+            let points = data['features']
+            if (points.length == 0) {
+                console.log("ADDRESS ERROR!");
+                alert("address invalid");
+                result = false;
+            }
+            else {
+                console.log("CHANGING LONG/LAT");
+                $('#hotspot-lati' + id).val(points[0]['center'][0]);
+                $('#hotspot-long' + id).val(points[0]['center'][1]);
+            }
+        },
+        error: function () {
+            alert("An error has occured.");
+            result = false;
+        }
+    };
+
+    $.ajax(addressRequestData);
+
+    return result;
 }
