@@ -23,7 +23,6 @@
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -45,67 +44,77 @@
                                     In</a></li>
                         </ul>
                     </li>
-                    <button class="btn" id="sidebarToggle">
+                    <!-- <button class="btn" id="sidebarToggle">
                         <span class="navbar-toggler-icon"></span>
-                    </button>
+                    </button> -->
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div id="leftSidebar" class="left-sidebar">
-        <div class="card overflow-auto h-50" id="filter">
-            <div id="leftSidebar-title" class="card-header">
-                Find the Best WiFi!
+    <div class="wrapper">
+        <div class="sidebar collapse collapse-horizontal" id="collapseExample">
+            <div id="leftSidebar" class="left-sidebar">
+                <div class="card overflow-auto h-50" id="filter">
+                    <div id="leftSidebar-title" class="card-header">
+                        Find the Best WiFi!
+                    </div>
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Cost</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body" id="tagContainerCost"></div>
+                        </div> <!-- card-body.// -->
+                    </article> <!-- card-group-item.// -->
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Establishment</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body" id="tagContainerEstablishment"></div>
+                        </div> <!-- card-body.// -->
+                    </article> <!-- card-group-item.// -->
+                    <article>
+                        <header class="card-header">
+                            <h6 class="title">Accessibility</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body" id="tagContainerAccessibility"></div>
+                        </div> <!-- card-body.// -->
+                    </article> <!-- card-group-item.// -->
+                    <article>
+                        <header class="card-header">
+                            <h6 class="title">Password</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body" id="tagContainerPassword"></div>
+                        </div> <!-- card-body.// -->
+                    </article> <!-- card-group-item.// -->
+                </div>
+                <article>
+                    <div style="text-align: center;">
+                        <button id="apply-filter" type="button" class="btn btn-success btn-block">Apply Filter</button>
+                        <button id="clear-filter" type="button" class="btn btn-secondary btn-block">Clear
+                            Filter</button>
+                    </div>
+                </article>
+                <article>
+                    <header class="card-header">
+                        <h6 class="title">WiFi Hotspots Near You!</h6>
+                    </header>
+                    <div class="overflow-auto list-group" id="hotspotsList">
+                </article>
             </div>
-            <article class="card-group-item">
-                <header class="card-header">
-                    <h6 class="title">Cost</h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body" id="tagContainerCost"></div>
-                </div> <!-- card-body.// -->
-            </article> <!-- card-group-item.// -->
-            <article class="card-group-item">
-                <header class="card-header">
-                    <h6 class="title">Establishment</h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body" id="tagContainerEstablishment"></div>
-                </div> <!-- card-body.// -->
-            </article> <!-- card-group-item.// -->
-            <article>
-                <header class="card-header">
-                    <h6 class="title">Accessibility</h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body" id="tagContainerAccessibility"></div>
-                </div> <!-- card-body.// -->
-            </article> <!-- card-group-item.// -->
-            <article>
-                <header class="card-header">
-                    <h6 class="title">Password</h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body" id="tagContainerPassword"></div>
-                </div> <!-- card-body.// -->
-            </article> <!-- card-group-item.// -->
         </div>
-        <article>
-            <div style="text-align: center;">
-                <button id="apply-filter" type="button" class="btn btn-success btn-block">Apply Filter</button>
-                <button id="clear-filter" type="button" class="btn btn-secondary btn-block">Clear Filter</button>
+        <div id='map' class="map">
+            <div class="float-start z-2 position-absolute">
+                <button class="btn btn-primary m-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Filter
+                </button>
             </div>
-        </article>
-        <article>
-            <header class="card-header">
-                <h6 class="title">WiFi Hotspots Near You!</h6>
-            </header>
-            <div class="overflow-auto list-group" id="hotspotsList">
-        </article>
+        </div>
     </div>
-
-    <div id='map' class="inactive-sidebar-map w-auto"></div>
 
     <div class="modal fade" id="newReview" tabindex="-1" aria-labelledby="review-label" aria-hidden="true">
         <div class="modal-dialog">
