@@ -1,6 +1,6 @@
-function addLayer(features, remove=false) {
+function addLayer(features, remove = false) {
     if (remove) {
-        map.removeLayer('points');
+        map.removeLayer('circles');
         map.removeSource('points');
     }
 
@@ -12,19 +12,26 @@ function addLayer(features, remove=false) {
 
     // Add a symbol layer
     map.addLayer({
-        'id': 'points',
-        'type': 'symbol',
+        'id': 'circles',
+        'type': 'circle',
         'source': 'points',
-        'layout': {
-            'icon-image': 'custom-marker',
-            // get the title name from the source's "title" property
-            'text-field': ['get', 'title'],
-            'text-font': [
-                'Open Sans Semibold',
-                'Arial Unicode MS Bold'
-            ],
-            'text-offset': [0, 1.25],
-            'text-anchor': 'top'
+        'paint': {
+            'circle-color': '#4264fb',
+            'circle-radius': 12,
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ffffff',
+            'circle-opacity': 0.8
         }
+        // 'layout': {
+        //     'icon-image': 'custom-marker',
+        //     // get the title name from the source's "title" property
+        //     'text-field': ['get', 'title'],
+        //     'text-font': [
+        //         'Open Sans Semibold',
+        //         'Arial Unicode MS Bold'
+        //     ],
+        //     'text-offset': [0, 1.25],
+        //     'text-anchor': 'top'
+        // }
     });
 }
