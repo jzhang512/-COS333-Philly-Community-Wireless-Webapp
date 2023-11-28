@@ -22,11 +22,11 @@ def login():
 def callback():
     return auth.callback()
 
-@app.route('/logout', methods=['GET'])
+@app.route('/admin/logout', methods=['GET'])
 def logout():
     return auth.logout()
 
-@app.route('/logoutgoogle', methods=['GET'])
+@app.route('/admin/logoutgoogle', methods=['GET'])
 def logoutgoogle():
     return auth.logoutgoogle()
 

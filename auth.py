@@ -11,7 +11,7 @@ import oauthlib.oauth2
 
 # ---------------------------------------------------------------------
 GOOGLE_DISCOVERY_URL = ( 
-    '’https://accounts.google.com/.well-known/openid-configuration')
+    'https://accounts.google.com/.well-known/openid-configuration')
 
 GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
 GOOGLE_CLIENT_SECRET = os.environ['GOOGLE_CLIENT_SECRET']
@@ -131,15 +131,15 @@ def callback():
     #    userinfo_response.json()['email_verified'])
     #flask.session['locale'] = userinfo_response.json()['locale']
 
-    return flask.redirect(flask.url_for('index'))
+    return flask.redirect(flask.url_for('admin'))
 
 #-----------------------------------------------------------------------
 
-def logoutapp():
+def logout():
 
     # Log out of the application.
     flask.session.clear()
-    html_code = flask.render_template('loggedout.html')
+    html_code = flask.render_template('index.html')
     response = flask.make_response(html_code)
     return response
 
