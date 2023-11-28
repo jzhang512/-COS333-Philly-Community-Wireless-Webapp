@@ -15,8 +15,8 @@ def handle_args():
     Handle and return arguments using ArgumentParser.
     """
     parser = ArgumentParser(prog=sys.argv[0],
-                            description="Registrar application: "
-                                        "show overviews of classes",
+                            description="""Philly Community Wireless
+                            Webapp""",
                             allow_abbrev=False)
     parser.add_argument("port", default="", type=int,
                         help="the port at which the server should "
