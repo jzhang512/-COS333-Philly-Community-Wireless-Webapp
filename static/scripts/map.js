@@ -9,6 +9,26 @@ var map = new mapboxgl.Map({
 let active_id = null;
 let hotspots;
 
+function getSearchResults() {
+    let query = $('#searchInput').val();
+
+    const filtered_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    console.log(filtered_hotspots);
+    updateHotspotsList(filtered_hotspots);
+}
+
+let search_check_timer = null;
+
+function debouncedGetResults() {
+    clearTimeout(search_check_timer);
+    search_check_timer = setTimeout(getSearchResults, 500);
+}
+
+function setup() {
+    getSearchResults();
+    $('#searchInput').on('input', debouncedGetResults);
+}
+
 $(document).ready(async () => {
     const response = await fetch("/api/hotspots");
     hotspots = await response.json();
@@ -25,6 +45,8 @@ $(document).ready(async () => {
     addLayer(features);
 
     updateHotspotsList(hotspots);
+
+    setup();
 });
 
 map.on('load', async () => {

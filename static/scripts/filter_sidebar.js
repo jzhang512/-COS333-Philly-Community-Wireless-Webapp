@@ -1,5 +1,9 @@
 let tags;
 
+// For filter sidebar. 
+
+// Update view with corresponding list/search results after search and
+// or filter. Filtering should be done externally.
 function updateHotspotsList(hotspots) {
     $('#hotspotsList').empty();
 
