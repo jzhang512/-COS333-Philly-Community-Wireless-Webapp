@@ -24,12 +24,13 @@ function setupMap() {
 
 function populateHotspots(hotspots) {
     console.log("populating!");
+    $('#results-div').addClass('overflow-hidden');
     $('<h2/>').addClass("m-3").text("Update/Add/Remove Hotspots").appendTo('#results-div');
     let mainGrid = $('<div/>').addClass("row mt-3").appendTo('#results-div');
-    let hotspotsCol = $('<div/>').addClass("col-4 border-end").appendTo(mainGrid);
+    let hotspotsCol = $('<div/>').addClass("col-4 overflow-auto border-end").appendTo(mainGrid);
     // $('<h2/>').text("Hotspots").appendTo(hotspotsCol);
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(hotspotsCol);
-    let pane = $('<div/>').addClass("col-8").appendTo(mainGrid);
+    let pane = $('<div/>').addClass("col-8 overflow-auto").appendTo(mainGrid);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(pane);
     // listGroup.prop('role', 'tablist');
     // listGroup.prop('id', 'list-tab');
