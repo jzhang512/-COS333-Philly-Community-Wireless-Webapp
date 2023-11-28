@@ -9,11 +9,15 @@ var map = new mapboxgl.Map({
 let active_id = null;
 let hotspots;
 
+// Empowers dynamic searching. 
 function getSearchResults() {
     let query = $('#searchInput').val();
 
     const filtered_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
-    console.log(filtered_hotspots);
+
+    // Updates the map hotspots accordingly.
+    features = generateFeatures(filtered_hotspots);
+    addLayer(features, remove = true);
     updateHotspotsList(filtered_hotspots);
 }
 
