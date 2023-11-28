@@ -30,6 +30,12 @@ def logout():
 def logoutgoogle():
     return auth.logoutgoogle()
 
+@app.route('/unauthorized', methods=['GET'])
+def unauthorized():
+    html_code = flask.render_template('unauthorized.html')
+    response = flask.make_response(html_code)
+    return response
+
 # ---------------------------------------------------------------------
 
 @app.route('/', methods=['GET'])

@@ -17,6 +17,8 @@ GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
 GOOGLE_CLIENT_SECRET = os.environ['GOOGLE_CLIENT_SECRET']
 
 client =  oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
+
+AUTHORIZED_USERS = ['cos333pcw@gmail.com']
 # ---------------------------------------------------------------------
 
 def login():
@@ -113,13 +115,13 @@ def callback():
     #-------------------------------------------------------------------
 
     # Optional: Make sure the user's email address is verified.
-    if not userinfo_response.json().get('email_verified'):
-        message = 'User email not available or not verified by Google.'
-        return message, 400
+    # if not userinfo_response.json().get('email_verified'):
+        # message = 'User email not available or not verified by Google.'
+        # return message, 400
 
     # Save the user profile data in the session.
 
-    flask.session['email'] = userinfo_response.json()['email']
+    # flask.session['email'] = userinfo_response.json()['email']
     #flask.session['sub'] = userinfo_response.json()['sub']
     #flask.session['name'] = userinfo_response.json()['name']
     #flask.session['given_name'] = (
@@ -131,7 +133,21 @@ def callback():
     #    userinfo_response.json()['email_verified'])
     #flask.session['locale'] = userinfo_response.json()['locale']
 
-    return flask.redirect(flask.url_for('admin'))
+    # Check if the user's email is verified
+    if userinfo_response.json().get('email_verified'):
+        user_email = userinfo_response.json()['email']
+        # Check if the user is authorized to access the admin page
+        if user_email in AUTHORIZED_USERS:
+            # User is authorized, set session variables and redirect to admin page
+            flask.session['email'] = user_email
+            # ... [set other session variables as needed] ...
+            return flask.redirect(flask.url_for('admin'))
+        else:
+            # User is not authorized
+            return flask.redirect(flask.url_for('unauthorized'))  # Redirect to an 'unauthorized' route
+    else:
+        # Email is not verified
+        return 'User email not available or not verified by Google.', 400
 
 #-----------------------------------------------------------------------
 
@@ -139,9 +155,8 @@ def logout():
 
     # Log out of the application.
     flask.session.clear()
-    html_code = flask.render_template('index.html')
-    response = flask.make_response(html_code)
-    return response
+    
+    return flask.redirect(flask.url_for('index'))
 
 #-----------------------------------------------------------------------
 
@@ -153,6 +168,8 @@ def logoutgoogle():
     # Log out of Google.
     flask.abort(flask.redirect(
         'https://mail.google.com/mail/u/0/?logout&hl=en'))
+
+    return flask.redirect(flask.url_for('index'))
 
 #-----------------------------------------------------------------------
 
