@@ -11,7 +11,21 @@ async function makePopup(hotspot) {
     // call script to populate popup with information
     fillPopup(hotspot, reviews);
 
+    map.flyTo({
+        center: [hotspot['longitude'], hotspot['latitude']]
+    })
+
+    history.replaceState(null, "", "?hotspot_id="+id);
+
     $('#sidebar').modal('show');
+
+    document.title = siteTitle + " - " + hotspot['name'];
+
+    $('#sidebar').on('hide.bs.modal', () => {
+        console.log("closing");
+        history.pushState(null, "", "/");
+        document.title = siteTitle;
+    })
 }
 
 function fillPopup(hotspot, reviews) {
