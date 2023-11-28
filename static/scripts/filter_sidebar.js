@@ -14,6 +14,7 @@ function updateHotspotsList(hotspots) {
     $(document).on("click",".list-group-item-action", function () {
         let id = parseInt($(this).attr('id'));
         let hotspot = getHotspot(id);
+        
         makePopup(hotspot);
      });
 }

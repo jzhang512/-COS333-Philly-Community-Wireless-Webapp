@@ -80,6 +80,7 @@ article h6.title {
     right: 0;
     margin: auto;
     width: 23%;
+    min-width: 100px;
     height: calc(100vh - 65px);
     margin-top: 65px;
     -webkit-transform: translate3d(0%, 0, 0);

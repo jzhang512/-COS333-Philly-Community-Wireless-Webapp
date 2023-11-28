@@ -45,7 +45,7 @@ map.on('load', async () => {
         });
 
     // Handle point-click on map
-    map.on('click', 'points', async (e) => {
+    map.on('click', 'circles', async (e) => {
         map.flyTo({
             center: e.features[0].geometry.coordinates
         });
@@ -61,15 +61,27 @@ map.on('load', async () => {
 
         const hotspot = getHotspot(id);
         makePopup(hotspot);
+
+
+    });
+
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'points', () => {
+    map.on('mouseenter', 'circles', (e) => {
         map.getCanvas().style.cursor = 'pointer';
+
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const title = e.features[0].properties.title;
+        popup.setLngLat(coordinates).setHTML('<p style="height: 0px"><strong>' + title + '</strong></p>').addTo(map);
     });
 
     // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'points', () => {
+    map.on('mouseleave', 'circles', () => {
         map.getCanvas().style.cursor = '';
+        popup.remove();
     });
 });
