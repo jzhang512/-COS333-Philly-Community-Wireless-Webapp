@@ -4,8 +4,9 @@ let tags = null;
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
+    document.title = siteTitle + " - Update Hotspots";
     $("#results-div").empty();
-
+    
     let requestData = {
         type: 'GET',
         url: "/api/hotspots",
@@ -58,6 +59,7 @@ function createNewHotspot() {
 
 function handleResponseMap(data) {
     hotspots = data;
+    hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
     populateHotspots(data);
 }
 
@@ -213,17 +215,18 @@ function addHotspot() {
     }
 
     let hotspot = buildHotspot();
+    console.log(hotspot);
 
     let addRequest = {
         type: 'POST',
         url: "/api/create_hotspots",
-        data: hotspot,
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
     $.ajax(addRequest);
     resetPaneView('new');
-    console.log("successfulyl modified!")
+    console.log("Hotspot created!")
 }
 
 function updateHotspot(id) {
@@ -243,7 +246,7 @@ function updateHotspot(id) {
 
     $.ajax(updateRequest);
     resetPaneView(id);
-    console.log("successfulyl modified!")
+    console.log("successfully modified!")
 }
 
 function deleteHotspot(id) {
@@ -268,6 +271,8 @@ function deleteHotspot(id) {
 function resetPaneView(id) {
     $('#list-' + id + '-tab').removeClass('active');
     $('#list-' + id).removeClass("active show");
+
+    setupMap();
 }
 
 function cancelQuery(id) {
