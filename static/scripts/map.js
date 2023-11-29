@@ -10,6 +10,30 @@ let active_id = null;
 let hotspots;
 let siteTitle = "Philly Wifi";
 
+// Empowers dynamic searching. 
+function getSearchResults() {
+    let query = $('#searchInput').val();
+
+    const filtered_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+
+    // Updates the map hotspots accordingly.
+    features = generateFeatures(filtered_hotspots);
+    addLayer(features, remove = true);
+    updateHotspotsList(filtered_hotspots);
+}
+
+let search_check_timer = null;
+
+function debouncedGetResults() {
+    clearTimeout(search_check_timer);
+    search_check_timer = setTimeout(getSearchResults, 500);
+}
+
+function setup() {
+    getSearchResults();
+    $('#searchInput').on('input', debouncedGetResults);
+}
+
 $(document).ready(async () => {
     document.title = siteTitle;
 
@@ -29,6 +53,7 @@ $(document).ready(async () => {
 
     updateHotspotsList(hotspots);
 
+    setup();
     let queryString = window.location.search;
     let params = new URLSearchParams(queryString);
     if (params.has('hotspot_id')) {

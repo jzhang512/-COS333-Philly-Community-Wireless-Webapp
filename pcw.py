@@ -52,6 +52,10 @@ def index():
     response = flask.make_response(html_code)
     return response
 
+# @app.route('/search', methods=['GET'])
+# def search():
+
+
 
 @app.route('/admin/<path:admin_path>', methods=['GET'])
 @app.route('/admin', methods=['GET'])
