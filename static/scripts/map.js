@@ -37,6 +37,8 @@ $(document).ready(async () => {
         let hotspot = getHotspot(hotspot_id);
         if (hotspot != null) {
             makePopup(hotspot);
+        } else {
+            history.pushState(null, "", "/")
         }
     }
 });

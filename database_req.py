@@ -219,8 +219,8 @@ def create_hotspots(hotspots):
         address: string
         latitude: float
         longitude: float
-        upload_speed: real
-        download_speed: real
+        upload_speed: float
+        download_speed: float
         description: string
         tags: list of ints
     }
