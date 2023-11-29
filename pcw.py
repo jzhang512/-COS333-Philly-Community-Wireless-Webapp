@@ -14,23 +14,29 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
+
+
 @app.route('/login', methods=['GET'])
 def login():
     return auth.login()
+
 
 @app.route('/login/callback', methods=['GET'])
 def callback():
     return auth.callback()
 
+
 @app.route('/admin/logout', methods=['GET'])
 def logout():
     return auth.logout()
+
 
 @app.route('/admin/logoutgoogle', methods=['GET'])
 def logoutgoogle():
     return auth.logoutgoogle()
 
 # ---------------------------------------------------------------------
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -158,9 +164,11 @@ def modify_hotspots():
         database_req.update_hotspots(hotspots)
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
+        print("Invalid format error:")
         print(ex)
         return flask.jsonify(f"Error: {ex}")
     except Exception as ex:
+        print("General Error:")
         print(ex)
         return flask.jsonify("Error")
 

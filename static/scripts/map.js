@@ -61,13 +61,18 @@ map.on('load', async () => {
 
         const hotspot = getHotspot(id);
         makePopup(hotspot);
-
-
     });
 
     const popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false
+    });
+
+    $('#sidebar-toggle').click(function () {
+        console.log("resize!")
+        setTimeout(function () {
+            map.resize();
+        }, 450);
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
