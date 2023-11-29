@@ -247,8 +247,24 @@ body {
     margin-top: 5%;
 } 
 
-.tag {
-    margin-top: 1%;
+.custom-tag {
+    padding-left: -5%;
+}
+
+.filter-form {
+    background-color: #ced1d3;
+    border-radius: 10px; /* Adjust the value for the desired roundness */
+}
+
+.custom-checkbox {
+    border: 2px solid #555;
+    padding: 2px; 
+}
+
+/* Apply the custom style to checkboxes with the custom-checkbox class */
+.custom-checkbox .form-check-input {
+    width: 18px; /* Adjust width as needed */
+    height: 18px; /* Adjust height as needed */
 }
 
 /* .btn-outline-primary {
