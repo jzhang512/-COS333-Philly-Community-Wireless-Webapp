@@ -213,17 +213,18 @@ function addHotspot() {
     }
 
     let hotspot = buildHotspot();
+    console.log(hotspot);
 
     let addRequest = {
         type: 'POST',
         url: "/api/create_hotspots",
-        data: hotspot,
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
     $.ajax(addRequest);
     resetPaneView('new');
-    console.log("successfulyl modified!")
+    console.log("Hotspot created!")
 }
 
 function updateHotspot(id) {
@@ -243,7 +244,7 @@ function updateHotspot(id) {
 
     $.ajax(updateRequest);
     resetPaneView(id);
-    console.log("successfulyl modified!")
+    console.log("successfully modified!")
 }
 
 function deleteHotspot(id) {
