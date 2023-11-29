@@ -60,6 +60,7 @@ def index():
 @app.route('/admin/<path:admin_path>', methods=['GET'])
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
+def admin():
     user_email = auth.authenticate()
     if database_req.is_authorized_user(user_email):  # Check if the user is authorized
         html_code = flask.render_template('admin.html')
