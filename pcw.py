@@ -118,12 +118,13 @@ def create_hotspots():
         hotspots = flask.request.json
         print(hotspots)
         database_req.create_hotspots(hotspots)
+        print("Creation successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
-        print(ex)
+        print(f"Database Error: {ex}")
         return flask.jsonify(f"Error: {ex}")
     except Exception as ex:
-        print(ex)
+        print(f"Error: {ex}")
         return flask.jsonify("Error")
 
 
@@ -220,3 +221,20 @@ def reject_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
+    
+#############################   Delete   ###############################
+
+@app.route('/api/delete_hotspots', methods=['POST'])
+def delete_hotspots():
+    try:
+        hotspot_ids = flask.request.json
+        print(hotspot_ids)
+        database_req.remove_hotspots(hotspot_ids)
+        print("Deletion successful")
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")

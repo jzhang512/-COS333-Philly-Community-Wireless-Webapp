@@ -125,7 +125,7 @@ function makeHotspotCard(hotspot) {
     //'#select' + hotspot['pin_id']
 
     $('<label/>', { for: 'hotspot-title' + id, text: 'Title:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['name'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['location_name'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control mb-3', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
@@ -184,15 +184,15 @@ function buildHotspot(id = 'new') {
 
     for (let tag of tags) {
         if (newTags.includes(tag['tag_name'])) {
-            hotspot['tags'].push(tag);
+            hotspot['tags'].push(tag['tag_id']);
         }
     }
     hotspot['hotspot_id'] = id;
     hotspot['address'] = $('#hotspot-address' + id).val();
-    hotspot['title'] = $('#hotspot-title' + id).val();
-    hotspot['ul_speed'] = $('#hotspot-ul' + id).val();
-    hotspot['dl_speed'] = $('#hotspot-dl' + id).val();
-    hotspot['descrip'] = $('#hotspot-desc' + id).val();
+    hotspot['location_name'] = $('#hotspot-title' + id).val();
+    hotspot['upload_speed'] = $('#hotspot-ul' + id).val();
+    hotspot['download_speed'] = $('#hotspot-dl' + id).val();
+    hotspot['description'] = $('#hotspot-desc' + id).val();
     hotspot['latitude'] = $('#hotspot-lati' + id).val();
     hotspot['longitude'] = $('#hotspot-long' + id).val();
 
@@ -210,7 +210,7 @@ function addHotspot() {
     let addRequest = {
         type: 'POST',
         url: "/api/create_hotspots",
-        data: JSON.stringify(hotspot),
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
@@ -230,7 +230,7 @@ function updateHotspot(id) {
     let updateRequest = {
         type: 'POST',
         url: "/api/modify_hotspots",
-        data: JSON.stringify(hotspot),
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
@@ -240,6 +240,19 @@ function updateHotspot(id) {
 }
 
 function deleteHotspot(id) {
+    if (!verifyHotspot(id)) {
+        alert("error with verification");
+        return
+    }
+    
+    let deleteRequest = {
+        type: 'POST',
+        url: "/api/delete_hotspots",
+        data: JSON.stringify([id]),
+        contentType: 'application/json'
+    };
+
+    $.ajax(deleteRequest);
     console.log("deleted " + id);
     resetPaneView(id);
     return
@@ -277,8 +290,8 @@ function verifyHotspot(id = 'new') {
             }
             else {
                 console.log("CHANGING LONG/LAT");
-                $('#hotspot-lati' + id).val(points[0]['center'][0]);
-                $('#hotspot-long' + id).val(points[0]['center'][1]);
+                $('#hotspot-lati' + id).val(points[0]['center'][1]);
+                $('#hotspot-long' + id).val(points[0]['center'][0]);
             }
         },
         error: function () {
