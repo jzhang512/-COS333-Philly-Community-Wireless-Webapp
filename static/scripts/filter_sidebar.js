@@ -85,18 +85,25 @@ $(document).ready(async function() {
 
     categories.sort();
     categories.forEach((cat) => {
-        $('#filterView').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'));
+        $('#filterView').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'),
+            $('<div class=\"form-check filter-form\" id = \"form' + cat + '\"></div>')
+        );
     });
 
     tags.forEach((tag) => {
         let category = tag['category'];
         let tagName = tag['tag_name'];
         let tagId = tag['tag_id'];
-        $('#' + category + "tag").append(
-            $('<input type=\"checkbox\" class=\"btn-check\" id=\"btn-check' + tagId + '\" autocomplete=\"off\">'+
-            '<label class=\"btn btn-outline-secondary col-12\" for=\"btn-check' + tagId + '\">' + tagName + '</label></br>')
-        //    $('<br><input type=\"checkbox\" class=\"btn-check tag\" id=\"btn-check' + tagId + '\" autocomplete=\"off\">'+
-        //    '<br><label class=\"btn btn-outline-secondary\" for=\"btn-check' + tagId + '\">' + tagName + '</label>')
+        $('#form' + category).append(
+            $('<input class=\"form-check-input\" type=\"checkbox\" value=\"\" id=\"check' + tagId + '\">'+
+            '<label class=\"form-check-label col-12\" for=\"check' + tagId + '\">'+
+              tagName +
+            '</label>'), $('<br>')
+
+            // OLD attempt with button-like checkboxes.
+            // $('<input type=\"checkbox\" class=\"btn-check\" id=\"btn-check' + tagId + '\" autocomplete=\"off\">'+
+            // '<label class=\"btn btn-outline-secondary col-12\" for=\"btn-check' + tagId + '\">' + tagName + '</label><br>')
+            // $('<button type=\"button\" class=\"btn btn-outline-warning\">Warning</button><br>')
         );
     }
     );
