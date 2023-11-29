@@ -53,19 +53,13 @@
     </nav>
 
     <div class="wrapper">
-        <div class="sidebar collapse collapse-horizontal" id="collapseExample">
+        <div class="sidebar collapse collapse-horizontal outlined-component" id="collapseFilter">
+            {% include 'filterbar.html' %}
+        </div>
+        <div class = "col-sm-2">
             {% include 'searchbar.html' %}
         </div>
-        <div class="sidebar collapse collapse-horizontal" id="collapseExample">
-            {% include 'sidebar.html' %}
-        </div>
         <div id='map' class="map">
-            <div class="float-start z-2 position-absolute">
-                <button class="btn btn-primary m-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Filter
-                </button>
-            </div>
         </div>
     </div>
 
