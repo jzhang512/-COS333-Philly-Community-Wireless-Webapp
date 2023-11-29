@@ -85,8 +85,8 @@ $(document).ready(async function() {
 
     categories.sort();
     categories.forEach((cat) => {
-        $('#filterView').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'),
-            $('<div class=\"form-check filter-form\" id = \"form' + cat + '\"></div>'), $('<br>')
+        $('#filterView').append($('<h5 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h5>'),
+            $('<div class=\"form-check filter-form\" id = \"form' + cat + '\"></div>')
         );
     });
 
@@ -94,8 +94,8 @@ $(document).ready(async function() {
         let category = tag['category'];
         let tagName = tag['tag_name'];
         let tagId = tag['tag_id'];
-        $('#form' + category).append($('<div class="custom-tag"></div>').append(
-            $('<input class=\"form-check-input\" type=\"checkbox\" value=\"\" id=\"check' + tagId + '\">'),
+        $('#form' + category).append($('<div class=""></div>').append(
+            $('<input class=\"form-check-input custom-checkbox\" type=\"checkbox\" value=\"\" id=\"check' + tagId + '\">'),
             $('<label class=\"form-check-label col-12\" for=\"check' + tagId + '\">'+
               tagName +
             '</label>'), $('<br>'))

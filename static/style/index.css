@@ -216,7 +216,7 @@ body {
 }
 
 .sidebar {
-    width: 25%;
+    width: 20%;
     overflow-y: auto;
     text-wrap: nowrap;
     /* flex: 0 0 auto; */
@@ -239,30 +239,36 @@ body {
 }
 
 .outlined-component {
-    border: 2px solid #6c757d; 
+    border-right: 4px ridge #5162ed; 
 }
 
-#filterView {
+/* #filterView {
     margin-top: 5%;
-}
+} */
 
 .tagHeader {
-    margin-top: 5%;
-    background-color: #ced1d3;
-    border-radius: 20px; /* Adjust the value for the desired roundness */
+    margin-top: 7.5%;
+    /* background-color: #c9cad2;
+    border-bottom-right-radius: 20px;  */
 } 
 
-.custom-tag {
-    border: 3px solid #555;
-    border-radius: 20px; /* Adjust the value for the desired roundness */
+.custom-checkbox {
+    border-top: 1px solid #555;
+    border-right: 1px solid #555;
+    border-left: 2px solid #555;
+    border-bottom: 2px solid #555;
+    border-radius: 10px; 
 }
 
 .filter-form {
-    margin: 0 auto;
+    padding-left: 15%;
+    margin-left: 5%;
+    border: 1px solid #5162ed;
+    border-radius: 5px; /* Adjust the value for the desired roundness */
 }
 
 .custom-checkbox {
-    border: 2px solid #555;
+    border-left: 2px solid #555;
     padding: 2px; 
 }
 
