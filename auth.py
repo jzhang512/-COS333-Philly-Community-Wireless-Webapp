@@ -8,6 +8,7 @@ import json
 import requests
 import flask
 import oauthlib.oauth2
+import database_req as db
 
 # ---------------------------------------------------------------------
 GOOGLE_DISCOVERY_URL = ( 
@@ -110,8 +111,8 @@ def callback():
 
     #-------------------------------------------------------------------
     # For learning:
-    # print('userinfo_response.json():', userinfo_response.json(),
-    #     file=sys.stderr)
+    print('userinfo_response.json():', userinfo_response.json(),
+     file=sys.stderr)
     #-------------------------------------------------------------------
 
     # Optional: Make sure the user's email address is verified.
@@ -137,13 +138,15 @@ def callback():
     if userinfo_response.json().get('email_verified'):
         user_email = userinfo_response.json()['email']
         # Check if the user is authorized to access the admin page
-        if user_email in AUTHORIZED_USERS:
+        if db.is_authorized_user(user_email):
             # User is authorized, set session variables and redirect to admin page
+            print("this ran")
             flask.session['email'] = user_email
             # ... [set other session variables as needed] ...
             return flask.redirect(flask.url_for('admin'))
         else:
             # User is not authorized
+            print("that ran")
             return flask.redirect(flask.url_for('unauthorized'))  # Redirect to an 'unauthorized' route
     else:
         # Email is not verified
@@ -177,5 +180,9 @@ def authenticate():
 
     if 'email' not in flask.session:
         flask.abort(flask.redirect(flask.url_for('login')))
+
+    return flask.session.get('email')
+#-----------------------------------------------------------------------
+def checkAuthenticate():
 
     return flask.session.get('email')
