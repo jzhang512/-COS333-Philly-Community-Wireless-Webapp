@@ -57,13 +57,13 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    user_email = auth.authenticate()
-    if user_email in AUTHORIZED_USERS:  # Check if the user is authorized
+    # user_email = auth.authenticate()
+    # if user_email in AUTHORIZED_USERS:  # Check if the user is authorized
         html_code = flask.render_template('admin.html')
         response = flask.make_response(html_code)
         return response
-    else:
-        return flask.redirect(flask.url_for('unauthorized'))
+    # else:
+    #     return flask.redirect(flask.url_for('unauthorized'))
 
 
 @app.route('/api/hotspots', methods=['GET'])
