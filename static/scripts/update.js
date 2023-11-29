@@ -24,14 +24,14 @@ function setupMap() {
 
 function populateHotspots(hotspots) {
     console.log("populating!");
-    // $('body').addClass('overflow-hidden');
-    // $('#results-div').addClass('overflow-hidden');
-    $('<h2/>').addClass("m-3").text("Update/Add/Remove Hotspots").appendTo('#results-div');
-    let mainGrid = $('<div/>').addClass("row h-100 mt-3").appendTo('#results-div');
-    let hotspotsCol = $('<div/>').addClass("col-4 border-end").appendTo(mainGrid);
+    $('body').addClass('vh-100 mh-100 overflow-hidden');
+    $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
+    $('<h2/>').addClass("row m-3 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
+    let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
+    let hotspotsCol = $('<div/>').addClass("col-4 border-end mh-100 overflow-auto").appendTo(mainGrid);
     // $('<h2/>').text("Hotspots").appendTo(hotspotsCol);
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(hotspotsCol);
-    let pane = $('<div/>').addClass("col-8").appendTo(mainGrid);
+    let pane = $('<div/>').addClass("col-8 mh-100 overflow-auto").appendTo(mainGrid);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(pane);
     // listGroup.prop('role', 'tablist');
     // listGroup.prop('id', 'list-tab');
@@ -158,7 +158,7 @@ function makeHotspotCard(hotspot) {
     $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control mb-3', value: hotspot ? hotspot['dl_speed'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3'}).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
+    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3' }).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
 
     let add = $('<button/>', { type: 'submit', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
 
@@ -251,7 +251,7 @@ function deleteHotspot(id) {
         alert("error with verification");
         return
     }
-    
+
     let deleteRequest = {
         type: 'POST',
         url: "/api/delete_hotspots",
