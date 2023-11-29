@@ -388,6 +388,21 @@ def update_admin_username(admin_id, username):
 
 # ----------------------------------
 
+def check_authorized_user(admin_id):
+    """
+    Updates the username supplied by admin for own account.
+
+    admin_id: int
+    username: string (check for valid format)
+    """
+
+    # TODO validate format of data
+
+    db.write_data.update_admin_username(admin_id)
+
+    return
+# ----------------------------------
+
 def main():
     pending_reviews = get_pending_reviews()
 
