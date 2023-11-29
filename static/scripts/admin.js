@@ -1,10 +1,11 @@
 $('document').ready(setup);
 
+let siteTitle = "PCW Admin"
 
 function setup() {
     console.log("setup!");
     let path = window.location.pathname;
-
+    
     if (path == '/admin/update') {
         setupMap();
     }
@@ -18,6 +19,7 @@ function setup() {
 
 function setupDashboard() {
     $('#results-div').empty();
+    document.title = siteTitle;
 
     let mainDiv = $('<div/>').addClass("my-5").appendTo('#results-div');
     let row = $('<div/>').addClass("row").appendTo(mainDiv);
