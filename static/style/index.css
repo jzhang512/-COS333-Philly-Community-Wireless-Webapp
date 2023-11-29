@@ -248,15 +248,17 @@ body {
 
 .tagHeader {
     margin-top: 5%;
+    background-color: #ced1d3;
+    border-radius: 20px; /* Adjust the value for the desired roundness */
 } 
 
 .custom-tag {
-    padding-left: -5%;
+    border: 3px solid #555;
+    border-radius: 20px; /* Adjust the value for the desired roundness */
 }
 
 .filter-form {
-    background-color: #ced1d3;
-    border-radius: 10px; /* Adjust the value for the desired roundness */
+    margin: 0 auto;
 }
 
 .custom-checkbox {
