@@ -4,8 +4,9 @@ let tags = null;
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
+    document.title = siteTitle + " - Update Hotspots";
     $("#results-div").empty();
-
+    
     let requestData = {
         type: 'GET',
         url: "/api/hotspots",
@@ -24,8 +25,10 @@ function setupMap() {
 
 function populateHotspots(hotspots) {
     console.log("populating!");
+    // $('body').addClass('overflow-hidden');
+    // $('#results-div').addClass('overflow-hidden');
     $('<h2/>').addClass("m-3").text("Update/Add/Remove Hotspots").appendTo('#results-div');
-    let mainGrid = $('<div/>').addClass("row mt-3").appendTo('#results-div');
+    let mainGrid = $('<div/>').addClass("row h-100 mt-3").appendTo('#results-div');
     let hotspotsCol = $('<div/>').addClass("col-4 border-end").appendTo(mainGrid);
     // $('<h2/>').text("Hotspots").appendTo(hotspotsCol);
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(hotspotsCol);
@@ -56,6 +59,7 @@ function createNewHotspot() {
 
 function handleResponseMap(data) {
     hotspots = data;
+    hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
     populateHotspots(data);
 }
 
@@ -104,30 +108,36 @@ function makeHotspotCard(hotspot) {
     let id = hotspot ? hotspot['hotspot_id'] : 'new';
     // console.log(tags);
 
-    let tagDict = {};
+    // let tagDict = {};
     let tagList = [];
     if (hotspot != null) {
         for (let tag of hotspot['tags']) {
-            tagDict[tag['tag_id']] = tag['tag_name'];
+            // tagDict[tag['tag_id']] = tag['tag_name'];
             tagList.push(tag['tag_name']);
         }
     }
 
-    let selector = $("<select id=\"select" + id + "\" class=\"selectpicker\" multiple></select>");
+    let selector = $("<select id=\"select" + id + "\" class=\"selectpicker\" data-size=\"10\" data-width=\"50%\" multiple></select>");
+    let optGroups = ["Cost", "Establishment", "Accessibility", "Password", "Amenities"].map(category => {
+        return $(`<optgroup id="${category}${id}" label="${category}" data-max-options="1">`);
+    });
 
     for (let tag of tags) {
-        $("<option id=\"" + tag['tag_id'] + "\">" + tag['tag_name'] + "</option>").appendTo(selector);
+        let optGroup = optGroups.find(opt => opt.attr('id') == tag['category'] + id);
+        $("<option id=\"" + tag['tag_id'] + "\">" + tag['tag_name'] + "</option>").appendTo(optGroup);
     }
+    selector.append(optGroups);
 
-    if (tagList.length > 0)
+    if (tagList.length > 0) {
         selector.val(tagList);
-    //'#select' + hotspot['pin_id']
+    }
 
     $('<label/>', { for: 'hotspot-title' + id, text: 'Title:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['name'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control mb-3', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("Example: 123 NE 25th St. Princeton, NJ 08544").appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '', disabled: '' }).appendTo(hotspotCard);
@@ -150,10 +160,9 @@ function makeHotspotCard(hotspot) {
     $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control mb-3', value: hotspot ? hotspot['dl_speed'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3', value: hotspot ? hotspot['descrip'] : '' }).appendTo(hotspotCard);
+    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3'}).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
 
-    let add = $('<button/>', { type: 'button', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
-
+    let add = $('<button/>', { type: 'submit', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
 
     if (hotspot != null) {
         let del = $('<button/>', { type: 'button', class: 'btn btn-danger ms-2', text: 'Delete Hotspot' }).appendTo(hotspotCard);
@@ -183,17 +192,18 @@ function buildHotspot(id = 'new') {
 
     for (let tag of tags) {
         if (newTags.includes(tag['tag_name'])) {
-            hotspot['tags'].push(tag);
+            hotspot['tags'].push(tag['tag_id']);
         }
     }
-    hotspot['hotspot_id'] = id;
+    hotspot['hotspot_id'] = parseInt(id);
     hotspot['address'] = $('#hotspot-address' + id).val();
-    hotspot['title'] = $('#hotspot-title' + id).val();
-    hotspot['ul_speed'] = $('#hotspot-ul' + id).val();
-    hotspot['dl_speed'] = $('#hotspot-dl' + id).val();
-    hotspot['descrip'] = $('#hotspot-desc' + id).val();
-    hotspot['latitude'] = $('#hotspot-lati' + id).val();
-    hotspot['longitude'] = $('#hotspot-long' + id).val();
+    hotspot['location_name'] = $('#hotspot-title' + id).val();
+    hotspot['upload_speed'] = parseFloat($('#hotspot-ul' + id).val());
+    hotspot['download_speed'] = parseFloat($('#hotspot-dl' + id).val());
+    hotspot['description'] = $('#hotspot-desc' + id).val();
+    hotspot['latitude'] = parseFloat($('#hotspot-lati' + id).val());
+    hotspot['longitude'] = parseFloat($('#hotspot-long' + id).val());
+
 
     return hotspot;
 }
@@ -205,17 +215,18 @@ function addHotspot() {
     }
 
     let hotspot = buildHotspot();
+    console.log(hotspot);
 
     let addRequest = {
         type: 'POST',
         url: "/api/create_hotspots",
-        data: JSON.stringify(hotspot),
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
     $.ajax(addRequest);
     resetPaneView('new');
-    console.log("successfulyl modified!")
+    console.log("Hotspot created!")
 }
 
 function updateHotspot(id) {
@@ -229,16 +240,29 @@ function updateHotspot(id) {
     let updateRequest = {
         type: 'POST',
         url: "/api/modify_hotspots",
-        data: JSON.stringify(hotspot),
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
     $.ajax(updateRequest);
     resetPaneView(id);
-    console.log("successfulyl modified!")
+    console.log("successfully modified!")
 }
 
 function deleteHotspot(id) {
+    if (!verifyHotspot(id)) {
+        alert("error with verification");
+        return
+    }
+    
+    let deleteRequest = {
+        type: 'POST',
+        url: "/api/delete_hotspots",
+        data: JSON.stringify([id]),
+        contentType: 'application/json'
+    };
+
+    $.ajax(deleteRequest);
     console.log("deleted " + id);
     resetPaneView(id);
     return
@@ -247,6 +271,8 @@ function deleteHotspot(id) {
 function resetPaneView(id) {
     $('#list-' + id + '-tab').removeClass('active');
     $('#list-' + id).removeClass("active show");
+
+    setupMap();
 }
 
 function cancelQuery(id) {
@@ -275,9 +301,15 @@ function verifyHotspot(id = 'new') {
                 result = false;
             }
             else {
-                console.log("CHANGING LONG/LAT");
-                $('#hotspot-lati' + id).val(points[0]['center'][0]);
-                $('#hotspot-long' + id).val(points[0]['center'][1]);
+
+                $('#hotspot-lati' + id).val(points[0]['center'][1]);
+                $('#hotspot-long' + id).val(points[0]['center'][0]);
+
+                let start = points[0]['place_name'];
+                let index = start.indexOf(points[0]['properties']['address']);
+
+                $('#hotspot-address' + id).val(start.substring(index));
+                setTimeout(function () { }, 3000);
             }
         },
         error: function () {

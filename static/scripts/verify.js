@@ -3,6 +3,7 @@
 
 async function setupReview() {
     history.pushState(null, "Verify Reviews", "/admin/reviews");
+    document.title = siteTitle + " - Reviews"
     const response = await fetch("/api/pending_reviews");
     const reviews = await response.json();
     fillReviews(reviews);

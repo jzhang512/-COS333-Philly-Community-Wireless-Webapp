@@ -142,7 +142,7 @@ def remove_hotspots(remove_list):
     """
     
     # TODO validate format of data
-
+    remove_list = db.validate.validate_list_ints(remove_list, "hotspot ids")
     db.write_data.remove_hotspots(remove_list)
 
     return  # nothing to return
@@ -219,23 +219,30 @@ def create_hotspots(hotspots):
         address: string
         latitude: float
         longitude: float
-        upload_speed: real
-        download_speed: real
+        upload_speed: float
+        download_speed: float
         description: string
         tags: list of ints
     }
     """
 
     # TODO validate format of data for floats
-    fields = ['name', 'address', 'latitude', 'longitude', 'ul_speed', 
-              'dl_speed', 'descrip', 'tags']
-    db.validate.validate_list(hotspots)
-    for hotspot in hotspots:
+    fields = ['location_name', 'address', 'latitude', 'longitude', 
+              'upload_speed', 'download_speed', 'description', 'tags']
+    db.validate.validate_list(hotspots, "hotspots")
+    for i, hotspot in enumerate(hotspots):
+        print("validating")
         db.validate.check_fields(hotspot, "dict", fields)
-        db.validate.validate_str(hotspot['name'])
-        db.validate.validate_str(hotspot['address'])
-        db.validate.validate_str(hotspot['descrip'])
-        db.validate.validate_list_ints(hotspots['tags'])
+        db.validate.validate_str(hotspot['location_name'], "location name")
+        db.validate.validate_str(hotspot['address'], "address")
+        db.validate.validate_str(hotspot['description'], "description")
+        hotspot['latitude'] = db.validate.validate_float(hotspot['latitude'], 'latitude', range=(-90, 90))
+        hotspot['longitude'] = db.validate.validate_float(hotspot['longitude'], 'longitude', range=(-180, 180))
+        hotspot['upload_speed'] = db.validate.validate_float(hotspot['upload_speed'], 'upload_speed')
+        hotspot['download_speed'] = db.validate.validate_float(hotspot['download_speed'], 'download_speed')
+        hotspot['tags'] = db.validate.validate_list_ints(hotspot['tags'], "tags")
+        print(hotspot)
+        hotspots[i] = hotspot
 
     db.write_data.create_hotspots_imp(hotspots)
 
@@ -300,8 +307,7 @@ def delete_tags(tag_ids):
     tag_ids: list of ints
     """
 
-    # TODO validate format of data
-
+    tag_ids = db.validate.validate_list_ints(tag_ids, "tag ids")
     db.write_data.delete_existing_tags(tag_ids)
 
     return  # nothing to return
@@ -388,7 +394,19 @@ def update_admin_username(admin_id, username):
 
 # ----------------------------------
 
+def is_authorized_user(key: str = ""):
+    """
+    """
+
+    # TODO validate format of data
+
+    return db.read_data.is_authorized_user(key)
+# ----------------------------------
+
 def main():
+
+    print(is_authorized_user("cos333pcw@gmail.com"))
+
     pending_reviews = get_pending_reviews()
 
     for review in pending_reviews:

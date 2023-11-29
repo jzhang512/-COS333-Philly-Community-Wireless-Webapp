@@ -8,6 +8,7 @@ var map = new mapboxgl.Map({
 
 let active_id = null;
 let hotspots;
+let siteTitle = "Philly Wifi";
 
 // Empowers dynamic searching. 
 function getSearchResults() {
@@ -34,6 +35,8 @@ function setup() {
 }
 
 $(document).ready(async () => {
+    document.title = siteTitle;
+
     const response = await fetch("/api/hotspots");
     hotspots = await response.json();
 
@@ -51,18 +54,21 @@ $(document).ready(async () => {
     updateHotspotsList(hotspots);
 
     setup();
+    let queryString = window.location.search;
+    let params = new URLSearchParams(queryString);
+    if (params.has('hotspot_id')) {
+        let hotspot_id = params.get('hotspot_id');
+        console.log(hotspot_id);
+        let hotspot = getHotspot(hotspot_id);
+        if (hotspot != null) {
+            makePopup(hotspot);
+        } else {
+            history.pushState(null, "", "/")
+        }
+    }
 });
 
 map.on('load', async () => {
-    // Load hotspots and popup html
-    // const response = await fetch("/api/hotspots");
-    // hotspots = await response.json();
-
-    // if (hotspots == "Database Error") {
-    //     hotspots = [];
-    //     alert("Database Error");
-    // }
-
     map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
         (error, image) => {
@@ -71,7 +77,7 @@ map.on('load', async () => {
         });
 
     // Handle point-click on map
-    map.on('click', 'points', async (e) => {
+    map.on('click', 'circles', async (e) => {
         map.flyTo({
             center: e.features[0].geometry.coordinates
         });
@@ -89,13 +95,30 @@ map.on('load', async () => {
         makePopup(hotspot);
     });
 
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    $('#sidebar-toggle').click(function () {
+        console.log("resize!")
+        setTimeout(function () {
+            map.resize();
+        }, 450);
+    });
+
     // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'points', () => {
+    map.on('mouseenter', 'circles', (e) => {
         map.getCanvas().style.cursor = 'pointer';
+
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const title = e.features[0].properties.title;
+        popup.setLngLat(coordinates).setHTML('<p style="height: 0px"><strong>' + title + '</strong></p>').addTo(map);
     });
 
     // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'points', () => {
+    map.on('mouseleave', 'circles', () => {
         map.getCanvas().style.cursor = '';
+        popup.remove();
     });
 });
