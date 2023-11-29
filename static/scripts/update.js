@@ -28,10 +28,10 @@ function populateHotspots(hotspots) {
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
     let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
-    let hotspotsCol = $('<div/>').addClass("col-4 border-end mh-100 overflow-auto").appendTo(mainGrid);
+    let hotspotsCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
     // $('<h2/>').text("Hotspots").appendTo(hotspotsCol);
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(hotspotsCol);
-    let pane = $('<div/>').addClass("col-8 mh-100 overflow-auto").appendTo(mainGrid);
+    let pane = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(pane);
     // listGroup.prop('role', 'tablist');
     // listGroup.prop('id', 'list-tab');
