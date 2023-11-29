@@ -37,6 +37,7 @@ def logout():
 def logoutgoogle():
     return auth.logoutgoogle()
 
+
 @app.route('/unauthorized', methods=['GET'])
 def unauthorized():
     html_code = flask.render_template('unauthorized.html')
@@ -56,13 +57,13 @@ def index():
 # def search():
 
 
-
 @app.route('/admin/<path:admin_path>', methods=['GET'])
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin():
     user_email = auth.authenticate()
-    if database_req.is_authorized_user(user_email):  # Check if the user is authorized
+    # Check if the user is authorized
+    if database_req.is_authorized_user(user_email):
         html_code = flask.render_template('admin.html')
         response = flask.make_response(html_code)
         return response
@@ -70,6 +71,7 @@ def admin():
         html_code = flask.render_template('unauthorized.html')
         response = flask.make_response(html_code)
         return response
+
 
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
@@ -234,8 +236,9 @@ def reject_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-    
+
 #############################   Delete   ###############################
+
 
 @app.route('/api/delete_hotspots', methods=['POST'])
 def delete_hotspots():
