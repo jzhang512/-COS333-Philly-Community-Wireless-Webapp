@@ -131,7 +131,7 @@ function makeHotspotCard(hotspot) {
     }
 
     $('<label/>', { for: 'hotspot-title' + id, text: 'Title:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['location_name'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['name'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
@@ -158,7 +158,7 @@ function makeHotspotCard(hotspot) {
     $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control mb-3', value: hotspot ? hotspot['dl_speed'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3', value: hotspot ? hotspot['descrip'] : '' }).appendTo(hotspotCard);
+    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3'}).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
 
     let add = $('<button/>', { type: 'submit', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
 
@@ -195,10 +195,10 @@ function buildHotspot(id = 'new') {
     }
     hotspot['hotspot_id'] = parseInt(id);
     hotspot['address'] = $('#hotspot-address' + id).val();
-    hotspot['title'] = $('#hotspot-title' + id).val();
-    hotspot['ul_speed'] = parseFloat($('#hotspot-ul' + id).val());
-    hotspot['dl_speed'] = parseFloat($('#hotspot-dl' + id).val());
-    hotspot['descrip'] = $('#hotspot-desc' + id).val();
+    hotspot['location_name'] = $('#hotspot-title' + id).val();
+    hotspot['upload_speed'] = parseFloat($('#hotspot-ul' + id).val());
+    hotspot['download_speed'] = parseFloat($('#hotspot-dl' + id).val());
+    hotspot['description'] = $('#hotspot-desc' + id).val();
     hotspot['latitude'] = parseFloat($('#hotspot-lati' + id).val());
     hotspot['longitude'] = parseFloat($('#hotspot-long' + id).val());
 
@@ -297,8 +297,8 @@ function verifyHotspot(id = 'new') {
             }
             else {
 
-                $('#hotspot-lati' + id).val(points[0]['center'][0]);
-                $('#hotspot-long' + id).val(points[0]['center'][1]);
+                $('#hotspot-lati' + id).val(points[0]['center'][1]);
+                $('#hotspot-long' + id).val(points[0]['center'][0]);
 
                 let start = points[0]['place_name'];
                 let index = start.indexOf(points[0]['properties']['address']);
