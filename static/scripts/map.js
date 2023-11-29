@@ -8,8 +8,11 @@ var map = new mapboxgl.Map({
 
 let active_id = null;
 let hotspots;
+let siteTitle = "Philly Wifi";
 
 $(document).ready(async () => {
+    document.title = siteTitle;
+
     const response = await fetch("/api/hotspots");
     hotspots = await response.json();
 
@@ -25,18 +28,20 @@ $(document).ready(async () => {
     addLayer(features);
 
     updateHotspotsList(hotspots);
+
+    let queryString = window.location.search;
+    let params = new URLSearchParams(queryString);
+    if (params.has('hotspot_id')) {
+        let hotspot_id = params.get('hotspot_id');
+        console.log(hotspot_id);
+        let hotspot = getHotspot(hotspot_id);
+        if (hotspot != null) {
+            makePopup(hotspot);
+        }
+    }
 });
 
 map.on('load', async () => {
-    // Load hotspots and popup html
-    // const response = await fetch("/api/hotspots");
-    // hotspots = await response.json();
-
-    // if (hotspots == "Database Error") {
-    //     hotspots = [];
-    //     alert("Database Error");
-    // }
-
     map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
         (error, image) => {

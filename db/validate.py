@@ -33,6 +33,7 @@ def validate_int(val, name, range=None, string_allowed=True):
         assert range[0] <= range[1]
         if val < range[0] or val > range[1]:
             _raise(f"{name} must be in range {range}.", val)
+    return val
 
 
 def validate_float(val, name, range=None, string_allowed=True):
@@ -58,6 +59,7 @@ def validate_float(val, name, range=None, string_allowed=True):
         assert range[0] <= range[1]
         if val < range[0] or val > range[1]:
             _raise(f"{name} must be in range {range}.", val)
+    return val
 
 
 def validate_str(val, name):
@@ -69,6 +71,7 @@ def validate_str(val, name):
     """
     if (str(val) != val):
         _raise(f"{name} must be of type string.", val)
+    return val
 
 
 def check_fields(val, name, fields):
@@ -112,7 +115,8 @@ def validate_list_ints(val, name, string_allowed=True):
     """
     validate_list(val, name)
     for i, elem in enumerate(val):
-        validate_int(elem, f"Elem {i} of {name}", string_allowed=string_allowed)
+        val[i] = validate_int(elem, f"Elem {i} of {name}", string_allowed=string_allowed)
+    return val
 
 
 def validate_list_dicts(val, name, fields):

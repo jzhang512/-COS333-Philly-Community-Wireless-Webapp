@@ -11,6 +11,8 @@ import auth
 app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
+
+AUTHORIZED_USERS = ['cos333pcw@gmail.com']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -35,6 +37,12 @@ def logout():
 def logoutgoogle():
     return auth.logoutgoogle()
 
+@app.route('/unauthorized', methods=['GET'])
+def unauthorized():
+    html_code = flask.render_template('unauthorized.html')
+    response = flask.make_response(html_code)
+    return response
+
 # ---------------------------------------------------------------------
 
 
@@ -49,9 +57,13 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    html_code = flask.render_template('admin.html')
-    response = flask.make_response(html_code)
-    return response
+    user_email = auth.authenticate()
+    if user_email in AUTHORIZED_USERS:  # Check if the user is authorized
+        html_code = flask.render_template('admin.html')
+        response = flask.make_response(html_code)
+        return response
+    else:
+        return flask.redirect(flask.url_for('unauthorized'))
 
 
 @app.route('/api/hotspots', methods=['GET'])
@@ -112,12 +124,13 @@ def create_hotspots():
         hotspots = flask.request.json
         print(hotspots)
         database_req.create_hotspots(hotspots)
+        print("Creation successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
-        print(ex)
+        print(f"Database Error: {ex}")
         return flask.jsonify(f"Error: {ex}")
     except Exception as ex:
-        print(ex)
+        print(f"Error: {ex}")
         return flask.jsonify("Error")
 
 
@@ -216,3 +229,20 @@ def reject_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
+    
+#############################   Delete   ###############################
+
+@app.route('/api/delete_hotspots', methods=['POST'])
+def delete_hotspots():
+    try:
+        hotspot_ids = flask.request.json
+        print(hotspot_ids)
+        database_req.remove_hotspots(hotspot_ids)
+        print("Deletion successful")
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")

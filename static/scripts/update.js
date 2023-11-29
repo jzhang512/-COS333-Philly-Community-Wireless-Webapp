@@ -131,7 +131,7 @@ function makeHotspotCard(hotspot) {
     }
 
     $('<label/>', { for: 'hotspot-title' + id, text: 'Title:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['name'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['location_name'] : '' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
@@ -190,7 +190,7 @@ function buildHotspot(id = 'new') {
 
     for (let tag of tags) {
         if (newTags.includes(tag['tag_name'])) {
-            hotspot['tags'].push(tag);
+            hotspot['tags'].push(tag['tag_id']);
         }
     }
     hotspot['hotspot_id'] = parseInt(id);
@@ -201,6 +201,7 @@ function buildHotspot(id = 'new') {
     hotspot['descrip'] = $('#hotspot-desc' + id).val();
     hotspot['latitude'] = parseFloat($('#hotspot-lati' + id).val());
     hotspot['longitude'] = parseFloat($('#hotspot-long' + id).val());
+
 
     return hotspot;
 }
@@ -236,7 +237,7 @@ function updateHotspot(id) {
     let updateRequest = {
         type: 'POST',
         url: "/api/modify_hotspots",
-        data: JSON.stringify(hotspot),
+        data: JSON.stringify([hotspot]),
         contentType: 'application/json'
     };
 
@@ -246,6 +247,19 @@ function updateHotspot(id) {
 }
 
 function deleteHotspot(id) {
+    if (!verifyHotspot(id)) {
+        alert("error with verification");
+        return
+    }
+    
+    let deleteRequest = {
+        type: 'POST',
+        url: "/api/delete_hotspots",
+        data: JSON.stringify([id]),
+        contentType: 'application/json'
+    };
+
+    $.ajax(deleteRequest);
     console.log("deleted " + id);
     resetPaneView(id);
     return
@@ -282,7 +296,7 @@ function verifyHotspot(id = 'new') {
                 result = false;
             }
             else {
-                console.log("CHANGING LONG/LAT");
+
                 $('#hotspot-lati' + id).val(points[0]['center'][0]);
                 $('#hotspot-long' + id).val(points[0]['center'][1]);
 
