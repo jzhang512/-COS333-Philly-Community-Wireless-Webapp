@@ -17,7 +17,7 @@ function submitReview() {
     review["hotspot_id"] = active_id;
     review["rating"] = stars;
     review["text"] = $("#review-text").val();
-    review["time"] = new Date();
+    review["time"] = new Date().toLocaleDateString();
 
     let requestData = {
         type: 'POST',
