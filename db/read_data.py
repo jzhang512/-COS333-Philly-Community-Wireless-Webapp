@@ -168,6 +168,23 @@ def get_tags_category(cat: str = ""):
 
 
 # ---------------------------------------------------------------------
+def is_authorized_user(key: str = ""):
+    try:
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+        
+            query = (session.query(database.Admin)
+                    .filter(database.Admin.admin_key == key))
+            
+            result = query.one_or_none()  # Fetch one result or None if no match is found
+            return result is not None
+
+        # finally:
+        #     _engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+# ---------------------------------------------------------------------
 
 def main():
     print(get_pins_all())
@@ -182,6 +199,8 @@ def main():
     print(get_tags_category("Amenities"))
     print(get_tags_category("Type_Establishment"))
     print(get_tags_category("Accessibility"))
+
+    print(is_authorized_user("cos333pcw@gmail.com"))
 
 if __name__ == '__main__':
     main()
