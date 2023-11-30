@@ -52,7 +52,7 @@ function fillPopup(hotspot, reviews) {
     console.log(tags);
     for (let tag of tags) {
         let pill = $('<span>');
-        pill.addClass('badge rounded-pill text-bg-info mx-1').text(tag['tag_name']);
+        pill.addClass('badge text-bg-info mx-1 tag-onhotspot-display').text(tag['tag_name']);
         $('#tag-container').append(pill);
     }
 
@@ -65,8 +65,8 @@ function fillPopup(hotspot, reviews) {
     $('#descrip-div').empty();
     if (hotspot['descrip']) {
         console.log('activated descrip!');
-        let lbl = $('<strong>').text("Description:");
-        let content = $('<p>').text(hotspot['descrip']);
+        let lbl = $('<h5>').text("Description");
+        let content = $('<p>').addClass('descrip-content').text(hotspot['descrip']);
         $('#descrip-div').append(lbl, content);
     }
 
