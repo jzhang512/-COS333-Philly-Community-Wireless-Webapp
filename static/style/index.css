@@ -238,10 +238,9 @@ body {
     margin-left: 10px;
 }
 
-.searchbar-header {
-    margin-left: 2.5%;
-
-}
+/* .searchbar-header {
+    margin-left: 3.5%;
+} */
 
 .searchbar-sort {
     margin-top: 5%;
@@ -249,10 +248,12 @@ body {
 
 .sort-by-button {
     padding-top: 2.5%;
+    margin-bottom: 1px;
 }
 
-.choose-sort-button {
+.sort-button-choices {
     background-color:#3960a6 !important;
+    border: 1px solid #6c757d;
 }
 
 #filterView {
@@ -332,7 +333,7 @@ body {
     background-color: #fbfdff;
 }
 
-.search-box {
+.location-name-search-box {
     border: 1px solid #6c757d;
 }
 
