@@ -124,7 +124,7 @@ def callback():
 
     # flask.session['email'] = userinfo_response.json()['email']
     #flask.session['sub'] = userinfo_response.json()['sub']
-    #flask.session['name'] = userinfo_response.json()['name']
+    flask.session['name'] = userinfo_response.json()['name']
     #flask.session['given_name'] = (
     #    userinfo_response.json()['given_name'])
     #flask.session['family_name'] = (
@@ -142,6 +142,7 @@ def callback():
             # User is authorized, set session variables and redirect to admin page
             print("this ran")
             flask.session['email'] = user_email
+            flask.session['name'] = userinfo_response.json()['name']
             # ... [set other session variables as needed] ...
             return flask.redirect(flask.url_for('admin'))
         else:
@@ -164,15 +165,17 @@ def logout():
 #-----------------------------------------------------------------------
 
 def logoutgoogle():
-
     # Log out of the application.
     flask.session.clear()
 
-    # Log out of Google.
-    flask.abort(flask.redirect(
-        'https://mail.google.com/mail/u/0/?logout&hl=en'))
+    # Prepare the Google logout URL with a redirect to your app's callback route.
+    google_logout_url = 'https://mail.google.com/mail/u/0/?logout&hl=en'
+    app_logout_callback_url = flask.url_for('logout_google_callback', _external=True)
 
-    return flask.redirect(flask.url_for('index'))
+    print(f'{google_logout_url}&continue={app_logout_callback_url}')
+    # Redirect to Google logout with a callback to your app.
+    return flask.redirect(f'{google_logout_url}&continue={app_logout_callback_url}')
+
 
 #-----------------------------------------------------------------------
 
@@ -186,3 +189,7 @@ def authenticate():
 def checkAuthenticate():
 
     return flask.session.get('email')
+
+def getName():
+
+    return flask.session.get('name')
