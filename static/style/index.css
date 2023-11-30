@@ -80,7 +80,7 @@ article h6.title {
     right: 0;
     margin: auto;
     width: 23%;
-    min-width: 100px;
+    min-width: 250px;
     height: calc(100vh - 65px);
     margin-top: 65px;
     -webkit-transform: translate3d(0%, 0, 0);
@@ -228,18 +228,18 @@ body {
 
 #hotspotsList {
     padding-top: 2.5%;
-    padding-left: 5%;  
-    padding-right: 10%;  
+    padding-left: 5%;
+    padding-right: 10%;
 }
 
 .vertical-separator {
-    border-left: 1px solid #686666; 
-    height: 80%; 
-    margin-left: 10px; 
+    border-left: 1px solid #686666;
+    height: 80%;
+    margin-left: 10px;
 }
 
 .outlined-component {
-    border: 2px solid #6c757d; 
+    border: 2px solid #6c757d;
 }
 
 #filterView {
@@ -248,7 +248,7 @@ body {
 
 .tagHeader {
     margin-top: 5%;
-} 
+}
 
 .custom-tag {
     padding-left: -5%;
@@ -256,18 +256,21 @@ body {
 
 .filter-form {
     background-color: #ced1d3;
-    border-radius: 10px; /* Adjust the value for the desired roundness */
+    border-radius: 10px;
+    /* Adjust the value for the desired roundness */
 }
 
 .custom-checkbox {
     border: 2px solid #555;
-    padding: 2px; 
+    padding: 2px;
 }
 
 /* Apply the custom style to checkboxes with the custom-checkbox class */
 .custom-checkbox .form-check-input {
-    width: 18px; /* Adjust width as needed */
-    height: 18px; /* Adjust height as needed */
+    width: 18px;
+    /* Adjust width as needed */
+    height: 18px;
+    /* Adjust height as needed */
 }
 
 /* .btn-outline-primary {
