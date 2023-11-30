@@ -140,14 +140,12 @@ def callback():
         # Check if the user is authorized to access the admin page
         if db.is_authorized_user(user_email):
             # User is authorized, set session variables and redirect to admin page
-            print("this ran")
             flask.session['email'] = user_email
             flask.session['name'] = userinfo_response.json()['name']
             # ... [set other session variables as needed] ...
             return flask.redirect(flask.url_for('admin'))
         else:
             # User is not authorized
-            print("that ran")
             return flask.redirect(flask.url_for('unauthorized'))  # Redirect to an 'unauthorized' route
     else:
         # Email is not verified
@@ -170,7 +168,7 @@ def logoutgoogle():
 
     # Prepare the Google logout URL with a redirect to your app's callback route.
     google_logout_url = 'https://mail.google.com/mail/u/0/?logout&hl=en'
-    app_logout_callback_url = flask.url_for('logout_google_callback', _external=True)
+    app_logout_callback_url = flask.url_for('index', _external=True)
 
     print(f'{google_logout_url}&continue={app_logout_callback_url}')
     # Redirect to Google logout with a callback to your app.

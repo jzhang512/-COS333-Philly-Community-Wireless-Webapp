@@ -60,7 +60,8 @@ function createNewHotspot() {
 }
 
 function handleResponseMap(data) {
-    hotspots = data;
+    data['flag']
+    hotspots = data['data'];
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
     populateHotspots(data);
 }

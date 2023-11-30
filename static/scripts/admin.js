@@ -14,55 +14,7 @@ function setup() {
     }
     else if (path == '/admin' || path == '/admin/') {
         setupDashboard();
-    }
-
-    window.addEventListener("pageshow", function(event) {
-        if (event.persisted) {
-            // The page was loaded from the browser cache
-            checkSessionValidity();
-        }
-    });
-}
-
-function checkSessionValidity() {
-    // Make an AJAX request to check session status
-    $.ajax({
-        url: "/path-to-session-check-endpoint",
-        method: "GET",
-        success: function(response) {
-            if (!response.isLoggedIn) {
-                // Redirect to the login page if the session is not active
-                window.location.href = "/";
-            }
-        },
-        error: function() {
-            console.error('Error checking session');
-        }
-    });
-}
-
-// window.onpopstate = function(event) {
-//     console.log("switch!");
-//     if (event.state) {
-//         // Determine what to do based on the state
-//         // For example, if you store the name of the function to call in the state:
-//         switch (event.state.page) {
-//             case 'update':
-//                 console.log("update gang");
-//                 setupMap();
-//                 break;
-//             case 'reviews':
-//                 console.log("review gang");
-//                 setupReview();
-//                 break;
-//             case 'dashboard':
-//                 console.log("dashboard gang");
-//                 setupDashboard();
-//                 break;
-//             // ... other cases as needed
-//         }
-//     }
-// }
+    }    
 
 function setupDashboard() {
     $('#results-div').empty();

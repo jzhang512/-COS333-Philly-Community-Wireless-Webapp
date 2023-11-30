@@ -48,10 +48,7 @@ def unauthorized():
     html_code = flask.render_template('unauthorized.html')
     response = flask.make_response(html_code)
     return response
-
 # ---------------------------------------------------------------------
-
-
 @app.route('/', methods=['GET'])
 def index():
     html_code = flask.render_template('index.html')
@@ -185,6 +182,7 @@ def publish_review():
 
 @app.route('/api/modify_hotspots', methods=['POST'])
 def modify_hotspots():
+
     try:
         hotspots = flask.request.json
         print(hotspots)
