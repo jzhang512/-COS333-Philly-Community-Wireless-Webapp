@@ -74,12 +74,6 @@ $(document).ready(async () => {
 });
 
 map.on('load', async () => {
-    map.loadImage(
-        'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
-        (error, image) => {
-            if (error) throw error;
-            map.addImage('custom-marker', image);
-        });
 
     // Handle point-click on map
     map.on('click', 'circles', async (e) => {
@@ -105,9 +99,36 @@ map.on('load', async () => {
         closeOnClick: false
     });
 
-    $('.collapse').on('transitionend', function () {
-        // Your function here
+    $('.collapse').on('hidden.bs.collapse', function () {
         map.resize();
+    });
+
+    $('.collapse').on('shown.bs.collapse', function () {
+        console.log("Opened");
+        console.log($('.wrapper').innerWidth() * 0.125);
+
+        map.easeTo({
+            padding: {
+                left: 0,
+                right: $('.wrapper').innerWidth() * 0.125,
+                top: 0,
+                bottom: 0
+            },
+            duration: 400 // In ms. This matches the CSS transition duration property.
+        });
+    });
+
+    $('.collapse').on('hide.bs.collapse', function () {
+        console.log("Closed");
+        map.easeTo({
+            padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0
+            },
+            duration: 400 // In ms. This matches the CSS transition duration property.
+        });
     });
 
     // $('#sidebar-toggle').click(function () {
@@ -123,6 +144,8 @@ map.on('load', async () => {
 
         const coordinates = e.features[0].geometry.coordinates.slice();
         const title = e.features[0].properties.title;
+        let id = e.features[0].id;
+
         popup.setLngLat(coordinates).setHTML('<p style="height: 0px"><strong>' + title + '</strong></p>').addTo(map);
     });
 

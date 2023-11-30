@@ -15,12 +15,18 @@ aria-hidden="true">
                 <div class="container speeds-container">
                     <table class="table table-sm">
                         <tbody>
-                            <tr>
-                                <td>Upload Speed</td>
+                            <tr id="no-ul-speed">
+                                <td>No data for upload speed.</td>
+                            </tr>
+                            <tr id="ul-speed-container">
+                                <td>Upload</td>
                                 <td><strong id="ul-speed">0 Mbps</strong></td>
                             </tr>
-                            <tr>
-                                <td>Download Speed</td>
+                            <tr id="no-dl-speed">
+                                <td>No data for download speed.</td>
+                            </tr>
+                            <tr id="dl-speed-container">
+                                <td>Download</td>
                                 <td><strong id="dl-speed">0 Mbps</strong></td>
                             </tr>
                         </tbody>
@@ -30,6 +36,10 @@ aria-hidden="true">
                 <div class="container descrip-container" id="descrip-div">
                     <!-- <strong>Description:</strong>
                     <p>{{ desc }}</p> -->
+                </div>
+
+                <div class="container avg-rating-container">
+                    <h5 id="avg-rating">Average Rating: </h5>
                 </div>
 
                 <div class="container review-container d-flex justify-content-between">
