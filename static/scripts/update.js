@@ -23,8 +23,7 @@ function setupMap() {
     $.ajax(requestData);
 }
 
-function populateHotspots(hotspots) {
-    console.log("populating!");
+function setup(hotspots) {
     $('body').addClass('vh-100 mh-100 overflow-hidden');
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
@@ -32,20 +31,49 @@ function populateHotspots(hotspots) {
     
     let tabCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
     let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
+
+    let searchDiv = $('<div/>').appendTo(tabCol);
+
+    let search = $('<h5>').appendTo(searchDiv);
+    search.text('Search');
+    let searchBox = $('<input type="text" class="form-control search-box" id="search">').appendTo(searchDiv);
+    $('<br>').appendTo(searchDiv);
     
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
     // listGroup.prop('role', 'tablist');
     // listGroup.prop('id', 'list-tab');
 
-    for (let hotspot of hotspots) {
-        makeTabElem(hotspot).appendTo(tabGroup);
-        makePaneElem(hotspot).appendTo(paneGroup);
-    }
+    getSearchResults();
+    $('#search').on('input', debouncedGetResults);
 
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-hotspot', text: 'Add New' }).appendTo(tabCol);
     addNew.click(createNewHotspot);
     $(".selectpicker").selectpicker('render');
+}
+
+function populateHotspots(hotspots) {
+    $('#list-tab').empty();
+    $('#nav-tabContent').empty();
+    for (let hotspot of hotspots) {
+        makeTabElem(hotspot).appendTo('#list-tab');
+        makePaneElem(hotspot).appendTo('#nav-tabContent');
+    }
+}
+
+function getSearchResults() {
+    let query = $('#search').val();
+
+    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+
+    populateHotspots(by_name_hotspots);
+}
+
+let search_check_timer = null;
+
+function debouncedGetResults() {
+    clearTimeout(search_check_timer);
+    search_check_timer = setTimeout(getSearchResults, 500);
 }
 
 function createNewHotspot() {
@@ -61,7 +89,7 @@ function createNewHotspot() {
 function handleResponseMap(data) {
     hotspots = data;
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
-    populateHotspots(data);
+    setup(data);
 }
 
 function handleResponseTag(data) {
