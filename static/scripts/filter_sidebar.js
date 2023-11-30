@@ -134,6 +134,11 @@ $(document).ready(async function() {
     $('.filter-clear').on('click', function() {
         // Iterate through all checkboxes with class 'custom-filter-checkbox' and uncheck them
         $('.custom-filter-checkbox').prop('checked', false);
+
+        if (filterTagsId.length == 0) {
+            return;
+        }
+
         filterTagsId = [];  // global!
         getSearchResults();
     });
