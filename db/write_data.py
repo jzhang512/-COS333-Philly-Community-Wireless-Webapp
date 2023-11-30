@@ -358,7 +358,31 @@ def update_admin_username(admin_id, username):
      #     _engine.dispose()
 
 # ---------------------------------------------------------------------
+def add_new_admin(admin_to_add):
+    
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
+                   
+               for admin in admin_to_add:
 
+                    tag_name = admin["tag_name"]
+                    category = admin["category"]
+
+                    new_admin = {"tag_name": tag_name,
+                               "category": category}
+                    
+                    stmt = sqlalchemy.insert(db.Admin).values(new_admin)
+                    session.execute(stmt)
+    
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+          raise Exception("Database Error - Write")
+     # finally:
+     #     _engine.dispose()
+
+# ---------------------------------------------------------------------
 def main():
      # visualization_hotspots([23], False)
     #  to_update = [{
