@@ -1,3 +1,4 @@
+// Master function. 
 async function makePopup(hotspot) {
     // Send requests to your Flask server
     let id = hotspot['hotspot_id'];
@@ -28,12 +29,22 @@ async function makePopup(hotspot) {
     })
 }
 
+// Helper for makePopup().
 function fillPopup(hotspot, reviews) {
+
+    // Create query call for Google Map place search.
+    let query = hotspot['name'] + " " + hotspot['address'];
+    let en_query = encodeURIComponent(query);
+
+    let link = "https://www.google.com/maps/search/?api=1&query=" + en_query;
+
     // Add name
     $('#hotspot-title').text(hotspot['name']);
 
-    // Add address
-    $('#hotspot-address').text(hotspot['address']);
+    // Add address, linked to corresponding Google Map query.
+    $('#hotspot-googlemaps-link')
+        .attr('href', link)
+        .text(hotspot['address']);
 
     // Reset and add tags
     $('#tag-container').empty();
