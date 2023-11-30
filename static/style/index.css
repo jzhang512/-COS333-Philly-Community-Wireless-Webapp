@@ -323,3 +323,18 @@ body {
 /* .btn-outline-primary {
     color: #5162ed !important;
 } */
+
+/* hotspot_info_popup.html */
+
+.open-with-googlemaps-text {
+    font-size: 0.8em;
+    margin-top: -5%;
+}
+
+.title-address {
+    margin-top: 5%;
+}
+
+.hotspot-address-text {
+    margin-top: 5%;
+}
