@@ -16,7 +16,7 @@ async function makePopup(hotspot) {
         center: [hotspot['longitude'], hotspot['latitude']]
     })
 
-    history.replaceState(null, "", "?hotspot_id="+id);
+    history.replaceState(null, "", "?hotspot_id=" + id);
 
     $('#sidebar').modal('show');
 
@@ -99,7 +99,7 @@ function fillPopup(hotspot, reviews) {
 
 function makeStars(numStars) {
     let num = parseInt(numStars);
-    let container = $('<div>').addClass('d-flex justify-content-center');
+    let container = $('<div>').addClass('d-flex justify-content-start');
 
     for (let i = 0; i < num; i++) {
         let star = $('<span>').addClass("d-inline-block");

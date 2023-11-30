@@ -14,6 +14,12 @@ function fillReviews(reviews) {
 
     $('<h2/>').addClass("m-3").text("Approve/Deny Reviews").appendTo('#results-div');
 
+    if (reviews.length == 0) {
+        let empty = $('<p/>').addClass('m-3').text("No pending reviews at this time.");
+        $("#results-div").append(empty);
+        return;
+    }
+
     let mainGrid = $('<div/>').addClass("row main-grid");
     let reviewCol = $('<div/>').addClass("col-4").appendTo(mainGrid);
     let paneCol = $('<div/>').addClass("col-8").appendTo(mainGrid);
@@ -25,9 +31,6 @@ function fillReviews(reviews) {
     // let pane = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
 
 
-    if (reviews.length == 0) {
-        paneGroup.text("No pending reviews at this time.")
-    }
 
     for (let review of reviews) {
         // console.log(review);
@@ -120,10 +123,14 @@ async function manageReview(isVerify, id) {
     if (reviewCard && reviewTab) {
         reviewCard.remove();
         reviewTab.remove();
+    }
 
+    if (nextTab && nextCard) {
         nextTab.addClass('active');
         nextCard.addClass('active show');
     }
-
-
+    else {
+        let empty = $('<p/>').addClass('m-3').text("No pending reviews at this time.");
+        $("#results-div").append(empty);
+    }
 }
