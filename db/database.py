@@ -108,7 +108,7 @@ class Admin (Base):
     __tablename__ = "admin"
 
     admin_id = sqlalchemy.Column(sqlalchemy.Integer,
+                                 sqlalchemy.Sequence("admin_id_seq",
+                                                      start=7), 
                                  primary_key = True)
-    last_online = sqlalchemy.Column(sqlalchemy.String)
     admin_key = sqlalchemy.Column(sqlalchemy.String)    # validation
-    admin_username = sqlalchemy.Column(sqlalchemy.String)

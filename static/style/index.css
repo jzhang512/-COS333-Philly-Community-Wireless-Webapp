@@ -240,10 +240,19 @@ body {
 
 .searchbar-header {
     margin-left: 2.5%;
+
 }
 
-.find-near-button {
+.searchbar-sort {
+    margin-top: 5%;
+}
+
+.sort-by-button {
     padding-top: 2.5%;
+}
+
+.choose-sort-button {
+    background-color:#3960a6 !important;
 }
 
 #filterView {
