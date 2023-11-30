@@ -1,3 +1,4 @@
+// Master function. 
 async function makePopup(hotspot) {
     // Send requests to your Flask server
     let id = hotspot['hotspot_id'];
@@ -28,12 +29,22 @@ async function makePopup(hotspot) {
     })
 }
 
+// Helper for makePopup().
 function fillPopup(hotspot, reviews) {
+
+    // Create query call for Google Map place search.
+    let query = hotspot['name'] + " " + hotspot['address'];
+    let en_query = encodeURIComponent(query);
+
+    let link = "https://www.google.com/maps/search/?api=1&query=" + en_query;
+
     // Add name
     $('#hotspot-title').text(hotspot['name']);
 
-    // Add address
-    $('#hotspot-address').text(hotspot['address']);
+    // Add address, linked to corresponding Google Map query.
+    $('#hotspot-googlemaps-link')
+        .attr('href', link)
+        .text(hotspot['address']);
 
     // Reset and add tags
     $('#tag-container').empty();
@@ -41,7 +52,7 @@ function fillPopup(hotspot, reviews) {
     console.log(tags);
     for (let tag of tags) {
         let pill = $('<span>');
-        pill.addClass('badge rounded-pill text-bg-info mx-1').text(tag['tag_name']);
+        pill.addClass('badge text-bg-info mx-1 tag-onhotspot-display').text(tag['tag_name']);
         $('#tag-container').append(pill);
     }
 
@@ -54,8 +65,8 @@ function fillPopup(hotspot, reviews) {
     $('#descrip-div').empty();
     if (hotspot['descrip']) {
         console.log('activated descrip!');
-        let lbl = $('<strong>').text("Description:");
-        let content = $('<p>').text(hotspot['descrip']);
+        let lbl = $('<h5>').text("Description");
+        let content = $('<p>').addClass('descrip-content').text(hotspot['descrip']);
         $('#descrip-div').append(lbl, content);
     }
 

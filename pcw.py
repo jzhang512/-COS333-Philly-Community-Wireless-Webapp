@@ -12,7 +12,7 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-# AUTHORIZED_USERS = ['cos333pcw@gmail.com']
+valid_subpaths = [None,'update', 'reviews']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -38,6 +38,11 @@ def logoutgoogle():
     return auth.logoutgoogle()
 
 
+@app.route('/admin/logoutgoogle/callback', methods=['GET'])
+def logout_google_callback():
+    # Redirect to the index page after Google logout
+    return flask.redirect(flask.url_for('index'))
+
 @app.route('/unauthorized', methods=['GET'])
 def unauthorized():
     html_code = flask.render_template('unauthorized.html')
@@ -61,17 +66,19 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    # user_email = auth.authenticate()
-    # # Check if the user is authorized
-    # if database_req.is_authorized_user(user_email):
-    html_code = flask.render_template('admin.html')
-    response = flask.make_response(html_code)
-    return response
-    # else:
-    #     html_code = flask.render_template('unauthorized.html')
-    #     response = flask.make_response(html_code)
-    #     return response
+    if admin_path not in valid_subpaths:
+        flask.abort(404)
 
+    user_email = auth.checkAuthenticate()
+    user_name = auth.getName()
+    if database_req.is_authorized_user(user_email):  # Check if the user is authorized
+        html_code = flask.render_template('admin.html', name=user_name)
+        response = flask.make_response(html_code)
+        return response
+    else:
+        html_code = flask.render_template('unauthorized.html')
+        response = flask.make_response(html_code)
+        return response
 
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():

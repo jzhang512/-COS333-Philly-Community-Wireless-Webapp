@@ -10,11 +10,16 @@ let active_id = null;
 let hotspots;
 let siteTitle = "Philly Wifi";
 
+let filterTagsId = [];
+
 // Empowers dynamic searching. 
 function getSearchResults() {
     let query = $('#searchInput').val();
 
-    const filtered_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    console.log(filterTagsId);
+
+    filtered_hotspots = filterByTag(by_name_hotspots, filterTagsId);
 
     // Updates the map hotspots accordingly.
     features = generateFeatures(filtered_hotspots);

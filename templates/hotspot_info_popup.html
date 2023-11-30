@@ -1,0 +1,50 @@
+<div class="modal left fade" id="sidebar" tabindex="" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="nav flex-sm-column flex-row">
+                <div class="container title-address col-12">
+                    <h3 class = "hotspot-title" id="hotspot-title">Title</h3>
+                    <div class="container tag-container-display" id="tag-container"></div>
+
+                    <h6 class="hotspot-address-text" id="hotspot-address"><a id="hotspot-googlemaps-link" href="" target="childWindow">Address</a></h6>
+                    <i class = "open-with-googlemaps-text"><small>Click address to open with Google Maps.</small></i>
+                </div>
+
+                <div class="container speeds-container">
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <td>Upload</td>
+                                <td><strong id="ul-speed">0 Mbps</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Download</td>
+                                <td><strong id="dl-speed">0 Mbps</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="container descrip-container" id="descrip-div">
+                    <!-- <strong>Description:</strong>
+                    <p>{{ desc }}</p> -->
+                </div>
+
+                <div class="container review-container d-flex justify-content-between">
+                    <h5>Reviews</h5>
+                    <button id="add-review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
+                        data-bs-dismiss="modal" data-bs-toggle="modal">Add Review</button>
+                </div>
+                <br>
+                <div id="review-list" class="overflow-scroll review-content"></div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>

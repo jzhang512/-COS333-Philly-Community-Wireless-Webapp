@@ -216,7 +216,7 @@ body {
 }
 
 .sidebar {
-    width: 25%;
+    width: 20%;
     overflow-y: auto;
     text-wrap: nowrap;
     /* flex: 0 0 auto; */
@@ -238,31 +238,68 @@ body {
     margin-left: 10px;
 }
 
-.outlined-component {
-    border: 2px solid #6c757d;
+.searchbar-header {
+    margin-left: 2.5%;
+}
+
+.find-near-button {
+    padding-top: 2.5%;
 }
 
 #filterView {
-    margin-top: 5%;
+    margin-top: 2.5%;
+    margin-bottom: 5%;
+}
+
+.underline-border {
+    border-bottom: 2px solid #555;
 }
 
 .tagHeader {
-    margin-top: 5%;
+    margin-top: 7.5%;
+    margin-bottom: 1.5%;
+    /* background-color: #c9cad2;
+    border-bottom-right-radius: 20px;  */
+} 
+
+.filter-header {
+    margin-top: 7.5%;
 }
 
-.custom-tag {
-    padding-left: -5%;
+.header-text {
+    color: #5162ed;
+}
+
+.filter-clear {
+    text-decoration: none;
+    border: 1px solid #6c757d;
+    padding: 5%;
+    border-radius: 10px; 
+    cursor: pointer;
+}
+
+/* .btn-link {
+    text-decoration: none;
+  } */
+
+.custom-filter-checkbox {
+    border-top: 1px solid #555;
+    border-right: 1px solid #555;
+    border-left: 2px solid #555;
+    border-bottom: 2px solid #555;
+    border-radius: 10px; 
 }
 
 .filter-form {
-    background-color: #ced1d3;
-    border-radius: 10px;
-    /* Adjust the value for the desired roundness */
+    padding-left: 15%;
+    margin-left: 5%;
+    border: 1px solid #5162ed;
+    border-radius: 10px; 
 }
 
 .custom-checkbox {
-    border: 2px solid #555;
-    padding: 2px;
+    border-left: 2px solid #555;
+    padding: 2px; 
 }
 
 /* Apply the custom style to checkboxes with the custom-checkbox class */
@@ -273,6 +310,82 @@ body {
     /* Adjust height as needed */
 }
 
+.filter-bar-panel {
+    border-right: 2px solid #5162ed; 
+}
+
+.search-bar-panel {
+    background-color: #E1E6F6;
+    border-right: 4px solid #5162ed; 
+}
+
+.open-filter-button {
+    background-color: #fbfdff;
+}
+
+.search-box {
+    border: 1px solid #6c757d;
+}
+
 /* .btn-outline-primary {
     color: #5162ed !important;
 } */
+
+/* Hotspot Information Popup Styles */
+
+.open-with-googlemaps-text {
+    font-size: 0.8em;
+    margin-top: -5%;
+}
+
+.hotspot-title {
+    color: #5162ed;
+}
+
+.title-address {
+    margin-top: 2.5%;
+    background-color: #E1E6F6;
+    padding: 5%;
+    border-left: 4px solid #5162ed;
+    border-radius: 10px; 
+}
+
+.hotspot-address-text {
+    margin-top: 5%;
+    font-size: 0.8em;
+}
+
+.tag-onhotspot-display {
+    background-color: #3960a6!important;    /* override */
+    color: #fbfdff!important;
+}
+
+.tag-container-display {
+    padding: 0;
+    padding-bottom: 2.5%;
+}
+
+.speeds-container {
+    padding-top: 5%;
+}
+
+.descrip-container {
+    padding-top: 2.5%;
+}
+
+.descrip-content {
+    background-color: #E1E6F6;
+    padding: 5%;
+    border-radius: 10px; 
+}
+
+.review-container {
+    padding-top: 5%;
+}
+
+.review-content {
+    /* background-color: #E1E6F6;
+    padding: 2.5%;
+    border-radius: 10px;  */
+    height:40vh;
+}
