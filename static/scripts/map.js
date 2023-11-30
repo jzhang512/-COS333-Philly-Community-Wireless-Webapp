@@ -105,12 +105,17 @@ map.on('load', async () => {
         closeOnClick: false
     });
 
-    $('#sidebar-toggle').click(function () {
-        console.log("resize!")
-        setTimeout(function () {
-            map.resize();
-        }, 450);
+    $('.collapse').on('transitionend', function () {
+        // Your function here
+        map.resize();
     });
+
+    // $('#sidebar-toggle').click(function () {
+    //     console.log("resize!")
+    //     setTimeout(function () {
+    //         map.resize();
+    //     }, 450);
+    // });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
     map.on('mouseenter', 'circles', (e) => {
