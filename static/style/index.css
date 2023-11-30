@@ -238,10 +238,6 @@ body {
     margin-left: 10px; 
 }
 
-.outlined-component {
-    border-right: 4px ridge #5162ed; 
-}
-
 .hotspotHeader {
     margin-left: 2.55%;
 }
@@ -302,6 +298,19 @@ body {
 .custom-checkbox .form-check-input {
     width: 18px; /* Adjust width as needed */
     height: 18px; /* Adjust height as needed */
+}
+
+.filter-bar-panel {
+    border-right: 2px ridge #5162ed; 
+}
+
+.search-bar-panel {
+    background-color: #E1E6F6;
+    border-right: 4px ridge #5162ed; 
+}
+
+.open-filter-button {
+    background-color: #fbfdff;
 }
 
 /* .btn-outline-primary {
