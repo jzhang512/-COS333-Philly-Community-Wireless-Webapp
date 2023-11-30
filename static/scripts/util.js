@@ -5,6 +5,13 @@ function getHotspot(id) {
     return null;
 }
 
+function getTag(id) {
+    for (const tag of tags) {
+        if (tag['tag_id'] == id) return tag;
+    }
+    return null;
+}
+
 // function setup() {
 
 // }
