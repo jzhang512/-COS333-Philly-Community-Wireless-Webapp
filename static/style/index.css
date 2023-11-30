@@ -324,17 +324,61 @@ body {
     color: #5162ed !important;
 } */
 
-/* hotspot_info_popup.html */
+/* Hotspot Information Popup Styles */
 
 .open-with-googlemaps-text {
     font-size: 0.8em;
     margin-top: -5%;
 }
 
+.hotspot-title {
+    color: #5162ed;
+}
+
 .title-address {
-    margin-top: 5%;
+    margin-top: 2.5%;
+    background-color: #E1E6F6;
+    padding: 5%;
+    border-left: 4px solid #5162ed;
+    border-radius: 10px; 
 }
 
 .hotspot-address-text {
     margin-top: 5%;
+    font-size: 0.8em;
+}
+
+.tag-onhotspot-display {
+    background-color: #3960a6!important;    /* override */
+    color: #fbfdff!important;
+}
+
+.tag-container-display {
+    padding: 0;
+    padding-bottom: 2.5%;
+}
+
+.speeds-container {
+    padding-top: 5%;
+}
+
+.descrip-container {
+    padding-top: 2.5%;
+}
+
+.descrip-content {
+    background-color: #E1E6F6;
+    padding: 5%;
+    border-radius: 10px; 
+}
+
+.review-container {
+    padding-top: 5%;
+}
+
+.review-content {
+    /* background-color: #E1E6F6;
+    padding: 2.5%;
+    border-radius: 10px;  */
+    height:40vh;
 }
