@@ -60,17 +60,17 @@ def index():
 @app.route('/admin/<path:admin_path>', methods=['GET'])
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
-def admin():
-    user_email = auth.authenticate()
-    # Check if the user is authorized
-    if database_req.is_authorized_user(user_email):
-        html_code = flask.render_template('admin.html')
-        response = flask.make_response(html_code)
-        return response
-    else:
-        html_code = flask.render_template('unauthorized.html')
-        response = flask.make_response(html_code)
-        return response
+def admin(admin_path=None):
+    # user_email = auth.authenticate()
+    # # Check if the user is authorized
+    # if database_req.is_authorized_user(user_email):
+    html_code = flask.render_template('admin.html')
+    response = flask.make_response(html_code)
+    return response
+    # else:
+    #     html_code = flask.render_template('unauthorized.html')
+    #     response = flask.make_response(html_code)
+    #     return response
 
 
 @app.route('/api/hotspots', methods=['GET'])
