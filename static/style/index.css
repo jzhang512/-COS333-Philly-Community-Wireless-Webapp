@@ -301,16 +301,20 @@ body {
 }
 
 .filter-bar-panel {
-    border-right: 2px ridge #5162ed; 
+    border-right: 2px solid #5162ed; 
 }
 
 .search-bar-panel {
     background-color: #E1E6F6;
-    border-right: 4px ridge #5162ed; 
+    border-right: 4px solid #5162ed; 
 }
 
 .open-filter-button {
     background-color: #fbfdff;
+}
+
+.search-box {
+    border: 1px solid #6c757d;
 }
 
 /* .btn-outline-primary {
