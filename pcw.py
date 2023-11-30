@@ -62,31 +62,16 @@ def index():
 
 
 
-
+@app.route('/admin/<path:admin_path>', methods=['GET'])
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
-def admin():
+def admin(admin_path=None):
+    if admin_path not in valid_subpaths:
+        flask.abort(404)
+
     user_email = auth.checkAuthenticate()
     user_name = auth.getName()
     if database_req.is_authorized_user(user_email):  # Check if the user is authorized
-        html_code = flask.render_template('admin.html', name=user_name)
-        response = flask.make_response(html_code)
-        return response
-    else:
-        html_code = flask.render_template('unauthorized.html')
-        response = flask.make_response(html_code)
-        return response
-
-@app.route('/admin/<path:subpath>', methods=['GET'])
-def adminReviews(subpath):
-    user_email = auth.checkAuthenticate()
-    user_name = auth.getName()
-
-    if subpath not in valid_subpaths:
-        flask.abort(404)
-        
-    if database_req.is_authorized_user(user_email):
-        user_name = auth.getName()
         html_code = flask.render_template('admin.html', name=user_name)
         response = flask.make_response(html_code)
         return response
