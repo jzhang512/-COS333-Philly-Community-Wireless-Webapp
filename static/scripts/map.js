@@ -10,11 +10,16 @@ let active_id = null;
 let hotspots;
 let siteTitle = "Philly Wifi";
 
+let filterTagsId = [];
+
 // Empowers dynamic searching. 
 function getSearchResults() {
     let query = $('#searchInput').val();
 
-    const filtered_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    console.log(filterTagsId);
+
+    filtered_hotspots = filterByTag(by_name_hotspots, filterTagsId);
 
     // Updates the map hotspots accordingly.
     features = generateFeatures(filtered_hotspots);
@@ -100,12 +105,17 @@ map.on('load', async () => {
         closeOnClick: false
     });
 
-    $('#sidebar-toggle').click(function () {
-        console.log("resize!")
-        setTimeout(function () {
-            map.resize();
-        }, 450);
+    $('.collapse').on('transitionend', function () {
+        // Your function here
+        map.resize();
     });
+
+    // $('#sidebar-toggle').click(function () {
+    //     console.log("resize!")
+    //     setTimeout(function () {
+    //         map.resize();
+    //     }, 450);
+    // });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
     map.on('mouseenter', 'circles', (e) => {
