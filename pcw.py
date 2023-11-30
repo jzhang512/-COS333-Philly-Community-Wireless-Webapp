@@ -37,6 +37,7 @@ def logout():
 def logoutgoogle():
     return auth.logoutgoogle()
 
+
 @app.route('/admin/logoutgoogle/callback', methods=['GET'])
 def logout_google_callback():
     # Redirect to the index page after Google logout
@@ -60,9 +61,12 @@ def index():
 # @app.route('/search', methods=['GET'])
 # def search():
 
+<<<<<<< HEAD
 
 
 @app.route('/admin/<path:admin_path>', methods=['GET'])
+=======
+>>>>>>> 89d3185787b05c3be9fc40b5fb7ad51e3de2f6d5
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
@@ -243,8 +247,9 @@ def reject_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
-    
+
 #############################   Delete   ###############################
+
 
 @app.route('/api/delete_hotspots', methods=['POST'])
 def delete_hotspots():

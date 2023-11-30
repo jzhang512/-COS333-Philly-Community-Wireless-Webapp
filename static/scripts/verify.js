@@ -14,125 +14,116 @@ function fillReviews(reviews) {
 
     $('<h2/>').addClass("m-3").text("Approve/Deny Reviews").appendTo('#results-div');
 
-    let grid = $('<div/>').addClass("row main-grid");
-    let reviewList = $('<div/>').addClass("col reviews");
-    let activeCard = $('<div/>').addClass("col card active-card").text("No review selected.");
-    activeCard.prop('id', 'active-card');
+    let mainGrid = $('<div/>').addClass("row main-grid");
+    let reviewCol = $('<div/>').addClass("col-4").appendTo(mainGrid);
+    let paneCol = $('<div/>').addClass("col-8").appendTo(mainGrid);
+
+    // let activeCol = $('<div/>', { id: 'active-card', class: 'col card active-card' }).text("No review selected.").appendTo(mainGrid);
+    let reviewGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(reviewCol); // reviews class add
+    let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
+
+    // let pane = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
+
 
     if (reviews.length == 0) {
-        reviewList.text("No pending reviews at this time.")
+        paneGroup.text("No pending reviews at this time.")
     }
 
     for (let review of reviews) {
-        console.log(review);
+        // console.log(review);
+        let infoTab = {
+            class: 'list-group-item list-group-item-action',
+            id: 'list-' + review['review_id'] + '-tab',
+            'data-bs-toggle': 'list',
+            href: '#list-' + review['review_id'],
+            role: 'tab',
+            'aria-controls': 'list-' + review['review_id'],
+            text: "Review " + review['review_id']
+        };
 
-        let revCard = $("<div/>").addClass("row card review-elem");
-        revCard.prop('id', review['review_id']);
-        let revTitle = $("<div/>").addClass("card-title").text("Review " + review['review_id'])
+        $('<a/>', infoTab).appendTo(reviewGroup);
 
-        revCard.append(revTitle);
-        reviewList.append(revCard);
+        let infoPane = {
+            class: 'tab-pane fade border rounded',
+            id: 'list-' + review['review_id'],
+            role: 'tabpanel',
+            'aria-labelledby': 'list-' + review['review_id'] + '-list'
+        };
 
-        revCard.click(function () {
-            displayActive(review);
-        });
+        let currPane = $('<div/>', infoPane).append(makeReviewCard(review));
+        currPane.appendTo(paneGroup);
     }
-    grid.append(reviewList, activeCard);
-    $("#results-div").append(grid);
-
+    $('#results-div').append(mainGrid);
 }
 
-function displayActive(review) {
+function makeReviewCard(review) {
     console.log("display active");
-    let activeDiv = $('#active-card');
-    activeDiv.empty();
+    let reviewCard = $('<div/>').addClass("m-3");
 
-    if (review == null) {
-        const cardText = document.createElement("p");
-        cardText.textContent = "No review selected";
-        activeDiv.appendChild(cardText);
+    console.log("creating active card!");
+    let cardBody = $('<div/>').addClass('card-body').appendTo(reviewCard);
+
+    $('<h5/>').addClass('card-title').text("Review " + review["review_id"]).appendTo(cardBody);
+    let stars = makeStars(review["stars"]);
+    stars.appendTo(cardBody);
+
+    $('<p/>').text(review['time']).appendTo(cardBody);
+    $('<p/>').text(review['text']).appendTo(cardBody);
+
+    let approve = $('<button/>', { id: 'approve', class: 'btn btn-success', text: 'Approve' }).appendTo(cardBody);
+    let deny = $('<button/>', { id: 'deny', class: 'btn btn-danger ms-2', text: 'Deny' }).appendTo(cardBody);
+    reviewCard.append(cardBody);
+
+    approve.click(function () {
+        manageReview(true, review["review_id"]);
+    });
+
+    deny.click(function () {
+        manageReview(false, review["review_id"]);
+    });
+
+    return reviewCard;
+}
+
+function makeStars(numStars) {
+    console.log("making stars!");
+    let num = parseInt(numStars);
+    let container = $('<div>').addClass('d-flex my-2 justify-content-start');
+
+    for (let i = 0; i < num; i++) {
+        let star = $('<span>').addClass("d-inline-block");
+        let icon = document.createElement("i");
+        icon.classList.add("fas", "fa-star", "star");
+        star.append(icon);
+        container.append(star);
     }
 
-    else {
-        console.log("creating active card!");
-        // const cardDiv = document.createElement("div");
-        // cardDiv.classList.add("card");
-        const cardBody = document.createElement("div");
-        cardBody.classList.add("card-body");
-        const cardTitle = document.createElement("h5")
-        cardTitle.classList.add("card-title");
-        const title = document.createTextNode("Review " + review["review_id"]);
-        const starsPara = document.createElement("p");
-        const stars = document.createTextNode("Stars: " + review["stars"]);
-        const timePara = document.createElement("p");
-        const time = document.createTextNode(review['time']);
-        const bodyPara = document.createElement("p");
-        const body = document.createTextNode(review['text']);
-        const verify = document.createElement("button");
-        verify.textContent = "Verify";
-        verify.classList.add("btn");
-        verify.classList.add("btn-primary");
-        verify.classList.add("verify");
-        verify.id = 'verify';
-        const deny = document.createElement("button");
-        deny.textContent = "Deny";
-        deny.id = 'deny';
-        deny.classList.add("btn");
-        deny.classList.add("btn-primary");
-        deny.classList.add("deny");
-
-
-        cardTitle.appendChild(title);
-        starsPara.appendChild(stars);
-        timePara.appendChild(time);
-        bodyPara.appendChild(body);
-
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(starsPara);
-        cardBody.appendChild(timePara);
-        cardBody.appendChild(bodyPara);
-        cardBody.appendChild(verify);
-        cardBody.appendChild(deny);
-
-        // cardDiv.appendChild(cardBody);
-        activeDiv.append(cardBody);
-
-        verify.addEventListener('click', function () {
-            manageReview(true, review["review_id"]);
-        });
-        deny.addEventListener('click', function () {
-            manageReview(false, review["review_id"]);
-        });
-    }
+    return container
 }
 
 async function manageReview(isVerify, id) {
     if (isVerify) {
-        // Load hotspots and popup html
-        const response = await fetch("/api/approve_review?id=" + id, { method: "POST" });
-        const reviewCard = document.getElementById(id);
-        if (reviewCard)
-            reviewCard.remove();
-
-        const activeDiv = document.getElementById("active-card");
-        activeDiv.innerHTML = '';
-        const cardText = document.createElement("p");
-        cardText.textContent = "No review selected";
-        activeDiv.appendChild(cardText);
-
+        // Approve this review
+        await fetch("/api/approve_review?id=" + id, { method: "POST" });
     }
     else {
-        // Load hotspots and popup html
-        const response = await fetch("/api/reject_review?id=" + id, { method: "POST" });
-        const reviewCard = document.getElementById(id);
-        if (reviewCard) {
-            console.log("remove" + id);
-            reviewCard.remove();
-        }
-        const activeDiv = document.getElementById("active-card");
-        activeDiv.innerHTML = '';
-        const cardText = document.createElement("p");
-        cardText.textContent = "No review selected";
-        activeDiv.appendChild(cardText);
+        // Deny this review
+        await fetch("/api/reject_review?id=" + id, { method: "POST" });
     }
+
+    let reviewTab = $('#list-' + id + '-tab');
+    let reviewCard = $('#list-' + id);
+
+    let nextTab = reviewTab.next();
+    let nextCard = reviewCard.next();
+
+    if (reviewCard && reviewTab) {
+        reviewCard.remove();
+        reviewTab.remove();
+
+        nextTab.addClass('active');
+        nextCard.addClass('active show');
+    }
+
+
 }
