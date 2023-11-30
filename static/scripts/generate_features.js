@@ -1,14 +1,20 @@
+// If tagIds is empty, no filtering done. All hotspots returned.
 function filterByTag(hotspots, tagIds=[]) {
     let hotspotsFiltered = [];
+
+    // No filter.
+    if (tagIds.length == 0) {
+        return hotspots;
+    }
 
     hotspots.forEach((hotspot) => {
         hotspotTagIds = new Set();
         hotspot['tags'].forEach((tag) => hotspotTagIds.add(tag['tag_id']));
 
-        // if hotspot doesn't have right tags then move to next one
-        add = true;
+        // Add if hotspot has a least 1 tag filtered for.
+        add = false;
         tagIds.forEach((id) => {
-            if (!hotspotTagIds.has(id)) add = false;
+            if (hotspotTagIds.has(id)) add = true;
         })
         if (add) hotspotsFiltered.push(hotspot);
     })

@@ -242,17 +242,43 @@ body {
     border-right: 4px ridge #5162ed; 
 }
 
-/* #filterView {
-    margin-top: 5%;
-} */
+.hotspotHeader {
+    margin-left: 2.55%;
+}
+
+#filterView {
+    margin-top: 2.5%;
+    margin-bottom: 5%;
+}
+
+.underline-border {
+    border-bottom: 2px solid #555;
+}
 
 .tagHeader {
     margin-top: 7.5%;
+    margin-bottom: 1.5%;
     /* background-color: #c9cad2;
     border-bottom-right-radius: 20px;  */
 } 
 
-.custom-checkbox {
+.filter-header {
+    margin-top: 7.5%;
+}
+
+.header-text {
+    color: #5162ed;
+}
+
+.filter-clear {
+    text-decoration: none;
+}
+
+/* .btn-link {
+    text-decoration: none;
+  } */
+
+.custom-filter-checkbox {
     border-top: 1px solid #555;
     border-right: 1px solid #555;
     border-left: 2px solid #555;
@@ -264,7 +290,7 @@ body {
     padding-left: 15%;
     margin-left: 5%;
     border: 1px solid #5162ed;
-    border-radius: 5px; /* Adjust the value for the desired roundness */
+    border-radius: 10px; 
 }
 
 .custom-checkbox {
