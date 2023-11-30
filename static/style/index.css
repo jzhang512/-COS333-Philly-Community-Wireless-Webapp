@@ -238,8 +238,12 @@ body {
     margin-left: 10px; 
 }
 
-.hotspotHeader {
-    margin-left: 2.55%;
+.searchbar-header {
+    margin-left: 2.5%;
+}
+
+.find-near-button {
+    padding-top: 2.5%;
 }
 
 #filterView {
