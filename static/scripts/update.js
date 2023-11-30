@@ -3,6 +3,7 @@ let hotspots = null;
 let tags = null;
 
 function setupMap() {
+    // history.pushState({ page: 'update' }, "Update Map", "/admin/update");
     history.pushState(null, "Update Map", "/admin/update");
     document.title = siteTitle + " - Update Hotspots";
     $("#results-div").empty();
