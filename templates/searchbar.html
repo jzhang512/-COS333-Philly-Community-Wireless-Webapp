@@ -1,7 +1,7 @@
 <div class="row mt-3 mx-auto">
     <div class = "input-group">
         <div class="col-sm-9">
-            <input type="text" class="form-control search-box"
+            <input type="text" class="form-control location-name-search-box"
             id="searchInput" placeholder = "Location Name" autoFocus>
         </div>
         <div class="col-sm-3">
@@ -16,24 +16,22 @@
     </div>
 </div>
 
-<div class = "container row mx-auto searchbar-sort">
+<div class = "container searchbar-sort">
     <div class="col-sm-12">
-        <p class="sort-by-button"><small>Sort By</small></p>
+        <p class="sort-by-button header-text"><small>Sort By</small></p>
     </div>
     <div class="col-sm-7">
         <div class="btn-group" role="group" aria-label="Sort By">
-            <button type="button" class="btn btn-secondary btn-sm choose-sort-button">Alphabetical</button>
-            <button type="button" class="btn btn-secondary btn-sm choose-sort-button">Distance</button>
+            <button type="button" class="btn btn-secondary btn-sm sort-button-choices">Alphabetical</button>
+            <button type="button" class="btn btn-secondary btn-sm sort-button-choices">Distance</button>
           </div>
     </div>
 </div>
 
 <br>
 
-<header class="card-header">
-    <div class = "row mx-auto">
-        <h4 class="searchbar-header header-text">Hotspots</h4> 
-    </div>
+<header class="card-header row mx-auto">
+    <h4 class="searchbar-header header-text">Hotspots</h4> 
 </header>
 
 <div class="overflow-auto list-group" id="hotspotsList"></div>
