@@ -365,11 +365,9 @@ def add_new_admin(admin_to_add):
                    
                for admin in admin_to_add:
 
-                    tag_name = admin["tag_name"]
-                    category = admin["category"]
+                    admin_key = admin["admin_key"]
 
-                    new_admin = {"tag_name": tag_name,
-                               "category": category}
+                    new_admin = {"admin_key": admin_key}
                     
                     stmt = sqlalchemy.insert(db.Admin).values(new_admin)
                     session.execute(stmt)
