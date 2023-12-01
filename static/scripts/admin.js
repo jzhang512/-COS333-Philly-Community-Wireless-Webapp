@@ -21,11 +21,11 @@ function setupDashboard() {
     $('#results-div').empty();
     document.title = siteTitle;
 
-    let mainDiv = $('<div/>').addClass("my-5").appendTo('#results-div');
+    let mainDiv = $('<div/>').addClass("m-5").appendTo('#results-div');
     let row = $('<div/>').addClass("row").appendTo(mainDiv);
-    let pending = $('<div/>', { role: 'button', class: 'jumbo m-2 col p-5 text-center rounded-3', id: 'pending-review' });
-    let update = $('<div/>', { role: 'button', class: 'jumbo m-2 col p-5 text-center rounded-3', id: 'update-map' });
-    let admin = $('<div/>', { role: 'button', class: 'jumbo m-2 col p-5 text-center rounded-3', id: 'manage-admin' });
+    let pending = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'pending-review' });
+    let update = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'update-map' });
+    let admin = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'manage-admin' });
 
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Pending Reviews").appendTo(pending);
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Update Map").appendTo(update);

@@ -67,6 +67,7 @@ function getSearchResults() {
     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
 
     populateHotspots(by_name_hotspots);
+    $(".selectpicker").selectpicker('render');
 }
 
 let search_check_timer = null;
@@ -325,12 +326,10 @@ function verifyHotspot(id = 'new') {
         success: function (data) {
             let points = data['features']
             if (points.length == 0) {
-                console.log("ADDRESS ERROR!");
-                alert("address invalid");
+                alert("No valid address found. Please try again.");
                 result = false;
             }
             else {
-
                 $('#hotspot-lati' + id).val(points[0]['center'][1]);
                 $('#hotspot-long' + id).val(points[0]['center'][0]);
 
@@ -338,7 +337,7 @@ function verifyHotspot(id = 'new') {
                 let index = start.indexOf(points[0]['properties']['address']);
 
                 $('#hotspot-address' + id).val(start.substring(index));
-                setTimeout(function () { }, 3000);
+                setTimeout(function () { }, 4000);
             }
         },
         error: function () {
