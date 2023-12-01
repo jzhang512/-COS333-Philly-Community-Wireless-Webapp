@@ -92,6 +92,7 @@ def get_pending_reviews():
     A review should have the following fields:
     {
         pin_id: int
+        TODO name: string
         review_id: int
         text: string
         stars: int (1-5)
