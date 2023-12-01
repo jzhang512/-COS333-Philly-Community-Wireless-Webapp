@@ -14,7 +14,8 @@ function setup() {
     }
     else if (path == '/admin' || path == '/admin/') {
         setupDashboard();
-    }    
+    }   
+}
 
 function setupDashboard() {
     $('#results-div').empty();
