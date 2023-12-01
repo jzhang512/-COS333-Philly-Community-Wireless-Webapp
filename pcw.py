@@ -12,7 +12,7 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-valid_subpaths = [None, 'update', 'reviews']
+valid_subpaths = [None, 'update', 'reviews', 'manage']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -64,19 +64,19 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    # if admin_path not in valid_subpaths:
-    #     flask.abort(404)
+    if admin_path not in valid_subpaths:
+        flask.abort(404)
 
-    # user_email = auth.checkAuthenticate()
-    # user_name = auth.getName()
-    # if database_req.is_authorized_user(user_email):  # Check if the user is authorized
-    html_code = flask.render_template('admin.html', name="sample")
-    response = flask.make_response(html_code)
-    return response
-    # else:
-    #     html_code = flask.render_template('unauthorized.html')
-    #     response = flask.make_response(html_code)
-    #     return response
+    user_email = auth.checkAuthenticate()
+    user_name = auth.getName()
+    if database_req.is_authorized_user(user_email):  # Check if the user is authorized
+        html_code = flask.render_template('admin.html', name=user_name)
+        response = flask.make_response(html_code)
+        return response
+    else:
+        html_code = flask.render_template('unauthorized.html')
+        response = flask.make_response(html_code)
+        return response
 
 
 @app.route('/api/hotspots', methods=['GET'])
@@ -168,6 +168,23 @@ def publish_review():
         review = flask.request.json
         print(review)
         database_req.add_user_review(review)
+        return flask.jsonify("Success")
+    except ValueError as ex:
+        print(ex)
+        return flask.jsonify(f"Error: hotspot_id and rating must be ints.")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
+
+@app.route('/api/add_admin', methods=['POST'])
+def add_admin():
+    try:
+        admin = flask.request.json
+        print(admin)
+        database_req.add_new_admin(admin)
         return flask.jsonify("Success")
     except ValueError as ex:
         print(ex)

@@ -358,21 +358,19 @@ def update_admin_username(admin_id, username):
      #     _engine.dispose()
 
 # ---------------------------------------------------------------------
-def add_new_admin(admin_to_add):
+def add_new_admin(admin_key):
     
      try:
           with sqlalchemy.orm.Session(_engine) as session:
                    
-               for admin in admin_to_add:
-
-                    admin_key = admin["admin_key"]
-
-                    new_admin = {"admin_key": admin_key}
+               new_admin = {"admin_key": admin_key}
                     
-                    stmt = sqlalchemy.insert(db.Admin).values(new_admin)
-                    session.execute(stmt)
-    
+               stmt = sqlalchemy.insert(db.Admin).values(new_admin)
+                    
+               session.execute(stmt)
+                    
                session.commit()
+
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
@@ -419,6 +417,8 @@ def main():
      # update_tags_imp([{"tag_id":18, "tag_name":"testtest","category":"cat"}])
 
      # update_admin_username(87, "Jahhhmeezz")
+
+     add_new_admin("test@email.com")
 
      return
 
