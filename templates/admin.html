@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="{{url_for('static', filename='images/pcwlogo.svg')}}" alt="Logo" width="120" height="40">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -34,13 +34,18 @@
                         <a class="nav-link" href="/admin/reviews">Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/update">Hotspots</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/logoutgoogle">Logout</a>
+                        <a class="nav-link" href="/admin/update">Update Map</a>
                     </li>
                 </ul>
-                <span class="d-flex me-2 nav-item" style="color: whitesmoke;">User: {{name}}</span>
+                <div class="d-flex me-2 nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Hello, {{name}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                        <li><a class="dropdown-item" href="/admin/logoutgoogle">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
