@@ -171,10 +171,10 @@ function makeHotspotCard(hotspot) {
 
     $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '', disabled: '' }).appendTo(hotspotCard);
-
+    
     $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '', disabled: '' }).appendTo(hotspotCard);
-
+    
     $('<label/>', { for: 'hotspot-tags' + id, text: 'Tags:', class: 'form-label' }).appendTo(hotspotCard);
     // $('<input/>', { type: 'text', id: 'hotspot-tags', class: 'form-control', 'aria-describedby': 'tag-info', value: tags }).appendTo(hotspotCard);
     $("<br/>").appendTo(hotspotCard);
@@ -184,10 +184,12 @@ function makeHotspotCard(hotspot) {
     // $('<div/>', { class: 'form-text mb-3', id: 'tag-info', text: 'Enter tags as a comma-delimited list' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-ul' + id, text: 'Upload Speed:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-ul' + id, class: 'form-control mb-3', value: hotspot ? hotspot['ul_speed'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-ul' + id, class: 'form-control', value: hotspot ? hotspot['ul_speed'] : '-1' }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("-1 for unknown (won't be displayed)").appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-dl' + id, text: 'Download Speed:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control mb-3', value: hotspot ? hotspot['dl_speed'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control', value: hotspot ? hotspot['dl_speed'] : '-1' }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("-1 for unknown (won't be displayed)").appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
     $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3' }).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
