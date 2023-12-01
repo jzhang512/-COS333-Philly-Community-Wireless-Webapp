@@ -49,7 +49,10 @@ def unauthorized():
     html_code = flask.render_template('unauthorized.html')
     response = flask.make_response(html_code)
     return response
+
 # ---------------------------------------------------------------------
+
+
 @app.route('/', methods=['GET'])
 def index():
     html_code = flask.render_template('index.html')
@@ -64,19 +67,20 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    # if admin_path not in valid_subpaths:
-    #     flask.abort(404)
+    if admin_path not in valid_subpaths:
+        flask.abort(404)
 
-    # user_email = auth.checkAuthenticate()
-    # user_name = auth.getName()
-    # if database_req.is_authorized_user(user_email):  # Check if the user is authorized
-    html_code = flask.render_template('admin.html', name="sample")
-    response = flask.make_response(html_code)
-    return response
-    # else:
-    #     html_code = flask.render_template('unauthorized.html')
-    #     response = flask.make_response(html_code)
-    #     return response
+    user_email = auth.checkAuthenticate()
+    user_name = auth.getName()
+    # Check if the user is authorized
+    if database_req.is_authorized_user(user_email):
+        html_code = flask.render_template('admin.html', name=user_name)
+        response = flask.make_response(html_code)
+        return response
+    else:
+        html_code = flask.render_template('unauthorized.html')
+        response = flask.make_response(html_code)
+        return response
 
 
 @app.route('/api/hotspots', methods=['GET'])
@@ -184,7 +188,6 @@ def publish_review():
 
 @app.route('/api/modify_hotspots', methods=['POST'])
 def modify_hotspots():
-
     try:
         hotspots = flask.request.json
         print(hotspots)
