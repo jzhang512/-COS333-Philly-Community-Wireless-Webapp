@@ -238,9 +238,7 @@ body {
     margin-left: 10px;
 }
 
-/* .searchbar-header {
-    margin-left: 3.5%;
-} */
+/* Search bar styling. */
 
 .searchbar-sort {
     margin-top: 5%;
@@ -251,9 +249,18 @@ body {
     margin-bottom: 1px;
 }
 
-.sort-button-choices {
-    background-color:#3960a6 !important;
+.sort-button-unclicked {
+    background-color:#fbfdff !important;
+    color: grey !important;
     border: 1px solid #6c757d;
+    white-space: nowrap;
+}
+
+.sort-button-clicked {
+    background-color:#3960a6 !important;
+    color: white !important;
+    border: 1px solid #6c757d;
+    white-space: nowrap;
 }
 
 #filterView {
@@ -303,8 +310,11 @@ body {
 .filter-form {
     padding-left: 15%;
     margin-left: 5%;
-    border: 1px solid #5162ed;
-    border-radius: 10px; 
+    border-left: 1px solid #5162ed;
+    border-top: 1px solid #5162ed;
+    border-bottom: 1px solid #5162ed;
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px; 
 }
 
 .custom-checkbox {
@@ -327,10 +337,15 @@ body {
 .search-bar-panel {
     background-color: #E1E6F6;
     border-right: 4px solid #5162ed; 
+    width: 25%;
 }
 
 .open-filter-button {
     background-color: #fbfdff;
+}
+
+#toggleFilterBack {
+    cursor: pointer;
 }
 
 .location-name-search-box {

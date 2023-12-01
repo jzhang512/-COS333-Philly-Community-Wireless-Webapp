@@ -54,7 +54,7 @@
         <div class="sidebar collapse collapse-horizontal filter-bar-panel" id="collapseFilter">
             {% include 'filterbar.html' %}
         </div>
-        <div class="col-sm-2 search-bar-panel">
+        <div class="search-bar-panel">
             {% include 'searchbar.html' %}
         </div>
         <div id='map' class="map">
@@ -153,6 +153,7 @@
     <script src="{{url_for('static', filename='scripts/map.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/newReview.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/filter_sidebar.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/searchbar.js')}}"></script>
 </body>
 
 </html>

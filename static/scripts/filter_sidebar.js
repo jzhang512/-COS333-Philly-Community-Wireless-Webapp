@@ -35,46 +35,6 @@ $(document).ready(async function() {
     tags.sort((a, b) => a['tag_name'].localeCompare(b['tag_name']))
     console.log
 
-    // $("#sidebarToggle").click(function() {
-    //     console.log("toggled")
-    //     $("#leftSidebar").toggleClass("left-sidebar-active");
-    //     // $("#map").toggleClass("active-sidebar-map");
-    //     // $("#nav-bar").toggleClass("navbar-active-sidebar")
-    // });
-
-     $('#apply-filter').click(function() {
-        // Find the ID of the checked radio button
-        let tagArray = []
-
-        if ($('input[name="btnCost"]:checked').attr('id'))
-            tagArray.push(parseInt($('input[name="btnCost"]:checked').attr('id')));
-        if ($('input[name="btnEstablishment"]:checked').attr('id'))
-            tagArray.push(parseInt($('input[name="btnEstablishment"]:checked').attr('id')));
-        if ($('input[name="btnAccessibility"]:checked').attr('id'))
-            tagArray.push(parseInt($('input[name="btnAccessibility"]:checked').attr('id')));
-        if ($('input[name="btnPassword"]:checked').attr('id'))    
-            tagArray.push(parseInt($('input[name="btnPassword"]:checked').attr('id')));
-
-        console.log('Selected Radio Button ID:', tagArray);
-
-        hotspotsFiltered = filterByTag(hotspots, tagArray);
-        features = generateFeatures(hotspotsFiltered);
-        addLayer(features, remove=true);
-        updateHotspotsList(hotspotsFiltered);
-    });
-
-    $('#clear-filter').click(function() {
-        console.log('Clear filter');
-        $('input[name="btnCost"]').prop('checked', false);
-        $('input[name="btnEstablishment"]').prop('checked', false);
-        $('input[name="btnAccessibility"]').prop('checked', false);
-        $('input[name="btnPassword"]').prop('checked', false);
-
-        features = generateFeatures(hotspots);
-        addLayer(features, remove=true);
-        updateHotspotsList(hotspots);
-    })
-
     categories = [];
     tags.forEach((tag) => {
         let category = tag['category'];
@@ -99,11 +59,6 @@ $(document).ready(async function() {
             $('<label class=\"form-check-label col-12\" for=\"check' + tagId + '\">'+
               tagName +
             '</label>'), $('<br>'))
-
-            // OLD attempt with button-like checkboxes.
-            // $('<input type=\"checkbox\" class=\"btn-check\" id=\"btn-check' + tagId + '\" autocomplete=\"off\">'+
-            // '<label class=\"btn btn-outline-secondary col-12\" for=\"btn-check' + tagId + '\">' + tagName + '</label><br>')
-            // $('<button type=\"button\" class=\"btn btn-outline-warning\">Warning</button><br>')
         );
     }
     );
@@ -142,16 +97,4 @@ $(document).ready(async function() {
         filterTagsId = [];  // global!
         getSearchResults();
     });
-
-    // tags.forEach((tag) => {
-    //     let category = tag['category'];
-    //     let tagName = tag['tag_name'];
-    //     let tagId = tag['tag_id'];
-    //     $('#' + category + "tag").append(
-    //         $('<label class="form-check form-check-inline"></label>').append(
-    //             $('<input name=btn' + category + ' id=' + tagId +' type="radio" ></input>'),
-    //             $('<span> </span>').text(tagName)
-    //         )
-    //     );
-    // });
 });
