@@ -6,7 +6,7 @@ function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
     document.title = siteTitle + " - Update Hotspots";
     $("#results-div").empty();
-    
+
     let requestData = {
         type: 'GET',
         url: "/api/hotspots",
@@ -28,7 +28,7 @@ function setup(hotspots) {
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
     let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
-    
+
     let tabCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
     let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
 
@@ -38,7 +38,7 @@ function setup(hotspots) {
     search.text('Search');
     let searchBox = $('<input type="text" class="form-control search-box" id="search">').appendTo(searchDiv);
     $('<br>').appendTo(searchDiv);
-    
+
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
     // listGroup.prop('role', 'tablist');
@@ -191,10 +191,10 @@ function makeHotspotCard(hotspot) {
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
     $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3' }).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
 
-    let add = $('<button/>', { type: 'submit', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
+    let add = $('<button/>', { type: 'submit', class: 'btn btn-success me-2 mt-2', text: 'Save Changes' }).appendTo(hotspotCard);
 
     if (hotspot != null) {
-        let del = $('<button/>', { type: 'button', class: 'btn btn-danger ms-2', text: 'Delete Hotspot' }).appendTo(hotspotCard);
+        let del = $('<button/>', { type: 'button', class: 'btn btn-danger me-2 mt-2', text: 'Delete Hotspot' }).appendTo(hotspotCard);
         del.click(function () {
             deleteHotspot(id);
         });
@@ -208,7 +208,7 @@ function makeHotspotCard(hotspot) {
         });
     }
 
-    let cancel = $('<button/>', { type: 'button', class: 'btn btn-secondary ms-2', text: 'Cancel' }).appendTo(hotspotCard);
+    let cancel = $('<button/>', { type: 'button', class: 'btn btn-secondary me-2 mt-2', text: 'Cancel' }).appendTo(hotspotCard);
     cancel.click(function () { cancelQuery(id) });
     return hotspotCard;
 }
