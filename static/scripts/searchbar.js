@@ -58,41 +58,49 @@ function updateDistances(coords) {
     }
 }
 
-// Get user's geolocation, if they allow it.
-function getLocation() {
+// Get user's geolocation, if they allow it. Pass callback to ensure 
+// some styling is properly followed (no function default).
+function getLocation(callback = ()=>{}) {
     if (navigator.geolocation) {
         console.log("Geolocation supported");
         
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                callback(); // remove "lock"
+                $('#sort_distance').removeClass('sort-button-disabled');
+                $('#sort_distance').addClass('sort-button-unclicked');
                 console.log("Current position:", position);
                 user_coords = [position['coords']['longitude'], position['coords']['latitude']];
                 updateDistances(user_coords);
-                return true;
             },
             (error) => {
+                callback(); // remove "lock"
+                $('#sort_distance').removeClass('sort-button-unclicked');
+                $('#sort_distance').addClass('sort-button-disabled');
                 console.error("Error getting position:", error);
                 user_coords = null;
-                return false;
             }
         );
     } 
     else {
+        callback(); // remove "lock"
+        $('#sort_distance').removeClass('sort-button-unclicked');
+        $('#sort_distance').addClass('sort-button-disabled');
         console.log("Geolocation not supported");
         user_coords = null;
-        return false;
     }
 }
 
 
 $(document).ready(async function() {
 
-    // if (location_intially_shared == undefined) {
-    //     $('#sort_distance').addClass('sort-button-disabled');
-    // }
-    // else {
-    //     $('#sort_distance').addClass('sort-button-unclicked');
-    // }
+    // Try to get user location upon document load. DONE IN MAP.JS.
+    // So it is AFTER the creation of hotspots.
+
+    // getLocation();
+    // $('#sort_distance').removeAttr('disabled', 'disabled');
+    // $('#sort_distance').addClass('btn-secondary');
+   
 
     $('#sort_alphabetical').click(function() {
         toggleSortSelection(true);
@@ -106,9 +114,17 @@ $(document).ready(async function() {
             map.flyTo({
                 center: user_coords
             })
-        }
 
-        toggleSortSelection(false);
+            toggleSortSelection(false);
+            $('#sort_distance').removeClass('sort-button-disabled');
+        }
+        else {
+            alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");
+
+            // // Color like disabled button. Good compromise?
+            // $('#sort_distance').addClass('sort-button-disabled');
+            // $('#sort_distance').removeClass('sort-button-unclicked');
+        }
 
         // if (success == undefined) {
         //     alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");

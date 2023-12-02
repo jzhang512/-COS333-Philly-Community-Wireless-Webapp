@@ -40,6 +40,8 @@ function setup() {
 }
 
 $(document).ready(async () => {
+
+    // The initial setup.
     document.title = siteTitle;
 
     const response = await fetch("/api/hotspots");
@@ -53,7 +55,12 @@ $(document).ready(async () => {
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
 
     // Get initial location
-    getLocation();
+    getLocation(function () {
+        // Styling. Must occur after we know that we can access user's
+        // location.
+        $('#sort_distance').removeAttr('disabled', 'disabled');
+        $('#sort_distance').addClass('btn-secondary');
+    });
 
     // call script to generate data for geojson
     features = generateFeatures(hotspots);
