@@ -6,6 +6,7 @@ let tags;
 // or filter. Filtering should be done externally.
 function updateHotspotsList(hotspots) {
     $('#hotspotsList').empty();
+    displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
         $('#hotspotsList').append(
@@ -20,7 +21,7 @@ function updateHotspotsList(hotspots) {
         let hotspot = getHotspot(id);
         
         makePopup(hotspot);
-     });
+    });
 }
 
 $(document).ready(async function() {
@@ -33,7 +34,6 @@ $(document).ready(async function() {
     }
 
     tags.sort((a, b) => a['tag_name'].localeCompare(b['tag_name']))
-    console.log
 
     categories = [];
     tags.forEach((tag) => {
