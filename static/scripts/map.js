@@ -17,7 +17,6 @@ function getSearchResults() {
     let query = $('#searchInput').val();
 
     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
-    console.log(filterTagsId);
 
     filtered_hotspots = filterByTag(by_name_hotspots, filterTagsId);
 
@@ -63,7 +62,6 @@ $(document).ready(async () => {
     let params = new URLSearchParams(queryString);
     if (params.has('hotspot_id')) {
         let hotspot_id = params.get('hotspot_id');
-        console.log(hotspot_id);
         let hotspot = getHotspot(hotspot_id);
         if (hotspot != null) {
             makePopup(hotspot);
@@ -104,8 +102,6 @@ map.on('load', async () => {
     });
 
     $('.collapse').on('shown.bs.collapse', function () {
-        console.log("Opened");
-        console.log($('.wrapper').innerWidth() * 0.125);
 
         map.easeTo({
             padding: {
@@ -119,7 +115,6 @@ map.on('load', async () => {
     });
 
     $('.collapse').on('hide.bs.collapse', function () {
-        console.log("Closed");
         map.easeTo({
             padding: {
                 left: 0,
