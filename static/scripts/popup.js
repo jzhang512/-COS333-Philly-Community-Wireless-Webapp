@@ -16,7 +16,6 @@ async function makePopup(hotspot) {
     });
     let avgScore = numReviews > 0 ? sum / numReviews : -1;
     avgScore = avgScore.toFixed(2);
-    console.log("Avg Score - " + avgScore);
 
     // call script to populate popup with information
     fillPopup(hotspot, avgScore, reviews);
@@ -32,7 +31,6 @@ async function makePopup(hotspot) {
     document.title = siteTitle + " - " + hotspot['name'];
 
     $('#sidebar').on('hide.bs.modal', () => {
-        console.log("closing");
         history.pushState(null, "", "/");
         document.title = siteTitle;
     })
@@ -58,7 +56,6 @@ function fillPopup(hotspot, avgScore, reviews) {
     // Reset and add tags
     $('#tag-container').empty();
     let tags = hotspot['tags'];
-    console.log(tags);
     for (let tag of tags) {
         let pill = $('<span>');
         pill.addClass('badge text-bg-info mx-1 tag-onhotspot-display').text(tag['tag_name']);
@@ -88,7 +85,6 @@ function fillPopup(hotspot, avgScore, reviews) {
     // Add description
     $('#descrip-div').empty();
     if (hotspot['descrip']) {
-        console.log('activated descrip!');
         let lbl = $('<h5>').text("Description");
         let content = $('<p>').addClass('descrip-content').text(hotspot['descrip']);
         $('#descrip-div').append(lbl, content);
@@ -111,7 +107,6 @@ function fillPopup(hotspot, avgScore, reviews) {
     }
 
     for (let review of reviews) {
-        console.log(review);
         let card = $('<div>').addClass('card');
         let body = $('<div>').addClass('card-body');
         let title = $('<h5>').addClass('card-title');

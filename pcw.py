@@ -192,6 +192,7 @@ def modify_hotspots():
         hotspots = flask.request.json
         print(hotspots)
         database_req.update_hotspots(hotspots)
+        database_req.update_hotspot_tags(hotspots)
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print("Invalid format error:")
