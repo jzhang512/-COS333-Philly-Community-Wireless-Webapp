@@ -112,8 +112,8 @@ function fillPopup(hotspot, avgScore, reviews) {
         let title = $('<h5>').addClass('card-title');
         // .text("Review " + review['pin_id']);
         let starDiv = makeStars(review['stars']);
-        let timeFoot = $('<div>').addClass('card-footer').text(review['time']);
-        let text = $('<p>').text(review['text']);
+        let timeFoot = $('<div>').addClass('card-footer text-end review-time-text').text(review['time']);
+        let text = $('<div>').text(review['text']);
         $('<br/>').appendTo('#review-list');
         title.append(starDiv);
         body.append(title, text);
