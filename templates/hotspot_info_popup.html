@@ -42,13 +42,23 @@ aria-hidden="true">
                     <h5 id="avg-rating">Average Rating: </h5>
                 </div>
 
-                <div class="container review-container d-flex justify-content-between">
-                    <h5>Reviews</h5>
-                    <button id="add-review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
-                        data-bs-dismiss="modal" data-bs-toggle="modal">Add Review</button>
+                <div class="container review-container">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Reviews</h5>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button id="add-review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
+                                data-bs-dismiss="modal" data-bs-toggle="modal">ADD</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="review-list" class="overflow-scroll review-content"></div>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <div id="review-list" class="overflow-scroll review-content"></div>
+
             </div>
         </div>
 

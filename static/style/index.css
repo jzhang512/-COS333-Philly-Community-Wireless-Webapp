@@ -372,6 +372,19 @@ body {
 
 /* Hotspot Information Popup Styles */
 
+#review-list{
+    border-top: 2px solid #5162ed;
+    border-bottom: 2px solid #5162ed;
+    border-radius: 10px; 
+    background-color: #E1E6F6;
+    margin-top: 5%;
+}
+
+.review-time-text {
+    font-style: italic;
+    font-size: 0.7em;
+}
+
 .open-with-googlemaps-text {
     font-size: 0.8em;
     margin-top: -5%;
