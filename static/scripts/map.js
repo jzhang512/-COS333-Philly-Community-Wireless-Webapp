@@ -8,6 +8,7 @@ var map = new mapboxgl.Map({
 
 let active_id = null;
 let hotspots;
+let displayed;
 let siteTitle = "Philly Wifi";
 
 let filterTagsId = [];
@@ -50,6 +51,9 @@ $(document).ready(async () => {
     }
 
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
+
+    // Get initial location
+    getLocation();
 
     // call script to generate data for geojson
     features = generateFeatures(hotspots);
