@@ -7,6 +7,14 @@ async function setupReview() {
     document.title = siteTitle + " - Reviews"
     const response = await fetch("/api/pending_reviews");
     const reviews = await response.json();
+
+    for (let i = 0; i < reviews.length; i++) {
+        let hotspot = getHotspot(reviews[i]['pin_id']);
+        if (hotspot == null) {
+            console.log("couldn't find associated hotspot");
+        }
+        reviews[i]['hotspot'] = hotspot;
+    }
     fillReviews(reviews);
 }
 
@@ -41,7 +49,7 @@ function fillReviews(reviews) {
             href: '#list-' + review['review_id'],
             role: 'tab',
             'aria-controls': 'list-' + review['review_id'],
-            text: "Review " + review['review_id']
+            text: "Review " + review['review_id'] + " - " + review['hotspot']['name']
         };
 
         $('<a/>', infoTab).appendTo(reviewGroup);
@@ -71,6 +79,8 @@ function makeReviewCard(review) {
     stars.appendTo(cardBody);
 
     $('<p/>').text(review['time']).appendTo(cardBody);
+    $('<p/>').text("Location: " + review['hotspot']['name']).appendTo(cardBody);
+    $('<p/>').text("Address: " + review['hotspot']['address']).appendTo(cardBody);
     $('<p/>').addClass("border rounded p-2").text(review['text']).appendTo(cardBody);
 
     // let buttonDiv = $('<div/>').addClass("d-flex justify-content-evenly").appendTo(cardBody);

@@ -14,7 +14,7 @@ function filterByTag(hotspots, tagIds=[]) {
 
     let tags = [];
     
-    // Set categorys that are included in tagIds to false
+    // Set categories that are included in tagIds to false
     tagIds.forEach((id) => {
         let tag = getTag(id);
         tags.push(tag);

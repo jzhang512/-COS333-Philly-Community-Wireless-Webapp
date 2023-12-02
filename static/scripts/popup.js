@@ -57,7 +57,7 @@ function fillPopup(hotspot, avgScore, reviews) {
 
     // Reset and add tags
     $('#tag-container').empty();
-    tags = hotspot['tags'];
+    let tags = hotspot['tags'];
     console.log(tags);
     for (let tag of tags) {
         let pill = $('<span>');
