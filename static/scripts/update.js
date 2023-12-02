@@ -1,6 +1,4 @@
 // $('#new-hotspot').click(createNewHotspot);
-let hotspots = null;
-let tags = null;
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
@@ -88,7 +86,7 @@ function createNewHotspot() {
 }
 
 function handleResponseMap(data) {
-    hotspots = data
+    hotspots = data;
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
     setup(data);
 }
@@ -132,8 +130,6 @@ function makePaneElem(hotspot) {
 }
 
 function makeHotspotCard(hotspot) {
-    console.log(hotspot);
-
     let hotspotCard = $('<div/>').addClass("m-3");
     let id = hotspot ? hotspot['hotspot_id'] : 'new';
     // console.log(tags);

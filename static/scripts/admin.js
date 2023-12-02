@@ -1,10 +1,30 @@
 $('document').ready(setup);
 
-let siteTitle = "PCW Admin"
+let siteTitle = "PCW Admin";
+let hotspots = [];
+let tags = [];
 
-function setup() {
+async function setup() {
     console.log("setup!");
     let path = window.location.pathname;
+
+    // Get hotspots
+    let response = await fetch("/api/hotspots");
+    hotspots = await response.json();
+
+    if (hotspots == "Database Error") {
+        hotspots = [];
+        alert("Database error fetching hotspots");
+    }
+
+    // Get Tags
+    response = await fetch("/api/tags");
+    tags = await response.json();
+
+    if (tags == "Database Error") {
+        tags = [];
+        alert("Database error fetching tags");
+    }
 
     if (path == '/admin/update') {
         setupMap();
