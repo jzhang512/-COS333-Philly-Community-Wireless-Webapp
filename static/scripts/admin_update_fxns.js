@@ -232,7 +232,6 @@ function buildHotspot(id = 'new') {
     hotspot['latitude'] = parseFloat($('#hotspot-lati' + id).val());
     hotspot['longitude'] = parseFloat($('#hotspot-long' + id).val());
 
-
     return hotspot;
 }
 
