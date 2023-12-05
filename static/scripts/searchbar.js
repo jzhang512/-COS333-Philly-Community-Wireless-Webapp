@@ -5,7 +5,7 @@ function updateHotspotsList(hotspots) {
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
-        var hotspot_buttonText = (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
+        var hotspot_buttonText = (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span><br>' : ''
 
         hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
         

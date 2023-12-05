@@ -228,9 +228,9 @@ body {
 }
 
 #hotspotsList {
-    padding-top: 2.5%;
-    padding-left: 5%;
-    padding-right: 10%;
+    margin-top: 2.5%;
+    margin-left: 5%;
+    margin-right: 10%;
 }
 
 .vertical-separator {
@@ -243,6 +243,20 @@ body {
 
 .searchbar-sort {
     margin-top: 5%;
+}
+
+#hotspotsList::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 6px;
+  }
+  
+#hotspotsList::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #6c757d;
+}
+  
+#hotspotsList::-webkit-scrollbar-track {
+    background-color: #eee;
 }
 
 .distance-pill {
