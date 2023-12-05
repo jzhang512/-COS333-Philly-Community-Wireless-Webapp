@@ -403,9 +403,11 @@ body {
     margin-top: 5%;
 }
 
-.review-time-text {
+.review-time-container {
     font-style: italic;
     font-size: 0.7em;
+    display: flex;
+    justify-content: space-between;
 }
 
 .open-with-googlemaps-text {

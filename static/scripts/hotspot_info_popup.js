@@ -85,7 +85,6 @@ function fillPopup(hotspot, avgScore, reviews) {
         $('#speed-table-display').hide();
     }
 
-
     // Add description
     $('#descrip-div').empty();
     if (hotspot['descrip']) {
@@ -113,22 +112,19 @@ function fillPopup(hotspot, avgScore, reviews) {
     for (let review of reviews) {
         let card = $('<div>').addClass('card');
         let body = $('<div>').addClass('card-body');
-        let title = $('<h5>').addClass('card-title');
-        // .text("Review " + review['pin_id']);
         let starDiv = makeStars(review['stars']);
-        let timeFoot = $('<div>').addClass('card-footer text-end review-time-text').text(review['time']);
+        let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>'+review['time']+'</span>');
         let text = $('<div>').text(review['text']);
         $('<br/>').appendTo('#review-list');
-        title.append(starDiv);
-        body.append(title, text);
-        card.append(body, timeFoot);
+        body.append(text);
+        card.append(header, body);
         $('#review-list').append(card);
     }
 }
 
 function makeStars(numStars) {
     let num = parseInt(numStars);
-    let container = $('<div>').addClass('d-flex justify-content-start');
+    let container = $('<span>');
 
     for (let i = 0; i < num; i++) {
         let star = $('<span>').addClass("d-inline-block");
