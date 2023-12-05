@@ -7,13 +7,18 @@ var map = new mapboxgl.Map({
 });
 
 // All global variables for application's map side.
+//---------------------------------------------------------------------
 let active_id = null;
 let tags;
 let hotspots;
 let displayed;
 let siteTitle = "Philly Wifi";
 
+// User coordinates stored as [lon., lat.], null if not available
+let user_coords = null;
 let filterTagsId = [];
+
+//---------------------------------------------------------------------
 
 // Empowers dynamic searching. 
 function getSearchResults() {

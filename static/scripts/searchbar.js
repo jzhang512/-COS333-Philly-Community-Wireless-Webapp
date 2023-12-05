@@ -1,6 +1,3 @@
-// User coordinates stored as [lon., lat.], null if not available
-let user_coords = null;
-
 // Show between which type of sort is selected by user.
 function toggleSortSelection(alph_selected) {
     if (alph_selected) {
@@ -70,6 +67,8 @@ function getLocation(callback = ()=>{}) {
                 $('#sort_distance').removeClass('sort-button-disabled');
                 $('#sort_distance').addClass('sort-button-unclicked');
                 console.log("Current position:", position);
+
+                // user_coords is global.
                 user_coords = [position['coords']['longitude'], position['coords']['latitude']];
                 updateDistances(user_coords);
             },
@@ -91,56 +90,28 @@ function getLocation(callback = ()=>{}) {
     }
 }
 
-
-$(document).ready(async function() {
-
-    // Try to get user location upon document load. DONE IN MAP.JS.
-    // So it is AFTER the creation of hotspots.
-
-    // getLocation();
-    // $('#sort_distance').removeAttr('disabled', 'disabled');
-    // $('#sort_distance').addClass('btn-secondary');
-   
-
-    $('#sort_alphabetical').click(function() {
-        toggleSortSelection(true);
-    });
-
-    $('#sort_distance').click(function() {
-        getLocation();
-        // console.log(success);
-
-        if (user_coords != null) {
-            map.flyTo({
-                center: user_coords
-            })
-
-            toggleSortSelection(false);
-            $('#sort_distance').removeClass('sort-button-disabled');
-        }
-        else {
-            alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");
-
-            // // Color like disabled button. Good compromise?
-            // $('#sort_distance').addClass('sort-button-disabled');
-            // $('#sort_distance').removeClass('sort-button-unclicked');
-        }
-
-        // if (success == undefined) {
-        //     alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");
-
-        //     // Color like disabled button. Good compromise?
-        //     $('#sort_distance').addClass('sort-button-disabled');
-        //     $('#sort_distance').removeClass('sort-button-unclicked');
-
-        //     // Should we disable button?
-        //     // $('#sort_distance').attr("disabled", "disabled");
-        //     // $('#sort-searchbar-row2').after("<i id='enable-location-text'>Enable location access.</i>");
-        // }
-        // else {  // Must have access to location for this feature.
-        //     toggleSortSelection(false);
-
-        //     $('#sort_distance').removeClass('sort-button-disabled');
-        // }
-    });
+$('#sort_alphabetical').click(function() {
+    toggleSortSelection(true);
 });
+
+$('#sort_distance').click(function() {
+    getLocation();
+    // console.log(success);
+
+    if (user_coords != null) {
+        map.flyTo({
+            center: user_coords
+        })
+
+        toggleSortSelection(false);
+        $('#sort_distance').removeClass('sort-button-disabled');
+    }
+    else {
+        alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");
+
+        // // Color like disabled button. Good compromise?
+        // $('#sort_distance').addClass('sort-button-disabled');
+        // $('#sort_distance').removeClass('sort-button-unclicked');
+    }
+});
+
