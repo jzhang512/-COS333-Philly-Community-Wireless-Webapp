@@ -68,7 +68,7 @@ function fillPopup(hotspot, avgScore, reviews) {
         $('#ul-speed-container').show();
         $('#ul-speed').text(hotspot['ul_speed'] + ' Mbps');
     } else {
-        $('#no-ul-speed').show();
+        $('#no-ul-speed').hide();
         $('#ul-speed-container').hide();
     }
     
@@ -77,8 +77,12 @@ function fillPopup(hotspot, avgScore, reviews) {
         $('#dl-speed-container').show();
         $('#dl-speed').text(hotspot['dl_speed'] + ' Mbps');
     } else {
-        $('#no-dl-speed').show();
+        $('#no-dl-speed').hide();
         $('#dl-speed-container').hide();
+    }
+
+    if (hotspot['dl_speed'] < 0 && hotspot['ul_speed'] < 0) {
+        $('#speed-table-display').hide();
     }
 
 
