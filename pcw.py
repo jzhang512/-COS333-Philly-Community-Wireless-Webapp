@@ -12,7 +12,7 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-valid_subpaths = [None, 'update', 'reviews', 'manage']
+valid_subpaths = [None, 'update', 'reviews']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -49,7 +49,10 @@ def unauthorized():
     html_code = flask.render_template('unauthorized.html')
     response = flask.make_response(html_code)
     return response
+
 # ---------------------------------------------------------------------
+
+
 @app.route('/', methods=['GET'])
 def index():
     html_code = flask.render_template('index.html')
@@ -69,7 +72,8 @@ def admin(admin_path=None):
 
     user_email = auth.checkAuthenticate()
     user_name = auth.getName()
-    if database_req.is_authorized_user(user_email):  # Check if the user is authorized
+    # Check if the user is authorized
+    if database_req.is_authorized_user(user_email):
         html_code = flask.render_template('admin.html', name=user_name)
         response = flask.make_response(html_code)
         return response
@@ -179,33 +183,16 @@ def publish_review():
         print(ex)
         return flask.jsonify("Error")
 
-@app.route('/api/add_admin', methods=['POST'])
-def add_admin():
-    try:
-        admin = flask.request.json
-        print(admin)
-        database_req.add_new_admin(admin)
-        return flask.jsonify("Success")
-    except ValueError as ex:
-        print(ex)
-        return flask.jsonify(f"Error: hotspot_id and rating must be ints.")
-    except database_req.InvalidFormat as ex:
-        print(ex)
-        return flask.jsonify(f"Error: {ex}")
-    except Exception as ex:
-        print(ex)
-        return flask.jsonify("Error")
-
 #############################   Modify   ###############################
 
 
 @app.route('/api/modify_hotspots', methods=['POST'])
 def modify_hotspots():
-
     try:
         hotspots = flask.request.json
         print(hotspots)
         database_req.update_hotspots(hotspots)
+        database_req.update_hotspot_tags(hotspots)
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print("Invalid format error:")
