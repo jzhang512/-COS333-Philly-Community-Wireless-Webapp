@@ -32,6 +32,9 @@ async function setup() {
     else if (path == '/admin/reviews') {
         setupReview();
     }
+    else if (path == '/admin/manage') {
+        setupManage();
+    }
     else if (path == '/admin' || path == '/admin/') {
         setupDashboard();
     }
@@ -58,6 +61,7 @@ function setupDashboard() {
 
     $('#pending-review').click(setupReview);
     $('#update-map').click(setupMap);
+    $('#manage-admin').click(setupManage);
 
 
 }

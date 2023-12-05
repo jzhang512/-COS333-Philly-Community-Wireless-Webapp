@@ -12,7 +12,7 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-valid_subpaths = [None, 'update', 'reviews']
+valid_subpaths = [None, 'update', 'reviews', 'manage']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
