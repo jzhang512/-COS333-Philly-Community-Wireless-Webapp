@@ -6,7 +6,9 @@ var map = new mapboxgl.Map({
     zoom: 11
 });
 
+// All global variables for application's map side.
 let active_id = null;
+let tags;
 let hotspots;
 let displayed;
 let siteTitle = "Philly Wifi";
@@ -39,6 +41,7 @@ function setup() {
     $('#searchInput').on('input', debouncedGetResults);
 }
 
+// Should be the only document.ready call for map side.
 $(document).ready(async () => {
 
     // The initial setup.
@@ -80,7 +83,73 @@ $(document).ready(async () => {
             history.pushState(null, "", "/")
         }
     }
+
+    // SIDEBAR CODE ----------------------------------------------
+    // -----------------------------------------------------------
+
+    const tag_response = await fetch("/api/tags");
+    tags = await tag_response.json();
+
+    if (tags == "Database Error") {
+        tags = [];
+        alert("Database error fetching tags");
+    }
+
+    tags.sort((a, b) => a['tag_name'].localeCompare(b['tag_name']))
+
+    categories = [];
+    tags.forEach((tag) => {
+        let category = tag['category'];
+        if (!categories.includes(category)) {
+            categories.push(category);
+        }
+    });
+
+    categories.sort();
+    categories.forEach((cat) => {
+        $('#filterView').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'),
+            $('<div class=\"form-check filter-form\" id = \"form' + cat + '\"></div>')
+        );
+    });
+
+    tags.forEach((tag) => {
+        let category = tag['category'];
+        let tagName = tag['tag_name'];
+        let tagId = tag['tag_id'];
+        $('#form' + category).append($('<div class=""></div>').append(
+            $('<input class=\"form-check-input custom-filter-checkbox\" type=\"checkbox\" value=\"\" id=\"check' + tagId + '\">'),
+            $('<label class=\"form-check-label col-12\" for=\"check' + tagId + '\">'+
+              tagName +
+            '</label>'), $('<br>'))
+        );
+    }
+    );
+
+    // Attach a change event listener to all checkboxes with class 'checkbox-group'.
+    // Can't move outside of document.ready for some reason.
+    $('.custom-filter-checkbox').on('change', function() {
+
+    if ($(this).is(':checked')) {
+        console.log('Checkbox with ID ' + this.id + ' is checked!');
+        // Perform actions when checkbox is checked
+        filterTagsId.push(parseInt(this.id.slice(5)));   // filterTags is global!
+    } 
+    else {
+        console.log('Checkbox with ID ' + this.id + ' is unchecked!');
+        // Perform actions when checkbox is unchecked. Removes from
+        // list of tags to filter.
+        const index = filterTagsId.indexOf(parseInt(this.id.slice(5)));
+        if (index > -1) { // only splice array when item is found
+            // 2nd parameter means remove one item only. Trivial
+            filterTagsId.splice(index, 1); 
+        }
+    }
+
+    getSearchResults();
+    });
+
 });
+
 
 map.on('load', async () => {
 
