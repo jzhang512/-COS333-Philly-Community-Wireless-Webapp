@@ -1,6 +1,7 @@
 
 $("#submit-review").click(submitReview);
 $("#close-review").click(clearReview);
+$("#close-review-x").click(clearReview)
 
 function clearReview() {
     $('#success-review').remove();

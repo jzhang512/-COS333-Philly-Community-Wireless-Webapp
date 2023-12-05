@@ -5,6 +5,10 @@ function setupManage() {
     // Clear existing content and prepare for new content
     $("#results-div").empty();
 
+    $('#results-div').addClass("d-flex flex-column vh-100 mh-100 overflow-hidden")
+
+    $('<h2/>').addClass("row m-3 flex-shrink-1").text("Add/Remove Administrators").appendTo('#results-div');
+
     // Create a form element
     let form = $('<form/>', { id: 'manage-form', class: 'manage-form' });
 
@@ -13,7 +17,7 @@ function setupManage() {
         type: 'text',
         id: 'admin-input',
         name: 'adminName',
-        placeholder: 'Enter admin name',
+        placeholder: 'Enter the Email',
         class: 'form-control'
     }).appendTo(form);
 
