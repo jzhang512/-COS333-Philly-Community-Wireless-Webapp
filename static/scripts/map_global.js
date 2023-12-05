@@ -6,18 +6,25 @@ var map = new mapboxgl.Map({
     zoom: 11
 });
 
+// All global variables for application's map side.
+//---------------------------------------------------------------------
 let active_id = null;
+let tags;
 let hotspots;
+let displayed;
 let siteTitle = "Philly Wifi";
 
+// User coordinates stored as [lon., lat.], null if not available
+let user_coords = null;
 let filterTagsId = [];
+
+//---------------------------------------------------------------------
 
 // Empowers dynamic searching. 
 function getSearchResults() {
     let query = $('#searchInput').val();
 
     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
-    console.log(filterTagsId);
 
     filtered_hotspots = filterByTag(by_name_hotspots, filterTagsId);
 
@@ -39,7 +46,10 @@ function setup() {
     $('#searchInput').on('input', debouncedGetResults);
 }
 
+// Should be the only document.ready call for map side.
 $(document).ready(async () => {
+
+    // The initial setup.
     document.title = siteTitle;
 
     const response = await fetch("/api/hotspots");
@@ -52,6 +62,14 @@ $(document).ready(async () => {
 
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
 
+    // Get initial location
+    getLocation(function () {
+        // Styling. Must occur after we know that we can access user's
+        // location.
+        $('#sort_distance').removeAttr('disabled', 'disabled');
+        $('#sort_distance').addClass('btn-secondary');
+    });
+
     // call script to generate data for geojson
     features = generateFeatures(hotspots);
     addLayer(features);
@@ -63,7 +81,6 @@ $(document).ready(async () => {
     let params = new URLSearchParams(queryString);
     if (params.has('hotspot_id')) {
         let hotspot_id = params.get('hotspot_id');
-        console.log(hotspot_id);
         let hotspot = getHotspot(hotspot_id);
         if (hotspot != null) {
             makePopup(hotspot);
@@ -71,7 +88,73 @@ $(document).ready(async () => {
             history.pushState(null, "", "/")
         }
     }
+
+    // SIDEBAR CODE ----------------------------------------------
+    // -----------------------------------------------------------
+
+    const tag_response = await fetch("/api/tags");
+    tags = await tag_response.json();
+
+    if (tags == "Database Error") {
+        tags = [];
+        alert("Database error fetching tags");
+    }
+
+    tags.sort((a, b) => a['tag_name'].localeCompare(b['tag_name']))
+
+    categories = [];
+    tags.forEach((tag) => {
+        let category = tag['category'];
+        if (!categories.includes(category)) {
+            categories.push(category);
+        }
+    });
+
+    categories.sort();
+    categories.forEach((cat) => {
+        $('#filterView').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'),
+            $('<div class=\"form-check filter-form\" id = \"form' + cat + '\"></div>')
+        );
+    });
+
+    tags.forEach((tag) => {
+        let category = tag['category'];
+        let tagName = tag['tag_name'];
+        let tagId = tag['tag_id'];
+        $('#form' + category).append($('<div class=""></div>').append(
+            $('<input class=\"form-check-input custom-filter-checkbox\" type=\"checkbox\" value=\"\" id=\"check' + tagId + '\">'),
+            $('<label class=\"form-check-label col-12\" for=\"check' + tagId + '\">'+
+              tagName +
+            '</label>'), $('<br>'))
+        );
+    }
+    );
+
+    // Attach a change event listener to all checkboxes with class 'checkbox-group'.
+    // Can't move outside of document.ready for some reason.
+    $('.custom-filter-checkbox').on('change', function() {
+
+    if ($(this).is(':checked')) {
+        console.log('Checkbox with ID ' + this.id + ' is checked!');
+        // Perform actions when checkbox is checked
+        filterTagsId.push(parseInt(this.id.slice(5)));   // filterTags is global!
+    } 
+    else {
+        console.log('Checkbox with ID ' + this.id + ' is unchecked!');
+        // Perform actions when checkbox is unchecked. Removes from
+        // list of tags to filter.
+        const index = filterTagsId.indexOf(parseInt(this.id.slice(5)));
+        if (index > -1) { // only splice array when item is found
+            // 2nd parameter means remove one item only. Trivial
+            filterTagsId.splice(index, 1); 
+        }
+    }
+
+    getSearchResults();
+    });
+
 });
+
 
 map.on('load', async () => {
 
@@ -104,8 +187,6 @@ map.on('load', async () => {
     });
 
     $('.collapse').on('shown.bs.collapse', function () {
-        console.log("Opened");
-        console.log($('.wrapper').innerWidth() * 0.125);
 
         map.easeTo({
             padding: {
@@ -119,7 +200,6 @@ map.on('load', async () => {
     });
 
     $('.collapse').on('hide.bs.collapse', function () {
-        console.log("Closed");
         map.easeTo({
             padding: {
                 left: 0,

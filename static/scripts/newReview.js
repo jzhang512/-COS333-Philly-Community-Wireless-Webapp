@@ -7,6 +7,7 @@ function clearReview() {
     $('#failure-review').remove();
     $('#review-text').val('');
     $('input[name="star-rating"]:checked').prop('checked', false);
+    $('#submit-review').prop('disabled', false);
 }
 
 function submitReview() {

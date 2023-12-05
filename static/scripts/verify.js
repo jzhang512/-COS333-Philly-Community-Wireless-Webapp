@@ -7,13 +7,24 @@ async function setupReview() {
     document.title = siteTitle + " - Reviews"
     const response = await fetch("/api/pending_reviews");
     const reviews = await response.json();
+
+    for (let i = 0; i < reviews.length; i++) {
+        let hotspot = getHotspot(reviews[i]['pin_id']);
+        if (hotspot == null) {
+            console.log("couldn't find associated hotspot");
+        }
+        reviews[i]['hotspot'] = hotspot;
+    }
     fillReviews(reviews);
 }
 
 function fillReviews(reviews) {
-    $("#results-div").empty();
+    $('body').addClass('vh-100 mh-100 overflow-hidden');
 
-    $('<h2/>').addClass("m-3").text("Approve/Deny Reviews").appendTo('#results-div');
+    $("#results-div").empty();
+    $('#results-div').addClass("d-flex flex-column vh-100 mh-100 overflow-hidden")
+
+    $('<h2/>').addClass("row m-3 flex-shrink-1").text("Approve/Deny Reviews").appendTo('#results-div');
 
     if (reviews.length == 0) {
         let empty = $('<p/>').addClass('m-3').text("No pending reviews at this time.");
@@ -21,17 +32,13 @@ function fillReviews(reviews) {
         return;
     }
 
-    let mainGrid = $('<div/>').addClass("row main-grid");
-    let reviewCol = $('<div/>').addClass("col-4").appendTo(mainGrid);
-    let paneCol = $('<div/>').addClass("col-8").appendTo(mainGrid);
+    let mainGrid = $('<div/>').addClass("row main-grid flex-grow-1 overflow-hidden");
+    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
+    let paneCol = $('<div/>').addClass("col-8 col-sm-4 overflow-hidden").appendTo(mainGrid);
 
     // let activeCol = $('<div/>', { id: 'active-card', class: 'col card active-card' }).text("No review selected.").appendTo(mainGrid);
     let reviewGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(reviewCol); // reviews class add
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
-
-    // let pane = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
-
-
 
     for (let review of reviews) {
         // console.log(review);
@@ -42,7 +49,7 @@ function fillReviews(reviews) {
             href: '#list-' + review['review_id'],
             role: 'tab',
             'aria-controls': 'list-' + review['review_id'],
-            text: "Review " + review['review_id']
+            text: "Review " + review['review_id'] + " - " + review['hotspot']['name']
         };
 
         $('<a/>', infoTab).appendTo(reviewGroup);
@@ -62,7 +69,7 @@ function fillReviews(reviews) {
 
 function makeReviewCard(review) {
     console.log("display active");
-    let reviewCard = $('<div/>').addClass("m-3");
+    let reviewCard = $('<div/>').addClass("p-5");
 
     console.log("creating active card!");
     let cardBody = $('<div/>').addClass('card-body').appendTo(reviewCard);
@@ -72,10 +79,13 @@ function makeReviewCard(review) {
     stars.appendTo(cardBody);
 
     $('<p/>').text(review['time']).appendTo(cardBody);
-    $('<p/>').text(review['text']).appendTo(cardBody);
+    $('<p/>').text("Location: " + review['hotspot']['name']).appendTo(cardBody);
+    $('<p/>').text("Address: " + review['hotspot']['address']).appendTo(cardBody);
+    $('<p/>').addClass("border rounded p-2").text(review['text']).appendTo(cardBody);
 
-    let approve = $('<button/>', { id: 'approve', class: 'btn btn-success', text: 'Approve' }).appendTo(cardBody);
-    let deny = $('<button/>', { id: 'deny', class: 'btn btn-danger ms-2', text: 'Deny' }).appendTo(cardBody);
+    // let buttonDiv = $('<div/>').addClass("d-flex justify-content-evenly").appendTo(cardBody);
+    let approve = $('<button/>', { id: 'approve', class: 'btn btn-success me-3 mt-3', text: 'Approve' }).appendTo(cardBody);
+    let deny = $('<button/>', { id: 'deny', class: 'btn btn-danger mt-3', text: 'Deny' }).appendTo(cardBody);
     reviewCard.append(cardBody);
 
     approve.click(function () {

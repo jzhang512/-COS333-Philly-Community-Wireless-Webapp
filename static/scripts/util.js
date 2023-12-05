@@ -1,3 +1,5 @@
+// Miscellaneous functions.
+
 function getHotspot(id) {
     for (const hotspot of hotspots) {
         if (hotspot['hotspot_id'] == id) return hotspot;
@@ -11,9 +13,3 @@ function getTag(id) {
     }
     return null;
 }
-
-// function setup() {
-
-// }
-
-// $('document').ready(setup);

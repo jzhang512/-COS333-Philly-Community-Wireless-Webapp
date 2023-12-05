@@ -1,12 +1,10 @@
 // $('#new-hotspot').click(createNewHotspot);
-let hotspots = null;
-let tags = null;
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
     document.title = siteTitle + " - Update Hotspots";
     $("#results-div").empty();
-    
+
     let requestData = {
         type: 'GET',
         url: "/api/hotspots",
@@ -28,7 +26,7 @@ function setup(hotspots) {
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
     let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
-    
+
     let tabCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
     let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
 
@@ -38,7 +36,7 @@ function setup(hotspots) {
     search.text('Search');
     let searchBox = $('<input type="text" class="form-control search-box" id="search">').appendTo(searchDiv);
     $('<br>').appendTo(searchDiv);
-    
+
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
     // listGroup.prop('role', 'tablist');
@@ -67,6 +65,7 @@ function getSearchResults() {
     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
 
     populateHotspots(by_name_hotspots);
+    $(".selectpicker").selectpicker('render');
 }
 
 let search_check_timer = null;
@@ -87,7 +86,7 @@ function createNewHotspot() {
 }
 
 function handleResponseMap(data) {
-    hotspots = data
+    hotspots = data;
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
     setup(data);
 }
@@ -131,8 +130,6 @@ function makePaneElem(hotspot) {
 }
 
 function makeHotspotCard(hotspot) {
-    console.log(hotspot);
-
     let hotspotCard = $('<div/>').addClass("m-3");
     let id = hotspot ? hotspot['hotspot_id'] : 'new';
     // console.log(tags);
@@ -170,10 +167,10 @@ function makeHotspotCard(hotspot) {
 
     $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '', disabled: '' }).appendTo(hotspotCard);
-
+    
     $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '', disabled: '' }).appendTo(hotspotCard);
-
+    
     $('<label/>', { for: 'hotspot-tags' + id, text: 'Tags:', class: 'form-label' }).appendTo(hotspotCard);
     // $('<input/>', { type: 'text', id: 'hotspot-tags', class: 'form-control', 'aria-describedby': 'tag-info', value: tags }).appendTo(hotspotCard);
     $("<br/>").appendTo(hotspotCard);
@@ -183,18 +180,20 @@ function makeHotspotCard(hotspot) {
     // $('<div/>', { class: 'form-text mb-3', id: 'tag-info', text: 'Enter tags as a comma-delimited list' }).appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-ul' + id, text: 'Upload Speed:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-ul' + id, class: 'form-control mb-3', value: hotspot ? hotspot['ul_speed'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-ul' + id, class: 'form-control', value: hotspot ? hotspot['ul_speed'] : '-1' }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("-1 for unknown (won't be displayed)").appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-dl' + id, text: 'Download Speed:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control mb-3', value: hotspot ? hotspot['dl_speed'] : '' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control', value: hotspot ? hotspot['dl_speed'] : '-1' }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("-1 for unknown (won't be displayed)").appendTo(hotspotCard);
 
     $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
     $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3' }).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
 
-    let add = $('<button/>', { type: 'submit', class: 'btn btn-success', text: 'Save Changes' }).appendTo(hotspotCard);
+    let add = $('<button/>', { type: 'submit', class: 'btn btn-success me-2 mt-2', text: 'Save Changes' }).appendTo(hotspotCard);
 
     if (hotspot != null) {
-        let del = $('<button/>', { type: 'button', class: 'btn btn-danger ms-2', text: 'Delete Hotspot' }).appendTo(hotspotCard);
+        let del = $('<button/>', { type: 'button', class: 'btn btn-danger me-2 mt-2', text: 'Delete Hotspot' }).appendTo(hotspotCard);
         del.click(function () {
             deleteHotspot(id);
         });
@@ -208,7 +207,7 @@ function makeHotspotCard(hotspot) {
         });
     }
 
-    let cancel = $('<button/>', { type: 'button', class: 'btn btn-secondary ms-2', text: 'Cancel' }).appendTo(hotspotCard);
+    let cancel = $('<button/>', { type: 'button', class: 'btn btn-secondary me-2 mt-2', text: 'Cancel' }).appendTo(hotspotCard);
     cancel.click(function () { cancelQuery(id) });
     return hotspotCard;
 }
@@ -325,12 +324,10 @@ function verifyHotspot(id = 'new') {
         success: function (data) {
             let points = data['features']
             if (points.length == 0) {
-                console.log("ADDRESS ERROR!");
-                alert("address invalid");
+                alert("No valid address found. Please try again.");
                 result = false;
             }
             else {
-
                 $('#hotspot-lati' + id).val(points[0]['center'][1]);
                 $('#hotspot-long' + id).val(points[0]['center'][0]);
 
@@ -338,7 +335,7 @@ function verifyHotspot(id = 'new') {
                 let index = start.indexOf(points[0]['properties']['address']);
 
                 $('#hotspot-address' + id).val(start.substring(index));
-                setTimeout(function () { }, 3000);
+                setTimeout(function () { }, 4000);
             }
         },
         error: function () {
