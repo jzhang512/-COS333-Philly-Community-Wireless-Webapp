@@ -1,27 +1,5 @@
 // For filter sidebar. 
 
-// Update view with corresponding list/search results after search and
-// or filter. Filtering should be done externally.
-function updateHotspotsList(hotspots) {
-    $('#hotspotsList').empty();
-    displayed = hotspots;
-
-    hotspots.forEach((hotspot) => {
-        $('#hotspotsList').append(
-            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
-            .text(hotspot['name'])
-            //$('<li class="list-group-item"></li>').text(hotspot['name'])
-        );
-    });
-
-    $(document).on("click",".list-group-item-action", function () {
-        let id = parseInt($(this).attr('id'));
-        let hotspot = getHotspot(id);
-        
-        makePopup(hotspot);
-    });
-}
-
 // Clear applied filters. IF something goes wrong, put it back to 
 // document.ready call in map_global.js.
 $('.filter-clear').on('click', function() {
@@ -35,3 +13,7 @@ $('.filter-clear').on('click', function() {
     filterTagsId = [];  // global!
     getSearchResults();
 });
+
+// Should have an event listener for checked filters here but located in
+// map_global.js. Can't be separated from the document.ready function
+// for some reason.
