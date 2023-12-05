@@ -22,7 +22,8 @@ function updateHotspotsList(hotspots) {
     });
 }
 
-// Clear applied filters.
+// Clear applied filters. IF something goes wrong, put it back to 
+// document.ready call in map_global.js.
 $('.filter-clear').on('click', function() {
     // Iterate through all checkboxes with class 'custom-filter-checkbox' and uncheck them
     $('.custom-filter-checkbox').prop('checked', false);
