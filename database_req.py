@@ -402,16 +402,26 @@ def is_authorized_user(key: str = ""):
     # TODO validate format of data
 
     return db.read_data.is_authorized_user(key)
+    # ----------------------------------
+def add_new_admin(key: str = ""):
+    """
+    """
+
+    # TODO validate format of data
+
+    return db.write_data.add_new_admin(key)
 # ----------------------------------
 
 def main():
 
-    print(is_authorized_user("cos333pcw@gmail.com"))
+    add_new_admin("admin@gmail.com")
 
-    pending_reviews = get_pending_reviews()
+    # print(is_authorized_user("cos333pcw@gmail.com"))
 
-    for review in pending_reviews:
-        print(review)
+    # pending_reviews = get_pending_reviews()
+
+    # for review in pending_reviews:
+    #     print(review)
 
 
 if __name__ == "__main__":
