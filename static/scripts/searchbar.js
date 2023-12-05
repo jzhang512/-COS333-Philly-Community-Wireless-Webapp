@@ -1,3 +1,29 @@
+// Update view with corresponding list/search results after search and
+// or filter. Filtering should be done externally.
+function updateHotspotsList(hotspots) {
+    $('#hotspotsList').empty();
+    displayed = hotspots;
+
+    hotspots.forEach((hotspot) => {
+        var hotspot_buttonText = (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span><br>' : ''
+
+        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
+        
+        $('#hotspotsList').append(
+            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
+            .html('<div>' +hotspot_buttonText + '</div>')
+        );
+    });
+
+    $(document).on("click",".list-group-item-action", function () {
+        let id = parseInt($(this).attr('id'));
+        let hotspot = getHotspot(id);
+        
+        makePopup(hotspot);
+    });
+}
+
+
 // Show between which type of sort is selected by user.
 function toggleSortSelection(alph_selected) {
     if (alph_selected) {
@@ -17,7 +43,8 @@ function toggleSortSelection(alph_selected) {
         $("#sort_distance").addClass('sort-button-clicked');
         $("#sort_distance").removeClass('sort-button-unclicked');
 
-        displayed.sort((a, b) => b['dist'] - a['dist']);
+        // Nearest first.
+        displayed.sort((a, b) => a['dist'] - b['dist']);
         updateHotspotsList(displayed);
     }
 }
@@ -49,9 +76,10 @@ function updateDistances(coords) {
     let lon1 = coords[0];
     let lat1 = coords[1];
     for (i = 0; i < hotspots.length; i++) {
-        lon2 = hotspots[i]['latitude'];
-        lat2 = hotspots[i]['longitude'];
-        hotspots[i]['dist'] = distanceBetweenPoints(lat1, lon1, lat2, lon2);
+        lat2 = hotspots[i]['latitude'];
+        lon2 = hotspots[i]['longitude'];
+        // console.log(distanceBetweenPoints(lat1, lon1, lat2, lon2, false));
+        hotspots[i]['dist'] = distanceBetweenPoints(lat1, lon1, lat2, lon2, false);
     }
 }
 
