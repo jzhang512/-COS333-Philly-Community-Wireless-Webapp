@@ -245,17 +245,17 @@ body {
     margin-top: 5%;
 }
 
-#hotspotsList::-webkit-scrollbar {
+.visible-scrollbar::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 6px;
   }
   
-#hotspotsList::-webkit-scrollbar-thumb {
+.visible-scrollbar::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: #6c757d;
 }
   
-#hotspotsList::-webkit-scrollbar-track {
+.visible-scrollbar::-webkit-scrollbar-track {
     background-color: #eee;
 }
 
@@ -394,6 +394,12 @@ body {
 } */
 
 /* Hotspot Information Popup Styles */
+
+.review-card {
+    width: 16rem;
+    margin-left: 2.5%;
+    margin-top: 2.5%;
+}
 
 #review-list{
     border-top: 2px solid #5162ed;

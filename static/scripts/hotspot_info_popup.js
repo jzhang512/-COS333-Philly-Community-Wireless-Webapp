@@ -110,12 +110,11 @@ function fillPopup(hotspot, avgScore, reviews) {
     }
 
     for (let review of reviews) {
-        let card = $('<div>').addClass('card');
+        let card = $('<div>').addClass('card review-card');
         let body = $('<div>').addClass('card-body');
         let starDiv = makeStars(review['stars']);
         let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>'+review['time']+'</span>');
         let text = $('<div>').text(review['text']);
-        $('<br/>').appendTo('#review-list');
         body.append(text);
         card.append(header, body);
         $('#review-list').append(card);
