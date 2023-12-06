@@ -9,16 +9,8 @@ async function makePopup(hotspot) {
         alert("Database Error");
     }
 
-    let numReviews = reviews.length;
-    let sum = 0;
-    reviews.forEach((review) => {
-        sum += review['stars'];
-    });
-    let avgScore = numReviews > 0 ? sum / numReviews : -1;
-    avgScore = avgScore.toFixed(2);
-
     // call script to populate popup with information
-    fillPopup(hotspot, avgScore, reviews);
+    fillPopup(hotspot, reviews);
 
     map.flyTo({
         center: [hotspot['longitude'], hotspot['latitude']]
@@ -37,7 +29,7 @@ async function makePopup(hotspot) {
 }
 
 // Helper for makePopup().
-function fillPopup(hotspot, avgScore, reviews) {
+function fillPopup(hotspot, reviews) {
 
     // Create query call for Google Map place search.
     let query = hotspot['name'] + " " + hotspot['address'];
@@ -94,8 +86,8 @@ function fillPopup(hotspot, avgScore, reviews) {
     }
 
     // Add avg rating
-    if (avgScore >= 0) 
-        $('#avg-rating').text("Average Rating: " + avgScore);
+    if (hotspot['avg_rating']) 
+        $('#avg-rating').text("Average Rating: " + hotspot['avg_rating']);
     else
         $('#avg-rating').text("Average Rating: None");
 
