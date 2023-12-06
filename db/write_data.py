@@ -379,6 +379,12 @@ def add_new_admin(admin_key):
      #     _engine.dispose()
 
 # ---------------------------------------------------------------------
+# def remove_admin(admin_key):
+     
+#      try:
+#           with sqlalchemy.orm.Session(_engine) as session:
+
+# ---------------------------------------------------------------------
 def main():
      # visualization_hotspots([23], False)
     #  to_update = [{
@@ -418,7 +424,7 @@ def main():
 
      # update_admin_username(87, "Jahhhmeezz")
 
-     add_new_admin("test@email.com")
+     add_new_admin("new@email.com")
 
      return
 

@@ -88,6 +88,8 @@ function createNewHotspot() {
 function handleResponseMap(data) {
     hotspots = data;
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
+    console.log("This ran!")
+    console.log("Admins: " + hotspots)
     setup(data);
 }
 

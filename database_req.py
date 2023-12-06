@@ -411,6 +411,14 @@ def add_new_admin(key: str = ""):
 
     return db.write_data.add_new_admin(key)
 # ----------------------------------
+def get_all_admin():
+    """
+    """
+
+    # TODO validate format of data
+
+    return db.read_data.get_all_admin()
+# ----------------------------------
 
 def main():
 
