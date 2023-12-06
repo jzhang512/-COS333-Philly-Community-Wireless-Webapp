@@ -234,8 +234,33 @@ def is_authorized_user(key: str = ""):
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
 # ---------------------------------------------------------------------
+def get_all_admin():
+    try:
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+            query = session.query(database.Admin)
+            # print(session.execute(query).all())
+            
+            table = query.all()
+            admins = []
+            for row in table:
+                admins.append({
+                    'admin_id': row.admin_id,
+                    'admin_key': row.admin_key})
+
+            return admins
+
+        # finally:
+        #     _engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+        sys.exit(1)   
+# ---------------------------------------------------------------------
 
 def main():
+
     pins = get_pins_all()
 
     for pin in pins:
@@ -254,6 +279,8 @@ def main():
     print(get_tags_category("Accessibility"))
 
     print(is_authorized_user("cos333pcw@gmail.com"))
+    print(get_pins_all())
+    print(get_all_admin())
 
 if __name__ == '__main__':
     main()
