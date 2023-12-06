@@ -46,6 +46,8 @@ function setup() {
     $('#searchInput').on('input', debouncedGetResults);
 }
 
+// -------------------------------------------------------------------
+
 // Should be the only document.ready call for map side.
 $(document).ready(async () => {
 
