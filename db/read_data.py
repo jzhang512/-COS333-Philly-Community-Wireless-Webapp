@@ -47,6 +47,17 @@ def get_pins_all():
             for row in table:
                 pin = {}
                 pin['hotspot_id'] = row[0].hotspot_id
+
+                rating_query = (session.query(database.Reviews_Approved)
+                                ).filter(database.Reviews_Approved.hotspot_id == row[0].hotspot_id)
+                
+                ratings_table = rating_query.all()
+                ratings =[]
+
+                for entry in ratings_table:
+                    ratings.append(entry.rating)
+
+                pin['ratings'] = ratings
                 pin['name'] = row[0].location_name
                 pin['address'] = row[0].address
                 pin['latitude'] = row[1].latitude
@@ -187,7 +198,11 @@ def is_authorized_user(key: str = ""):
 # ---------------------------------------------------------------------
 
 def main():
-    print(get_pins_all())
+    pins = get_pins_all()
+
+    for pin in pins:
+        print(pin)
+
     print(get_single_review(1))
 
     # Tags

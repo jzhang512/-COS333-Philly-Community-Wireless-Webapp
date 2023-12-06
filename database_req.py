@@ -28,6 +28,7 @@ def get_pins():
     A pin should have the following fields:
     {
         hotspot_id: int
+        ratings: list of ints
         name: string
         address: string
         latitude: float
