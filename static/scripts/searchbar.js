@@ -1,23 +1,33 @@
 // Update view with corresponding list/search results after search and
 // or filter. Filtering should be done externally.
-function updateHotspotsList(hotspots) {
+async function updateHotspotsList(hotspots) {
     $('#hotspotsList').empty();
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
-        var hotspot_buttonText = (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span><br>' : ''
+        var hotspot_buttonText = "<span class = 'd-flex'>"
+        hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
 
-        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
-        let hotspot_buttonScore = "<strong> ("
+        let hotspot_buttonScore = "<span class = 'avg-rating-icon'>"
         if (hotspot['avg_rating']) {
-            hotspot_buttonScore += hotspot['avg_rating'] + ")</strong>";
+            hotspot_buttonScore += hotspot['avg_rating'] + "</span>";
+
+            // Make star.
+            let star = $('<span>').addClass("d-inline-block");
+            let icon = document.createElement("i");
+            icon.classList.add("fas", "fa-star", "star");
+            star.append(icon);
+            hotspot_buttonScore += star.prop("outerHTML");
         } else {
-            hotspot_buttonScore += "None)</em>";
+            hotspot_buttonScore += "<i class = 'no-rating-text'>No Rating</i> </span>";
         }
+
+        hotspot_buttonText += hotspot_buttonScore + "</span>";
+        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
         
         $('#hotspotsList').append(
             $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
-            .html('<div>' + hotspot_buttonText + hotspot_buttonScore +'</div>')
+            .html('<div>' + hotspot_buttonText +'</div>')
         );
     });
 
