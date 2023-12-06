@@ -8,10 +8,16 @@ function updateHotspotsList(hotspots) {
         var hotspot_buttonText = (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span><br>' : ''
 
         hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
+        let hotspot_buttonScore = "<strong> ("
+        if (hotspot['avg_rating']) {
+            hotspot_buttonScore += hotspot['avg_rating'] + ")</strong>";
+        } else {
+            hotspot_buttonScore += "None)</em>";
+        }
         
         $('#hotspotsList').append(
             $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
-            .html('<div>' +hotspot_buttonText + '</div>')
+            .html('<div>' + hotspot_buttonText + hotspot_buttonScore +'</div>')
         );
     });
 
@@ -25,26 +31,45 @@ function updateHotspotsList(hotspots) {
 
 
 // Show between which type of sort is selected by user.
-function toggleSortSelection(alph_selected) {
-    if (alph_selected) {
+function toggleSortSelection(selected) {
+    if (selected == "alphabetical") {
         $("#sort_alphabetical").addClass('sort-button-clicked');
         $("#sort_alphabetical").removeClass('sort-button-unclicked');
 
         $("#sort_distance").addClass('sort-button-unclicked');
         $("#sort_distance").removeClass('sort-button-clicked');
 
+        $("#sort_rating").addClass('sort-button-unclicked');
+        $("#sort_rating").removeClass('sort-button-clicked');
+
         displayed.sort((a, b) => a['name'].localeCompare(b['name']))
         updateHotspotsList(displayed);
     }
-    else {
+    else if (selected == "distance") {
         $("#sort_alphabetical").addClass('sort-button-unclicked');
         $("#sort_alphabetical").removeClass('sort-button-clicked');
 
         $("#sort_distance").addClass('sort-button-clicked');
         $("#sort_distance").removeClass('sort-button-unclicked');
 
+        $("#sort_rating").addClass('sort-button-unclicked');
+        $("#sort_rating").removeClass('sort-button-clicked');
+
         // Nearest first.
         displayed.sort((a, b) => a['dist'] - b['dist']);
+        updateHotspotsList(displayed);
+    } else {
+        $("#sort_alphabetical").addClass('sort-button-unclicked');
+        $("#sort_alphabetical").removeClass('sort-button-clicked');
+
+        $("#sort_distance").addClass('sort-button-unclicked');
+        $("#sort_distance").removeClass('sort-button-clicked');
+
+        $("#sort_rating").addClass('sort-button-clicked');
+        $("#sort_rating").removeClass('sort-button-unclicked');
+
+        // Nearest first.
+        displayed.sort((a, b) => b['avg_rating'] - a['avg_rating']);
         updateHotspotsList(displayed);
     }
 }
@@ -119,7 +144,11 @@ function getLocation(callback = () => { }) {
 }
 
 $('#sort_alphabetical').click(function () {
-    toggleSortSelection(true);
+    toggleSortSelection("alphabetical");
+});
+
+$('#sort_rating').click(function () {
+    toggleSortSelection("rating");
 });
 
 $('#sort_distance').click(function () {
@@ -155,7 +184,7 @@ $('#sort_distance').click(function () {
 
         console.log('set data');
 
-        toggleSortSelection(false);
+        toggleSortSelection("distance");
         $('#sort_distance').removeClass('sort-button-disabled');
     }
     else {

@@ -52,12 +52,17 @@ $(document).ready(async () => {
     // The initial setup.
     document.title = siteTitle;
 
-    const response = await fetch("/api/hotspots");
+    const response = await fetch("/api/hotspots?ratings='True'");
     hotspots = await response.json();
 
     if (hotspots == "Database Error") {
         hotspots = [];
         alert("Database error fetching hotspots");
+    }
+
+    for (let i = 0; i < hotspots.length; i++) {
+        avg = average(hotspots[i]['ratings']);
+        hotspots[i]['avg_rating'] = avg;
     }
 
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))

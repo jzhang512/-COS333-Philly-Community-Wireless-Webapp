@@ -9,7 +9,7 @@ async function setupReview() {
     const reviews = await response.json();
 
     for (let i = 0; i < reviews.length; i++) {
-        let hotspot = getHotspot(reviews[i]['pin_id']);
+        let hotspot = getHotspot(reviews[i]['hotspot_id']);
         if (hotspot == null) {
             console.log("couldn't find associated hotspot");
         }

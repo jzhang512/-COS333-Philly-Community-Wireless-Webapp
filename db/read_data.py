@@ -33,7 +33,7 @@ _engine = sqlalchemy.create_engine(_DATABASE_URL, echo = False)
 # ---------------------------------------------------------------------
 
 # Corresponds to database_req.py's get_pins().
-def get_pins_all():
+def get_pins_all(include_reviews=False):
     try:
         # try:
         with sqlalchemy.orm.Session(_engine) as session:
@@ -42,22 +42,15 @@ def get_pins_all():
                                     database.MapBox)
                     .filter(database.Hotspots.hotspot_id == database.MapBox.hotspot_id))
             
+            if include_reviews:
+                reviews = get_all_reviews()
+            
             table = query.all()
-            pins = []
+            pins = {}
             for row in table:
                 pin = {}
-                pin['hotspot_id'] = row[0].hotspot_id
-
-                rating_query = (session.query(database.Reviews_Approved)
-                                ).filter(database.Reviews_Approved.hotspot_id == row[0].hotspot_id)
-                
-                ratings_table = rating_query.all()
-                ratings =[]
-
-                for entry in ratings_table:
-                    ratings.append(entry.rating)
-
-                pin['ratings'] = ratings
+                id = row[0].hotspot_id
+                pin['hotspot_id'] = id
                 pin['name'] = row[0].location_name
                 pin['address'] = row[0].address
                 pin['latitude'] = row[1].latitude
@@ -77,9 +70,19 @@ def get_pins_all():
 
                 pin['tags'] = tags
 
-                pins.append(pin)
+                if include_reviews:
+                    pin['ratings'] = []
 
-            return pins
+                pins[id] = pin
+            
+            if include_reviews:
+                for review in reviews:
+                    id = review['hotspot_id']
+                    rating = review['stars']
+
+                    pins[id]['ratings'].append(rating)
+
+            return list(pins.values())
 
         # finally:
         #     _engine.dispose()
@@ -91,21 +94,56 @@ def get_pins_all():
 # ---------------------------------------------------------------------
 
 # Corresponds to database_req.py's get_reviews().
-def get_single_review(pin_id: int):
+def get_single_review(hotspot_id: int):
     try:
         # try:
         with sqlalchemy.orm.Session(_engine) as session:
             
             query = (session.query(database.Reviews_Approved)
-                    .filter(database.Reviews_Approved.hotspot_id == pin_id))
+                    .filter(database.Reviews_Approved.hotspot_id == hotspot_id))
             
             table = query.all()
             reviews = []
             for row in table:
                 reviews.append({
+                    'hotspot_id': row.hotspot_id,
                     'stars': row.rating,
                     'text': row.comment,
                     'time': row.time})
+
+            return reviews
+
+        # finally:
+        #     _engine.dispose()
+  
+    except Exception as ex:
+        print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+        sys.exit(1)
+
+# ---------------------------------------------------------------------
+
+# Corresponds to database_req.py's get_reviews().
+def get_all_reviews(just_ratings=False):
+    try:
+        # try:
+        with sqlalchemy.orm.Session(_engine) as session:
+            
+            query = (session.query(database.Reviews_Approved))
+            
+            table = query.all()
+            reviews = []
+            for row in table:
+                if just_ratings:
+                    reviews.append({
+                        'stars': row.rating,
+                        'hotspot_id': row.hotspot_id
+                    })
+                else:
+                    reviews.append({
+                        'stars': row.rating,
+                        'hotspot_id': row.hotspot_id,
+                        'text': row.comment,
+                        'time': row.time})
 
             return reviews
 
@@ -131,7 +169,7 @@ def get_pending_reviews():
             reviews = []
             for row in table:
                 reviews.append({
-                    'pin_id': row.hotspot_id,
+                    'hotspot_id': row.hotspot_id,
                     'review_id': row.review_id,
                     'stars': row.rating,
                     'text': row.comment,
