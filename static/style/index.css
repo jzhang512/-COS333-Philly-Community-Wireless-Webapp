@@ -328,15 +328,12 @@ body {
 
 .filter-clear {
     text-decoration: none;
+    color: grey !important;
     border: 1px solid #6c757d;
     padding: 5%;
     border-radius: 10px; 
     cursor: pointer;
 }
-
-/* .btn-link {
-    text-decoration: none;
-  } */
 
 .custom-filter-checkbox {
     border-top: 1px solid #555;
