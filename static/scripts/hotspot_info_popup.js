@@ -9,16 +9,8 @@ async function makePopup(hotspot) {
         alert("Database Error");
     }
 
-    let numReviews = reviews.length;
-    let sum = 0;
-    reviews.forEach((review) => {
-        sum += review['stars'];
-    });
-    let avgScore = numReviews > 0 ? sum / numReviews : -1;
-    avgScore = avgScore.toFixed(2);
-
     // call script to populate popup with information
-    fillPopup(hotspot, avgScore, reviews);
+    fillPopup(hotspot, reviews);
 
     map.flyTo({
         center: [hotspot['longitude'], hotspot['latitude']]
@@ -37,7 +29,7 @@ async function makePopup(hotspot) {
 }
 
 // Helper for makePopup().
-function fillPopup(hotspot, avgScore, reviews) {
+function fillPopup(hotspot, reviews) {
 
     // Create query call for Google Map place search.
     let query = hotspot['name'] + " " + hotspot['address'];
@@ -68,7 +60,7 @@ function fillPopup(hotspot, avgScore, reviews) {
         $('#ul-speed-container').show();
         $('#ul-speed').text(hotspot['ul_speed'] + ' Mbps');
     } else {
-        $('#no-ul-speed').show();
+        $('#no-ul-speed').hide();
         $('#ul-speed-container').hide();
     }
     
@@ -77,10 +69,13 @@ function fillPopup(hotspot, avgScore, reviews) {
         $('#dl-speed-container').show();
         $('#dl-speed').text(hotspot['dl_speed'] + ' Mbps');
     } else {
-        $('#no-dl-speed').show();
+        $('#no-dl-speed').hide();
         $('#dl-speed-container').hide();
     }
 
+    if (hotspot['dl_speed'] < 0 && hotspot['ul_speed'] < 0) {
+        $('#speed-table-display').hide();
+    }
 
     // Add description
     $('#descrip-div').empty();
@@ -91,8 +86,8 @@ function fillPopup(hotspot, avgScore, reviews) {
     }
 
     // Add avg rating
-    if (avgScore >= 0) 
-        $('#avg-rating').text("Average Rating: " + avgScore);
+    if (hotspot['avg_rating']) 
+        $('#avg-rating').text("Average Rating: " + hotspot['avg_rating']);
     else
         $('#avg-rating').text("Average Rating: None");
 
@@ -107,24 +102,20 @@ function fillPopup(hotspot, avgScore, reviews) {
     }
 
     for (let review of reviews) {
-        let card = $('<div>').addClass('card');
+        let card = $('<div>').addClass('card review-card');
         let body = $('<div>').addClass('card-body');
-        let title = $('<h5>').addClass('card-title');
-        // .text("Review " + review['pin_id']);
         let starDiv = makeStars(review['stars']);
-        let timeFoot = $('<div>').addClass('card-footer text-end review-time-text').text(review['time']);
+        let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>'+review['time']+'</span>');
         let text = $('<div>').text(review['text']);
-        $('<br/>').appendTo('#review-list');
-        title.append(starDiv);
-        body.append(title, text);
-        card.append(body, timeFoot);
+        body.append(text);
+        card.append(header, body);
         $('#review-list').append(card);
     }
 }
 
 function makeStars(numStars) {
     let num = parseInt(numStars);
-    let container = $('<div>').addClass('d-flex justify-content-start');
+    let container = $('<span>');
 
     for (let i = 0; i < num; i++) {
         let star = $('<span>').addClass("d-inline-block");

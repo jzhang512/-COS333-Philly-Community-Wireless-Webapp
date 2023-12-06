@@ -208,17 +208,17 @@ svg {
     width: 100vw;
     height: calc(100vh - 65px);
     align-items: stretch;
-    overflow: hidden;
 }
 
 body {
     padding-top: 65px;
 }
 
-.sidebar {
+.filterbar {
     width: 20%;
     overflow-y: auto;
-    text-wrap: nowrap;
+    overflow-x: hidden;
+    /* text-wrap: nowrap; */
     /* flex: 0 0 auto; */
 }
 
@@ -227,9 +227,11 @@ body {
 }
 
 #hotspotsList {
-    padding-top: 2.5%;
-    padding-left: 5%;
-    padding-right: 10%;
+    margin-top: 2.5%;
+    margin-bottom: 10%;
+    margin-left: 5%;
+    margin-right: 10%;
+    height: 65%;
 }
 
 .vertical-separator {
@@ -241,7 +243,30 @@ body {
 /* Search bar styling. */
 
 .searchbar-sort {
-    margin-top: 5%;
+    padding-top: 5%;
+    padding-bottom: 10%;
+}
+
+.visible-scrollbar::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 6px;
+  }
+  
+.visible-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #6c757d;
+}
+  
+.visible-scrollbar::-webkit-scrollbar-track {
+    background-color: #eee;
+}
+
+.distance-pill {
+    background-color: #3960a6;
+    color: white;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .sort-by-button {
@@ -303,32 +328,27 @@ body {
 
 .filter-clear {
     text-decoration: none;
+    color: grey !important;
     border: 1px solid #6c757d;
     padding: 5%;
     border-radius: 10px; 
     cursor: pointer;
 }
 
-/* .btn-link {
-    text-decoration: none;
-  } */
-
 .custom-filter-checkbox {
     border-top: 1px solid #555;
     border-right: 1px solid #555;
     border-left: 2px solid #555;
     border-bottom: 2px solid #555;
-    border-radius: 10px; 
 }
 
 .filter-form {
-    padding-left: 15%;
+    padding-left: 35px;
     margin-left: 5%;
     border-left: 1px solid #5162ed;
     border-top: 1px solid #5162ed;
     border-bottom: 1px solid #5162ed;
-    border-top-left-radius: 10px; 
-    border-bottom-left-radius: 10px; 
+    border-radius: 10px;
 }
 
 .custom-checkbox {
@@ -348,10 +368,11 @@ body {
     border-right: 2px solid #5162ed; 
 }
 
-.search-bar-panel {
+.searchbar-panel {
     background-color: #E1E6F6;
     border-right: 4px solid #5162ed; 
     width: 25%;
+    overflow-y: auto;
 }
 
 .open-filter-button {
@@ -372,6 +393,12 @@ body {
 
 /* Hotspot Information Popup Styles */
 
+.review-card {
+    width: 16rem;
+    margin-left: 2.5%;
+    margin-top: 2.5%;
+}
+
 #review-list{
     border-top: 2px solid #5162ed;
     border-bottom: 2px solid #5162ed;
@@ -380,9 +407,11 @@ body {
     margin-top: 5%;
 }
 
-.review-time-text {
+.review-time-container {
     font-style: italic;
     font-size: 0.7em;
+    display: flex;
+    justify-content: space-between;
 }
 
 .open-with-googlemaps-text {

@@ -20,7 +20,7 @@ InvalidFormat = db.validate.InvalidFormat
 # ---------------------------------------------------------------------
 # Read-Only Functions (public user).
 
-def get_pins():
+def get_pins(include_reviews=False):
     """
     Should return a list of all pins (each pin represented as a dictionary) 
     with relevant information.
@@ -28,6 +28,7 @@ def get_pins():
     A pin should have the following fields:
     {
         hotspot_id: int
+        ratings: list of ints
         name: string
         address: string
         latitude: float
@@ -39,7 +40,7 @@ def get_pins():
     }
     """
     
-    return db.read_data.get_pins_all()
+    return db.read_data.get_pins_all(include_reviews=include_reviews)
 
 # ----------------------------------
 
@@ -67,21 +68,39 @@ def get_tags_by_category(category: str = ""):
 
 # ----------------------------------
 
-def get_reviews_by_hotspot(pin_id: int):
+def get_reviews_by_hotspot(hotspot_id: int):
     """
     Returns a list of of reviews associated with pin with given pin_id. Each
-    pin is represented as a dict.
+    review is represented as a dict.
 
     A review should have the following fields:
     {
-        pin_id: int
+        hotspot_id: int
+        text: string
+        stars: int (1-5)
+        time: string ('YYYY-MM-DD HH:MM:SS')
+    }
+    """
+    hotspot_id = db.validate.validate_int(hotspot_id, "hotspot_id")
+
+    return db.read_data.get_single_review(hotspot_id)
+
+# ----------------------------------
+
+def get_all_reviews(just_ratings=False):
+    """
+    Returns a list of reviews. Each review is represented as a dict.
+
+    A review should have the following fields:
+    {
+        hotspot_id: int
         text: string
         stars: int (1-5)
         time: string ('YYYY-MM-DD HH:MM:SS')
     }
     """
 
-    return db.read_data.get_single_review(pin_id)
+    return db.read_data.get_all_reviews(just_ratings=just_ratings)
 
 # ----------------------------------
 
@@ -91,7 +110,7 @@ def get_pending_reviews():
 
     A review should have the following fields:
     {
-        pin_id: int
+        hotspot_id: int
         TODO name: string
         review_id: int
         text: string

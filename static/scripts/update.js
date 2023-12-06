@@ -88,8 +88,6 @@ function createNewHotspot() {
 function handleResponseMap(data) {
     hotspots = data;
     hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
-    console.log("This ran!")
-    console.log("Admins: " + hotspots)
     setup(data);
 }
 
@@ -225,6 +223,7 @@ function buildHotspot(id = 'new') {
             hotspot['tags'].push(tag['tag_id']);
         }
     }
+    
     hotspot['hotspot_id'] = parseInt(id);
     hotspot['address'] = $('#hotspot-address' + id).val();
     hotspot['location_name'] = $('#hotspot-title' + id).val();

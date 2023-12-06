@@ -93,8 +93,10 @@ def admin(admin_path=None):
 
 @app.route('/api/hotspots', methods=['GET'])
 def hotspots():
+    ratings = flask.request.args.get("ratings", default=False)
+    ratings = True if ratings else False
     try:
-        pins = database_req.get_pins()
+        pins = database_req.get_pins(include_reviews=ratings)
     except Exception as ex:
         print(ex)
         return flask.jsonify("Database Error")
@@ -115,10 +117,9 @@ def tags():
 
 @app.route('/api/reviews', methods=['GET'])
 def review_pin():
-    pin = flask.request.args.get("id", default="")
+    hotspot = flask.request.args.get("id", default="")
     try:
-        pin = int(pin)
-        reviews = database_req.get_reviews_by_hotspot(pin)
+        reviews = database_req.get_reviews_by_hotspot(hotspot)
         return flask.jsonify(reviews)
 
     except ValueError as ex:
