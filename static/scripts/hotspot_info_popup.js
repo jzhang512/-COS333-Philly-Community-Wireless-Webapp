@@ -87,7 +87,7 @@ function fillPopup(hotspot, reviews) {
 
     // Add avg rating
     if (hotspot['avg_rating']) 
-        $('#avg-rating').text("Average Rating: " + hotspot['avg_rating']);
+        $('#avg-rating').text("Average Rating: " + parseFloat(hotspot['avg_rating']).toFixed(1));
     else
         $('#avg-rating').text("Average Rating: None");
 

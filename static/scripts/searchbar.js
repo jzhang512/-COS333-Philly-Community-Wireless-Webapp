@@ -21,7 +21,7 @@ async function updateHotspotsList(hotspots) {
 
         let hotspot_buttonScore = "<span><span class = 'avg-rating-icon'>"
         if (hotspot['avg_rating']) {
-            hotspot_buttonScore += hotspot['avg_rating'] + "</span>";
+            hotspot_buttonScore += parseFloat(hotspot['avg_rating']).toFixed(1) + "</span>";
 
             // Make star.
             let star = $('<span>').addClass("d-inline-block");
