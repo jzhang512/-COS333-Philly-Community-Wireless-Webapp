@@ -1,23 +1,45 @@
 // Update view with corresponding list/search results after search and
 // or filter. Filtering should be done externally.
-function updateHotspotsList(hotspots) {
+async function updateHotspotsList(hotspots) {
     $('#hotspotsList').empty();
+
+    if (sort_type == "alphabetical") {
+        hotspots.sort((a, b) => a['name'].localeCompare(b['name']));
+    }
+    else if (sort_type == "distance") {
+        hotspots.sort((a, b) => a['dist'] - b['dist']);
+    }
+    else {
+        hotspots.sort((a, b) => b['avg_rating'] - a['avg_rating']);
+    }
+
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
-        var hotspot_buttonText = (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span><br>' : ''
+        var hotspot_buttonText = "<span class = 'd-flex justify-content-between'>"
+        hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
 
-        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
-        let hotspot_buttonScore = "<strong> ("
+        let hotspot_buttonScore = "<span><span class = 'avg-rating-icon'>"
         if (hotspot['avg_rating']) {
-            hotspot_buttonScore += hotspot['avg_rating'] + ")</strong>";
+            hotspot_buttonScore += parseFloat(hotspot['avg_rating']).toFixed(1) + "</span>";
+
+            // Make star.
+            let star = $('<span>').addClass("d-inline-block");
+            let icon = document.createElement("i");
+            icon.classList.add("fas", "fa-star", "star");
+            star.append(icon);
+            hotspot_buttonScore += star.prop("outerHTML") + "</span></span>";
         } else {
-            hotspot_buttonScore += "None)</em>";
+            hotspot_buttonScore += "<i class = 'no-rating-text'>No Rating</i></span></span></span>";
         }
+
+        hotspot_buttonText += hotspot_buttonScore;
+        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
+        console.log(hotspot_buttonText);
         
         $('#hotspotsList').append(
             $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
-            .html('<div>' + hotspot_buttonText + hotspot_buttonScore +'</div>')
+            .html('<div>' + hotspot_buttonText +'</div>')
         );
     });
 
@@ -31,8 +53,8 @@ function updateHotspotsList(hotspots) {
 
 
 // Show between which type of sort is selected by user.
-function toggleSortSelection(selected) {
-    if (selected == "alphabetical") {
+function toggleSortSelection() {
+    if (sort_type == "alphabetical") {
         $("#sort_alphabetical").addClass('sort-button-clicked');
         $("#sort_alphabetical").removeClass('sort-button-unclicked');
 
@@ -42,10 +64,10 @@ function toggleSortSelection(selected) {
         $("#sort_rating").addClass('sort-button-unclicked');
         $("#sort_rating").removeClass('sort-button-clicked');
 
-        displayed.sort((a, b) => a['name'].localeCompare(b['name']))
+        // displayed.sort((a, b) => a['name'].localeCompare(b['name']))
         updateHotspotsList(displayed);
     }
-    else if (selected == "distance") {
+    else if (sort_type == "distance") {
         $("#sort_alphabetical").addClass('sort-button-unclicked');
         $("#sort_alphabetical").removeClass('sort-button-clicked');
 
@@ -56,7 +78,7 @@ function toggleSortSelection(selected) {
         $("#sort_rating").removeClass('sort-button-clicked');
 
         // Nearest first.
-        displayed.sort((a, b) => a['dist'] - b['dist']);
+        // displayed.sort((a, b) => a['dist'] - b['dist']);
         updateHotspotsList(displayed);
     } else {
         $("#sort_alphabetical").addClass('sort-button-unclicked');
@@ -69,7 +91,7 @@ function toggleSortSelection(selected) {
         $("#sort_rating").removeClass('sort-button-unclicked');
 
         // Nearest first.
-        displayed.sort((a, b) => b['avg_rating'] - a['avg_rating']);
+        // displayed.sort((a, b) => b['avg_rating'] - a['avg_rating']);
         updateHotspotsList(displayed);
     }
 }
@@ -144,11 +166,13 @@ function getLocation(callback = () => { }) {
 }
 
 $('#sort_alphabetical').click(function () {
-    toggleSortSelection("alphabetical");
+    sort_type = "alphabetical";
+    toggleSortSelection();
 });
 
 $('#sort_rating').click(function () {
-    toggleSortSelection("rating");
+    sort_type = "rating";
+    toggleSortSelection();
 });
 
 $('#sort_distance').click(function () {
@@ -184,7 +208,8 @@ $('#sort_distance').click(function () {
 
         console.log('set data');
 
-        toggleSortSelection("distance");
+        sort_type = "distance";
+        toggleSortSelection();
         $('#sort_distance').removeClass('sort-button-disabled');
     }
     else {

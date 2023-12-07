@@ -13,6 +13,7 @@ let tags;
 let hotspots;
 let displayed;
 let siteTitle = "Philly Wifi";
+let sort_type = "alphabetical";
 
 // User coordinates stored as [lon., lat.], null if not available
 let user_coords = null;
@@ -45,6 +46,8 @@ function setup() {
     getSearchResults();
     $('#searchInput').on('input', debouncedGetResults);
 }
+
+// -------------------------------------------------------------------
 
 // Should be the only document.ready call for map side.
 $(document).ready(async () => {
