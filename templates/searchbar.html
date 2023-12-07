@@ -1,4 +1,4 @@
-<div class="row pt-3 mx-auto">
+<div class="small-screen-search row pt-3 mx-auto ">
     <span class="searchbar-search-text">Search</span>
     <div class = "input-group">
         <div class="col-sm-10">
@@ -17,24 +17,25 @@
     </div>
 </div>
 
-<header class="row mx-auto">
-    <h4 class="searchbar-header header-text">Hotspots</h4> 
-</header>
+<div class = "searchbar-content">
+    <header class="row mx-auto">
+        <h4 class="searchbar-header header-text">Hotspots</h4> 
+    </header>
 
-<div class = "container searchbar-sort">
-    <div class="col-sm-12">
-        <p class="sort-by-button header-text"><small>Sort By</small></p>
-    </div>
-    <div class="col-sm-12" id = "sort-searchbar-row2">
-        <div class="btn-group" role="group" aria-label="Sort By">
-            <button type="button" class="btn btn-sm btn-secondary sort-button-clicked sort-button" id="sort_alphabetical">Name</button>
-            <button type="button" class="btn btn-sm btn-secondary sort-button sort-button-unclicked" id="sort_rating">Rating</button>
-            <button type="button" class="btn btn-sm sort-button sort-button-unclicked" id="sort_distance" disabled>
-                Near Me
-            </button>
+    <div class = "container searchbar-sort">
+        <div class="col-sm-12">
+            <p class="sort-by-button header-text"><small>Sort By</small></p>
+        </div>
+        <div class="col-sm-12" id = "sort-searchbar-row2">
+            <div class="btn-group" role="group" aria-label="Sort By">
+                <button type="button" class="btn btn-sm btn-secondary sort-button-clicked sort-button" id="sort_alphabetical">Name</button>
+                <button type="button" class="btn btn-sm btn-secondary sort-button sort-button-unclicked" id="sort_rating">Rating</button>
+                <button type="button" class="btn btn-sm sort-button sort-button-unclicked" id="sort_distance" disabled>
+                    Near Me
+                </button>
+            </div>
         </div>
     </div>
+
+    <div class="overflow-auto list-group visible-scrollbar" id="hotspotsList"></div>
 </div>
-
-<div class="overflow-auto list-group visible-scrollbar" id="hotspotsList"></div>
-

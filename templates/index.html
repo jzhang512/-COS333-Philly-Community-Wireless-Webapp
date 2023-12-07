@@ -52,23 +52,6 @@
     </nav>
 
     <div class="wrapper">
-        <div class="small-screen-search row pt-3 mx-auto">
-            <div class = "input-group">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control location-name-search-box"
-                    id="searchInput_small" placeholder = "Search by Name Here" autoFocus>
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-small btn-outline-secondary open-filter-button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"
-                    id = "toggleFilterFromSearchbar">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
 
         <div class="filterbar collapse collapse-horizontal filter-bar-panel" id="collapseFilter">
             {% include 'filterbar.html' %}

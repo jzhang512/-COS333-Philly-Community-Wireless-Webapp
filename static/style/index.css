@@ -385,9 +385,9 @@ body {
         width: 25%; 
         overflow-y: auto;
     }
-    .small-screen-search{
+    /* .small-screen-search{
         display: none;
-    }
+    } */
     .searchbar-search-text {
         font-size: .875em;
         color: #5162ed;
@@ -397,14 +397,14 @@ body {
 
 /* Smaller screens. */
 @media (max-width: 992px) {
-    .searchbar-panel {
+    .searchbar-content {
         display: none;
     }
     .filterbar {
         display: none;
     }
     .small-screen-search{
-        display: block;
+        display: block !important;
         position: absolute;
         top: 75px;
         left: 2.5%;
