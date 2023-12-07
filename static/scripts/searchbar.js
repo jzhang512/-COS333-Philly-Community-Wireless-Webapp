@@ -38,7 +38,7 @@ async function updateHotspotsList(hotspots) {
         // console.log(hotspot_buttonText);
         
         $('#hotspotsList').append(
-            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
+            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action"></button>')
             .html('<div>' + hotspot_buttonText +'</div>')
         );
     });
@@ -223,7 +223,9 @@ $('#sort_distance').click(function () {
 
 // For smaller screen rendering (SMALLSCREENWIDTH = 992 width or less).
 
-$('#searchInput').on('focus', function() {
+$('#searchInput').on('focus', function () {smallScreenRendering()});
+
+function smallScreenRendering() {
     // Show the panel content when the input gains focus
     if ($(window).width() <= SMALLSCREENWIDTH) {
         // console.log('small window focus')
@@ -243,67 +245,58 @@ $('#searchInput').on('focus', function() {
             'overflow-y': 'auto',
         });
 
+        $('#close-list-text-btn').remove();
         $('#close-list').append('<strong id = "close-list-text-btn" >CLOSE</strong>');
 
-        $('#close-list-text-btn').on('click', function() {
+        $('#close-list-text-btn, .hotspots-list-button').on('click', function() {
             if ($(window).width() <= SMALLSCREENWIDTH) {
                 //  console.log('small window blur')
-                 $('#searchbar-content-div').addClass('searchbar-content');
-                 $('.searchbar-content-small').css({
-                     "display": "",
-                     'position': '',
-                     'width': '',
-                     'height': '',
-                     'top': '',
-                     'left': '',
-                     'padding-bottom': '',
-                     'z-index': '',
-                     'background-color': '',
-                     'overflow-y': '',
-                 });
-                 $('#searchbar-content-div').removeClass('searchbar-content-small');
+                hide_search_panel();
              }
-             $('#close-list-text-btn').remove();
         });
     }
+}
+
+function hide_search_panel() {
+    $('#searchbar-content-div').addClass('searchbar-content');
+    $('.searchbar-content-small').css({
+        "display": "",
+        'position': '',
+        'width': '',
+        'height': '',
+        'top': '',
+        'left': '',
+        'padding-bottom': '',
+        'z-index': '',
+        'background-color': '',
+        'overflow-y': '',
+    });
+    $('#searchbar-content-div').removeClass('searchbar-content-small');
+    // Redundant but just in case.
+    $('#close-list-text-btn').remove();
+}
+
+function checkViewportWidth() {
+    var viewportWidth = $(window).width();
+
+    // Check if viewport width is less than 992 pixels
+    if (viewportWidth <= 992) {
+        // Perform actions for viewport width less than 992 pixels
+        if ($('#searchInput').is(':focus')) {
+            smallScreenRendering();
+        }
+    }
+    else {
+        hide_search_panel()
+    }
+}
+
+$(window).on('resize', function() {
+    // Debounce the function to avoid excessive calls during resizing
+    clearTimeout($.data(this, 'resizeTimer'));
+    $.data(this, 'resizeTimer', setTimeout(function() {
+        // Call the function after a short delay to ensure the resizing is complete
+        checkViewportWidth();
+    }, 20));
 });
 
-// $('#close-list-text-btn').on('click', function() {
-//     if ($(window).width() <= SMALLSCREENWIDTH) {
-//         //  console.log('small window blur')
-//          $('#searchbar-content-div').addClass('searchbar-content');
-//          $('.searchbar-content-small').css({
-//              "display": "",
-//              'position': '',
-//              'width': '',
-//              'height': '',
-//              'top': '',
-//              'left': '',
-//              'padding-bottom': '',
-//              'z-index': '',
-//              'background-color': '',
-//              'overflow-y': '',
-//          });
-//          $('#searchbar-content-div').removeClass('searchbar-content-small');
-//      }
-// });
-
-// $('#searchInput').on('blur', function() {
-    // if ($(window).width() <= SMALLSCREENWIDTH) {
-    //    //  console.log('small window blur')
-    //     $('#searchbar-content-div').addClass('searchbar-content');
-    //     $('.searchbar-content-small').css({
-    //         "display": "",
-    //         'position': '',
-    //         'width': '',
-    //         'height': '',
-    //         'top': '',
-    //         'left': '',
-    //         'padding-bottom': '',
-    //         'z-index': '',
-    //         'background-color': '',
-    //         'overflow-y': '',
-    //     });
-    //     $('#searchbar-content-div').removeClass('searchbar-content-small');
-    // }
-// });
