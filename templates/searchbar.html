@@ -1,40 +1,45 @@
-<div class="row pt-3 mx-auto">
-    <div class="searchbar-search-text">Search</div>
-    <div class = "input-group">
-        <div class="col-sm-9">
+<div class="small-screen-search row pt-3 mx-auto" id="searchbox-area">
+    <span class="searchbar-search-text">Search</span>
+    <div class = "input-group" id = "search-input-group">
+        <div class="col-sm-10">
             <input type="text" class="form-control location-name-search-box"
-            id="searchInput" placeholder = "Location Name" autoFocus>
+            id="searchInput" placeholder = "Location Name">
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <button class="btn btn-small btn-outline-secondary open-filter-button" data-bs-toggle="collapse"
             data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"
             id = "toggleFilterFromSearchbar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
                 </svg>
             </button>
         </div>
     </div>
 </div>
 
-<header class="row mx-auto">
-    <h4 class="searchbar-header header-text">Hotspots</h4> 
-</header>
+<div class = "searchbar-content" id = "searchbar-content-div">
+    <header class="row mx-auto searchbar-header">
+        <span class = "col-8">
+            <h4 class="header-text">Hotspots</h4> 
+        </span>
+        <span class = "col-4" id = "close-list">
+        </span>
+    </header>
 
-<div class = "container searchbar-sort">
-    <div class="col-sm-12">
-        <p class="sort-by-button header-text"><small>Sort By</small></p>
-    </div>
-    <div class="col-sm-12" id = "sort-searchbar-row2">
-        <div class="btn-group" role="group" aria-label="Sort By">
-            <button type="button" class="btn btn-sm btn-secondary sort-button-clicked sort-button" id="sort_alphabetical">Name</button>
-            <button type="button" class="btn btn-sm btn-secondary sort-button sort-button-unclicked" id="sort_rating">Rating</button>
-            <button type="button" class="btn btn-sm sort-button sort-button-unclicked" id="sort_distance" disabled>
-                Near Me
-            </button>
+    <div class = "container searchbar-sort">
+        <div class="col-sm-12">
+            <p class="sort-by-button header-text"><small>Sort By</small></p>
+        </div>
+        <div class="col-sm-12" id = "sort-searchbar-row2">
+            <div class="btn-group" role="group" aria-label="Sort By">
+                <button type="button" class="btn btn-sm btn-secondary sort-button-clicked sort-button" id="sort_alphabetical">Name</button>
+                <button type="button" class="btn btn-sm btn-secondary sort-button sort-button-unclicked" id="sort_rating">Rating</button>
+                <button type="button" class="btn btn-sm sort-button sort-button-unclicked" id="sort_distance" disabled>
+                    Near Me
+                </button>
+            </div>
         </div>
     </div>
+
+    <div class="overflow-auto list-group visible-scrollbar" id="hotspotsList"></div>
 </div>
-
-<div class="overflow-auto list-group visible-scrollbar" id="hotspotsList"></div>
-
