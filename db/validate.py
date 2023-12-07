@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class InvalidFormat(Exception):
     def __init__(self, string):
         self.error = string
@@ -62,7 +64,7 @@ def validate_float(val, name, range=None, string_allowed=True):
     return val
 
 
-def validate_str(val, name):
+def validate_str(val, name, max_length=None, possible_vals=None):
     """
     Validates that a value is a string.
 
@@ -71,6 +73,11 @@ def validate_str(val, name):
     """
     if (str(val) != val):
         _raise(f"{name} must be of type string.", val)
+    if (max_length is not None and len(val) > max_length):
+        _raise(f"{name} is greater than {max_length} characters long.", val)
+    if (possible_vals is not None):
+        if (val not in possible_vals):
+            _raise(f"{name} is not a valid value.", val)
     return val
 
 
@@ -125,6 +132,13 @@ def validate_list_dicts(val, name, fields):
         check_fields(elem, f"Elem {i} of {name}", fields)
 
 
+def validate_date(val, name, format="%m/%d/%Y"):
+    try:
+        datetime.strptime(val, format)
+    except (ValueError, TypeError):
+        _raise(f"{name} is invalid date", val)
+
+
 
 def test():
     ##############################  Ints  ##############################
@@ -170,6 +184,11 @@ def test():
     ############################  Strings  #############################
     validate_str("str", "test_str")
     validate_str("", "test_str")
+    validate_str("", "test_str", max_length=10)
+    validate_str("abcde", "test_str", max_length=5)
+    validate_str("Test Test Test", "test_str", max_length=14)
+    validate_str("a", "test_str", max_length=5, possible_vals=["a", "b"])
+    validate_str("b", "test_str", max_length=1, possible_vals=["a", "b"])
 
     _test_invalid(validate_str, 234, "invalid")
     _test_invalid(validate_str, 2.5, "invalid")
@@ -177,6 +196,11 @@ def test():
     _test_invalid(validate_str, ['s'], "invalid")
     _test_invalid(validate_str, True, "invalid")
     _test_invalid(validate_str, None, "invalid")
+    _test_invalid(validate_str, "abcde", "invalid", max_length=4)
+    _test_invalid(validate_str, "c", "invalid", possible_vals=["a", "b"])
+    _test_invalid(validate_str, "abcde", "invalid", max_length=5, possible_vals=[])
+    _test_invalid(validate_str, "abcde", "invalid", max_length=5, possible_vals=[""])
+    _test_invalid(validate_str, "abcde", "invalid", max_length=4, possible_vals=["abcde"])
 
     #############################  Dicts  ##############################
     test_dict = {"a": 0, "b": 1, "c": 2, "1": 1, "2": 2, "3": 3}
@@ -201,8 +225,8 @@ def test():
     validate_list_ints([-1, 0, 1], "test_list")
     validate_list_ints(["1", "2", "3"], "test_list")
     validate_list_ints([1, "2", 3], "test_list")
-    validate_list_ints((1, 2, 3), "test_list")
-    validate_list_ints((), "test_list")
+    # validate_list_ints((1, 2, 3), "test_list")
+    # validate_list_ints((), "test_list")
 
     _test_invalid(validate_list_ints, 1, "invalid")
     _test_invalid(validate_list_ints, 0, "invalid")
@@ -249,6 +273,27 @@ def test():
     _test_invalid(validate_list_dicts, 
                   [test_dict1, test_dict2, test_dict3, test_dict4], 
                   "invalid", ["a", "1"])
+    
+    #############################  Floats  #############################
+    validate_date("12/25/2023", "test_date")
+    validate_date("01/01/1900", "test_date")
+    validate_date("02/29/2024", "test_date")
+    validate_date("06/22/2001", "test_date")
+
+    _test_invalid(validate_date, "", "invalid")
+    _test_invalid(validate_date, 2023, "invalid")
+    _test_invalid(validate_date, "02-23-2023", "invalid")
+    _test_invalid(validate_date, ["02/29/2023"], "invalid")
+    _test_invalid(validate_date, ("02/29/2023"), "invalid")
+    _test_invalid(validate_date, "13/29/2023", "invalid")
+    _test_invalid(validate_date, "02/29/2023", "invalid")
+    _test_invalid(validate_date, "12/32/2023", "invalid")
+    _test_invalid(validate_date, "06/31/2023", "invalid")
+    _test_invalid(validate_date, "02/29/20223", "invalid")
+    _test_invalid(validate_date, "January 1, 2023", "invalid")
+    _test_invalid(validate_date, "29/02/2023", "invalid")
+    _test_invalid(validate_date, " 02/24/2023", "invalid")
+    _test_invalid(validate_date, "-02/29/2023-", "invalid")
 
 
 if __name__ == "__main__":

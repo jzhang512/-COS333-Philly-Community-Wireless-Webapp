@@ -63,6 +63,7 @@ def get_tags_by_category(category: str = ""):
         'establishment',
         'accessibility'
     """
+    db.validate.validate_str(category, "category")
 
     return db.read_data.get_tags_category(category)
 
@@ -130,7 +131,7 @@ def add_user_review(review):
 
     hotspot_id: int
     rating: int (1-5)
-    text: string
+    text: string (length <= 200)
     time: timestamp (need to verify valid format)
     """
 
@@ -143,8 +144,8 @@ def add_user_review(review):
     time = review['time']
     db.validate.validate_int(hotspot_id, "hotspot_id")
     db.validate.validate_int(rating, "rating", range=(1, 5))
-    db.validate.validate_str(comment, "comment")
-    # TODO: validate timestamp
+    db.validate.validate_str(comment, "comment", max_length=200)
+    db.validate.validate_date(time, "date")
     
     db.write_data.add_user_review_imp(hotspot_id, rating,
                                              comment, time)
@@ -161,8 +162,8 @@ def remove_hotspots(remove_list):
     remove_list: list of ints
     """
     
-    # TODO validate format of data
     remove_list = db.validate.validate_list_ints(remove_list, "hotspot ids")
+
     db.write_data.remove_hotspots(remove_list)
 
     return  # nothing to return
@@ -178,7 +179,7 @@ def hide_hotspots(hide_list):
     hide_list: list of ints
     """
 
-    # TODO validate format of data
+    hide_list = db.validate.validate_list_ints(hide_list, "hotspot ids")
 
     db.write_data.visualization_hotspots(hide_list, True)
 
@@ -193,7 +194,7 @@ def reveal_hotspots(reveal_list):
     reveal_list: list of ints
     """
 
-    # TODO validate format of data
+    reveal_list = db.validate.validate_list_ints(reveal_list, "hotspot ids")
 
     db.write_data.visualization_hotspots(reveal_list, False)
 
@@ -210,17 +211,31 @@ def update_hotspots(hotspots):
     A hotspot should contain the following fields:
     {
         hotspot_id: int
-        location_name: string
-        address: string
+        location_name: string (length <= 80)
+        address: string (length <= 150)
         latitude: float
         longitude: float
         upload_speed: real
         download_speed: real
-        description: string
+        description: string (length <= 300)
     }
     """
 
-    # TODO validate format of data
+    fields = ["hotspot_id", "location_name", "address", "latitude", "longitude",
+              "upload_speed", "download_speed", "description"]
+    db.validate.validate_list(hotspots, "hotspots")
+    for i, hotspot in enumerate(hotspots):
+        db.validate.check_fields(hotspot, "dict", fields)
+        hotspot["hotspot_id"] = db.validate.validate_int(hotspot["hotspot_id"], 'hotspot id')
+        db.validate.validate_str(hotspot['location_name'], "location name", max_length=80)
+        db.validate.validate_str(hotspot['address'], "address", max_length=150)
+        db.validate.validate_str(hotspot['description'], "description", max_length=300)
+        hotspot['latitude'] = db.validate.validate_float(hotspot['latitude'], 'latitude', range=(-90, 90))
+        hotspot['longitude'] = db.validate.validate_float(hotspot['longitude'], 'longitude', range=(-180, 180))
+        hotspot['upload_speed'] = db.validate.validate_float(hotspot['upload_speed'], 'upload_speed')
+        hotspot['download_speed'] = db.validate.validate_float(hotspot['download_speed'], 'download_speed')
+        hotspots[i] = hotspot
+    
     db.write_data.update_hotspots_imp(hotspots)
 
     return 
@@ -246,12 +261,10 @@ def create_hotspots(hotspots):
     }
     """
 
-    # TODO validate format of data for floats
     fields = ['location_name', 'address', 'latitude', 'longitude', 
               'upload_speed', 'download_speed', 'description', 'tags']
     db.validate.validate_list(hotspots, "hotspots")
     for i, hotspot in enumerate(hotspots):
-        print("validating")
         db.validate.check_fields(hotspot, "dict", fields)
         db.validate.validate_str(hotspot['location_name'], "location name")
         db.validate.validate_str(hotspot['address'], "address")
@@ -261,7 +274,6 @@ def create_hotspots(hotspots):
         hotspot['upload_speed'] = db.validate.validate_float(hotspot['upload_speed'], 'upload_speed')
         hotspot['download_speed'] = db.validate.validate_float(hotspot['download_speed'], 'download_speed')
         hotspot['tags'] = db.validate.validate_list_ints(hotspot['tags'], "tags")
-        print(hotspot)
         hotspots[i] = hotspot
 
     db.write_data.create_hotspots_imp(hotspots)
@@ -282,7 +294,13 @@ def update_hotspot_tags(hotspots_and_tags):
     }
     """
 
-    # TODO validate format of data
+    fields = ['location_name', 'tags']
+    db.validate.validate_list(hotspots_and_tags, "hotspots")
+    for i, hotspot in enumerate(hotspots_and_tags):
+        db.validate.check_fields(hotspot, "dict", fields)
+        hotspot['tags'] = db.validate.validate_list_ints(hotspot['tags'], "tags")
+        hotspots_and_tags[i] = hotspot
+
     db.write_data.update_hotspots_tags(hotspots_and_tags)
 
     return # returns nothing
@@ -298,7 +316,7 @@ def add_tags(tags_to_add):
 
     A tag should have the following fields:
     {
-        tag_name: string
+        tag_name: string (length <= 30)
         category: string
     }
 
@@ -311,7 +329,14 @@ def add_tags(tags_to_add):
         'Password'
     """
 
-    # TODO validate format of data
+    fields = ["tag_name", "category"]
+    categories = ['Cost', 'Privacy', 'Establishment', 'Amenities',
+                  'Accessibility', 'Password']
+    db.validate.validate_list(tags_to_add, "tags")
+    for tag in tags_to_add:
+        db.validate.check_fields(tag, "tag", fields)
+        db.validate.validate_str(tag['tag_name'], "tag name", max_length=30)
+        db.validate.validate_str(tag['category'], "category", possible_vals=categories)
 
     db.write_data.add_new_tags(tags_to_add)
 
@@ -356,7 +381,15 @@ def update_tags(tags):
         'Password'
     """
 
-    # TODO validate format of data
+    fields = ["tag_id", "tag_name", "category"]
+    categories = ['Cost', 'Privacy', 'Establishment', 'Amenities',
+                  'Accessibility', 'Password']
+    db.validate.validate_list(tags, "tags")
+    for i, tag in enumerate(tags):
+        db.validate.check_fields(tag, "tag", fields)
+        tag["tag_id"] = db.validate.validate_int(tag["tag_id"], "tag id")
+        db.validate.validate_str(tag['tag_name'], "tag name", max_length=30)
+        db.validate.validate_str(tag['category'], "category", possible_vals=categories)
 
     db.write_data.update_tags_imp(tags)
 
@@ -371,7 +404,7 @@ def approve_review(review_id):
     review_id: int
     """
 
-    db.validate.validate_int(review_id, "review_id")
+    review_id = db.validate.validate_int(review_id, "review_id")
 
     db.write_data.approve_review(review_id)
 
@@ -386,7 +419,7 @@ def reject_review(review_id):
     review_id: int
     """
 
-    db.validate.validate_int(review_id, "review_id")
+    review_id = db.validate.validate_int(review_id, "review_id")
     
     db.write_data.delete_pending_review(review_id)
 
@@ -398,38 +431,27 @@ def reject_review(review_id):
 # Removed the create username function. Perhaps it should only be 
 # update (it handle both cases, no need to delinate between the two?
 # We'll need an admin_id either way.
-def update_admin_username(admin_id, username):
-    """
-    Updates the username supplied by admin for own account.
-
-    admin_id: int
-    username: string (check for valid format)
-    """
-
-    # TODO validate format of data
-
-    db.write_data.update_admin_username(admin_id, username)
-
-    return
-
-# ----------------------------------
 
 def is_authorized_user(key: str = ""):
     """
     """
 
-    # TODO validate format of data
+    db.validate.validate_str(key, "key")
 
     return db.read_data.is_authorized_user(key)
-    # ----------------------------------
+
+# ---------------------------------------------------------------------
+    
 def add_new_admin(key: str = ""):
     """
     """
 
-    # TODO validate format of data
+    db.validate.validate_str(key, "key")
 
     return db.write_data.add_new_admin(key)
-# ----------------------------------
+
+# ---------------------------------------------------------------------
+
 def get_all_admin():
     """
     """
@@ -437,7 +459,8 @@ def get_all_admin():
     # TODO validate format of data
 
     return db.read_data.get_all_admin()
-# ----------------------------------
+
+# ---------------------------------------------------------------------
 
 def main():
 
