@@ -2,6 +2,8 @@
 async function makePopup(hotspot) {
     // Send requests to your Flask server
     let id = hotspot['hotspot_id'];
+    active_id = id;
+    
     const review_response = await fetch("/api/reviews?id=" + id);
     let reviews = await review_response.json();
     if (reviews == "Database Error") {
