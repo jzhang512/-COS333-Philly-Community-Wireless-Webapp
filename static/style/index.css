@@ -368,7 +368,7 @@ body {
     /* Adjust height as needed */
 }
 
-@media (min-width: 992px) {
+@media (min-width: 993px) {
     .filter-bar-panel {
         border-right: 2px solid #5162ed; 
     }
@@ -404,11 +404,11 @@ body {
         display: none;
     }
     .small-screen-search{
-        display: block !important;
+        display: block;
         position: absolute;
         top: 75px;
         left: 2.5%;
-        padding-bottom: 16px;  /* based on top */
+        padding-bottom: 16px;
         z-index: 1; /* Ensure the overlay is above the map */
         background-color: #E1E6F6;
         border-radius: 10px;
@@ -419,6 +419,12 @@ body {
         padding-bottom: 2.5px;
         text-decoration: bold;
     }
+}
+
+#close-list-text-btn {
+    color: grey !important;
+    border-radius: 10px; 
+    cursor: pointer;
 }
 
 .open-filter-button {

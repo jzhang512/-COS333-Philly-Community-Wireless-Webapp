@@ -35,7 +35,7 @@ async function updateHotspotsList(hotspots) {
 
         hotspot_buttonText += hotspot_buttonScore;
         hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
-        console.log(hotspot_buttonText);
+        // console.log(hotspot_buttonText);
         
         $('#hotspotsList').append(
             $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
@@ -221,3 +221,89 @@ $('#sort_distance').click(function () {
     }
 });
 
+// For smaller screen rendering (SMALLSCREENWIDTH = 992 width or less).
+
+$('#searchInput').on('focus', function() {
+    // Show the panel content when the input gains focus
+    if ($(window).width() <= SMALLSCREENWIDTH) {
+        // console.log('small window focus')
+        $('#searchbar-content-div').removeClass('searchbar-content');
+        $('#searchbar-content-div').addClass('searchbar-content-small');
+
+        $('.searchbar-content-small').css({
+            "display":"block",
+            'position': 'absolute',
+            'width': $('.small-screen-search').width()+'px',
+            'height': $(window).height() * 0.7+'',
+            'top': '160px',
+            'left': '2.5%',
+            'padding-bottom': '16px',
+            'z-index': '1',/* Ensure the overlay is above the map */
+            'background-color': '#E1E6F6',
+            'overflow-y': 'auto',
+        });
+
+        $('#close-list').append('<strong id = "close-list-text-btn" >CLOSE</strong>');
+
+        $('#close-list-text-btn').on('click', function() {
+            if ($(window).width() <= SMALLSCREENWIDTH) {
+                //  console.log('small window blur')
+                 $('#searchbar-content-div').addClass('searchbar-content');
+                 $('.searchbar-content-small').css({
+                     "display": "",
+                     'position': '',
+                     'width': '',
+                     'height': '',
+                     'top': '',
+                     'left': '',
+                     'padding-bottom': '',
+                     'z-index': '',
+                     'background-color': '',
+                     'overflow-y': '',
+                 });
+                 $('#searchbar-content-div').removeClass('searchbar-content-small');
+             }
+             $('#close-list-text-btn').remove();
+        });
+    }
+});
+
+// $('#close-list-text-btn').on('click', function() {
+//     if ($(window).width() <= SMALLSCREENWIDTH) {
+//         //  console.log('small window blur')
+//          $('#searchbar-content-div').addClass('searchbar-content');
+//          $('.searchbar-content-small').css({
+//              "display": "",
+//              'position': '',
+//              'width': '',
+//              'height': '',
+//              'top': '',
+//              'left': '',
+//              'padding-bottom': '',
+//              'z-index': '',
+//              'background-color': '',
+//              'overflow-y': '',
+//          });
+//          $('#searchbar-content-div').removeClass('searchbar-content-small');
+//      }
+// });
+
+// $('#searchInput').on('blur', function() {
+    // if ($(window).width() <= SMALLSCREENWIDTH) {
+    //    //  console.log('small window blur')
+    //     $('#searchbar-content-div').addClass('searchbar-content');
+    //     $('.searchbar-content-small').css({
+    //         "display": "",
+    //         'position': '',
+    //         'width': '',
+    //         'height': '',
+    //         'top': '',
+    //         'left': '',
+    //         'padding-bottom': '',
+    //         'z-index': '',
+    //         'background-color': '',
+    //         'overflow-y': '',
+    //     });
+    //     $('#searchbar-content-div').removeClass('searchbar-content-small');
+    // }
+// });
