@@ -242,9 +242,18 @@ body {
 
 /* Search bar styling. */
 
+.searchbar-search-text {
+    font-size: .875em;
+    color: #5162ed;
+    padding-bottom: 2.5px;
+}
+
+.searchbar-header {
+    padding-top: 10%;
+}
+
 .searchbar-sort {
-    padding-top: 5%;
-    padding-bottom: 10%;
+    padding-bottom: 5%;
 }
 
 .visible-scrollbar::-webkit-scrollbar {

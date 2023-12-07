@@ -5,10 +5,10 @@ async function updateHotspotsList(hotspots) {
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
-        var hotspot_buttonText = "<span class = 'd-flex'>"
+        var hotspot_buttonText = "<span class = 'd-flex justify-content-between'>"
         hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
 
-        let hotspot_buttonScore = "<span class = 'avg-rating-icon'>"
+        let hotspot_buttonScore = "<span><span class = 'avg-rating-icon'>"
         if (hotspot['avg_rating']) {
             hotspot_buttonScore += hotspot['avg_rating'] + "</span>";
 
@@ -17,13 +17,14 @@ async function updateHotspotsList(hotspots) {
             let icon = document.createElement("i");
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
-            hotspot_buttonScore += star.prop("outerHTML");
+            hotspot_buttonScore += star.prop("outerHTML") + "</span></span>";
         } else {
-            hotspot_buttonScore += "<i class = 'no-rating-text'>No Rating</i> </span>";
+            hotspot_buttonScore += "<i class = 'no-rating-text'>No Rating</i></span></span></span>";
         }
 
-        hotspot_buttonText += hotspot_buttonScore + "</span>";
+        hotspot_buttonText += hotspot_buttonScore;
         hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
+        console.log(hotspot_buttonText);
         
         $('#hotspotsList').append(
             $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
