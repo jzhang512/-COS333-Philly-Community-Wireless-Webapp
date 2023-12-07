@@ -35,7 +35,6 @@ async function updateHotspotsList(hotspots) {
 
         hotspot_buttonText += hotspot_buttonScore;
         hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
-        console.log(hotspot_buttonText);
         
         $('#hotspotsList').append(
             $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')

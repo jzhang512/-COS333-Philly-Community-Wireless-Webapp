@@ -24,3 +24,7 @@ function average(list) {
     } else
         return null;
 }
+
+function union(arrA, arrB) {
+    return [...new Set([...arrA, ...arrB])];
+}
