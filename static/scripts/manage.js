@@ -20,15 +20,18 @@ function setupAdminList(admins) {
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Add/Remove Administrators").appendTo('#results-div');
     let mainGridAdmin = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
 
-    let tabColAdmin = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGridAdmin);
+    let tabColAdmin = $('<div/>').addClass("col-4 mh-100 pb-3 overflow-auto").appendTo(mainGridAdmin);
     // let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
 
     let searchDivAdmin = $('<div/>').appendTo(tabColAdmin);
 
     let search = $('<h5>').appendTo(searchDivAdmin);
-    search.text('Add New Admins');
+    search.text('Add a New Administrator');
     let searchBox = $('<input type="text" placeholder="Enter Admin Email", class="form-control" id="add_email">').appendTo(searchDivAdmin);
+    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-admin', text: 'Add New' }).appendTo(searchDivAdmin);
     $('<br>').appendTo(searchDivAdmin);
+
+    authorizied_text = $('<h5> Authorized Administrators </h5>').appendTo(tabColAdmin)
 
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabColAdmin);
     // let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
@@ -38,7 +41,7 @@ function setupAdminList(admins) {
     getSearchResultsAdmins();
     //$('#search').on('input', debouncedGetResultsAdmin);
 
-    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-admin', text: 'Add New' }).appendTo(tabColAdmin);
+  
     
    
     addNew.click(function () {
