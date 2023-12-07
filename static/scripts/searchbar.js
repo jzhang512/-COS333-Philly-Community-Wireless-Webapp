@@ -2,6 +2,17 @@
 // or filter. Filtering should be done externally.
 async function updateHotspotsList(hotspots) {
     $('#hotspotsList').empty();
+
+    if (sort_type == "alphabetical") {
+        hotspots.sort((a, b) => a['name'].localeCompare(b['name']));
+    }
+    else if (sort_type == "distance") {
+        hotspots.sort((a, b) => a['dist'] - b['dist']);
+    }
+    else {
+        hotspots.sort((a, b) => b['avg_rating'] - a['avg_rating']);
+    }
+
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
@@ -42,8 +53,8 @@ async function updateHotspotsList(hotspots) {
 
 
 // Show between which type of sort is selected by user.
-function toggleSortSelection(selected) {
-    if (selected == "alphabetical") {
+function toggleSortSelection() {
+    if (sort_type == "alphabetical") {
         $("#sort_alphabetical").addClass('sort-button-clicked');
         $("#sort_alphabetical").removeClass('sort-button-unclicked');
 
@@ -53,10 +64,10 @@ function toggleSortSelection(selected) {
         $("#sort_rating").addClass('sort-button-unclicked');
         $("#sort_rating").removeClass('sort-button-clicked');
 
-        displayed.sort((a, b) => a['name'].localeCompare(b['name']))
+        // displayed.sort((a, b) => a['name'].localeCompare(b['name']))
         updateHotspotsList(displayed);
     }
-    else if (selected == "distance") {
+    else if (sort_type == "distance") {
         $("#sort_alphabetical").addClass('sort-button-unclicked');
         $("#sort_alphabetical").removeClass('sort-button-clicked');
 
@@ -67,7 +78,7 @@ function toggleSortSelection(selected) {
         $("#sort_rating").removeClass('sort-button-clicked');
 
         // Nearest first.
-        displayed.sort((a, b) => a['dist'] - b['dist']);
+        // displayed.sort((a, b) => a['dist'] - b['dist']);
         updateHotspotsList(displayed);
     } else {
         $("#sort_alphabetical").addClass('sort-button-unclicked');
@@ -80,7 +91,7 @@ function toggleSortSelection(selected) {
         $("#sort_rating").removeClass('sort-button-unclicked');
 
         // Nearest first.
-        displayed.sort((a, b) => b['avg_rating'] - a['avg_rating']);
+        // displayed.sort((a, b) => b['avg_rating'] - a['avg_rating']);
         updateHotspotsList(displayed);
     }
 }
@@ -155,11 +166,13 @@ function getLocation(callback = () => { }) {
 }
 
 $('#sort_alphabetical').click(function () {
-    toggleSortSelection("alphabetical");
+    sort_type = "alphabetical";
+    toggleSortSelection();
 });
 
 $('#sort_rating').click(function () {
-    toggleSortSelection("rating");
+    sort_type = "rating";
+    toggleSortSelection();
 });
 
 $('#sort_distance').click(function () {
@@ -195,7 +208,8 @@ $('#sort_distance').click(function () {
 
         console.log('set data');
 
-        toggleSortSelection("distance");
+        sort_type = "distance";
+        toggleSortSelection();
         $('#sort_distance').removeClass('sort-button-disabled');
     }
     else {

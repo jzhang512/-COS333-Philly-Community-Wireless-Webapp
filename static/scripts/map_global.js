@@ -13,6 +13,7 @@ let tags;
 let hotspots;
 let displayed;
 let siteTitle = "Philly Wifi";
+let sort_type = "alphabetical";
 
 // User coordinates stored as [lon., lat.], null if not available
 let user_coords = null;
