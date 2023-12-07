@@ -214,14 +214,6 @@ body {
     padding-top: 65px;
 }
 
-.filterbar {
-    width: 20%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* text-wrap: nowrap; */
-    /* flex: 0 0 auto; */
-}
-
 .collapse {
     transition: all 0.4s;
 }
@@ -241,12 +233,6 @@ body {
 }
 
 /* Search bar styling. */
-
-.searchbar-search-text {
-    font-size: .875em;
-    color: #5162ed;
-    padding-bottom: 2.5px;
-}
 
 .searchbar-header {
     padding-top: 10%;
@@ -382,15 +368,63 @@ body {
     /* Adjust height as needed */
 }
 
-.filter-bar-panel {
-    border-right: 2px solid #5162ed; 
+@media (min-width: 993px) {
+    .filter-bar-panel {
+        border-right: 2px solid #5162ed; 
+    }
+    .filterbar {
+        width: 20%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        /* text-wrap: nowrap; */
+        /* flex: 0 0 auto; */
+    }
+    .searchbar-panel {
+        background-color: #E1E6F6;
+        border-right: 4px solid #5162ed; 
+        width: 25%; 
+        overflow-y: auto;
+    }
+    /* .small-screen-search{
+        display: none;
+    } */
+    .searchbar-search-text {
+        font-size: .875em;
+        color: #5162ed;
+        padding-bottom: 2.5px;
+    }
 }
 
-.searchbar-panel {
-    background-color: #E1E6F6;
-    border-right: 4px solid #5162ed; 
-    width: 25%; 
-    overflow-y: auto;
+/* Smaller screens. */
+@media (max-width: 992px) {
+    .searchbar-content {
+        display: none;
+    }
+    .filterbar {
+        display: none;
+    }
+    .small-screen-search{
+        display: block;
+        position: absolute;
+        top: 75px;
+        left: 2.5%;
+        padding-bottom: 16px;
+        z-index: 1; /* Ensure the overlay is above the map */
+        background-color: #E1E6F6;
+        border-radius: 10px;
+    }
+    .searchbar-search-text {
+        font-size: .875em;
+        color: #5162ed;
+        padding-bottom: 2.5px;
+        text-decoration: bold;
+    }
+}
+
+#close-list-text-btn {
+    color: grey !important;
+    border-radius: 10px; 
+    cursor: pointer;
 }
 
 .open-filter-button {
