@@ -223,8 +223,18 @@ $('#sort_distance').click(function () {
 
 // For smaller screen rendering (SMALLSCREENWIDTH = 992 width or less).
 
+// Event listeners.
 $('#searchInput').on('focus', function () {smallScreenRendering()});
+$(window).on('resize', function() {
+    // Debounce the function to avoid excessive calls during resizing
+    clearTimeout($.data(this, 'resizeTimer'));
+    $.data(this, 'resizeTimer', setTimeout(function() {
+        // Call the function after a short delay to ensure the resizing is complete
+        checkViewportWidth();
+    }, 15));
+});
 
+// Helper functions.
 function smallScreenRendering() {
     // Show the panel content when the input gains focus
     if ($(window).width() <= SMALLSCREENWIDTH) {
@@ -290,13 +300,4 @@ function checkViewportWidth() {
         hide_search_panel()
     }
 }
-
-$(window).on('resize', function() {
-    // Debounce the function to avoid excessive calls during resizing
-    clearTimeout($.data(this, 'resizeTimer'));
-    $.data(this, 'resizeTimer', setTimeout(function() {
-        // Call the function after a short delay to ensure the resizing is complete
-        checkViewportWidth();
-    }, 20));
-});
 
