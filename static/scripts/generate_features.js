@@ -1,5 +1,5 @@
 // If tagIds is empty, no filtering done. All hotspots returned.
-function filterByTag(hotspots, tagIds=[]) {
+function filterByTag(hotspots, tagIds = []) {
     let hotspotsFiltered = [];
 
     // No filter.
@@ -9,14 +9,16 @@ function filterByTag(hotspots, tagIds=[]) {
 
     // Categories
     let cat_bools = [true, true, true, true, true, true];
-    const cat_num = {'Cost': 0, 'Privacy': 1, 'Password': 2, 'Amenities': 3,
-                     'Accessibility': 4, 'Establishment': 5};
+    const cat_num = {
+        'Cost': 0, 'Privacy': 1, 'Password': 2, 'Amenities': 3,
+        'Accessibility': 4, 'Establishment': 5
+    };
 
     let tags = [];
-    
+
     // Set categories that are included in tagIds to false
     tagIds.forEach((id) => {
-        let tag = getTag(id);
+        let tag = getTag(tags, id);
         tags.push(tag);
         let cat = tag['category'];
         cat_bools[cat_num[cat]] = false;

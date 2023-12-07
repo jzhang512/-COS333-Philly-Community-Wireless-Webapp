@@ -90,7 +90,7 @@ $(document).ready(async () => {
     let params = new URLSearchParams(queryString);
     if (params.has('hotspot_id')) {
         let hotspot_id = params.get('hotspot_id');
-        let hotspot = getHotspot(hotspot_id);
+        let hotspot = getHotspot(hotspots, hotspot_id);
         if (hotspot != null) {
             makePopup(hotspot);
         } else {
@@ -282,7 +282,7 @@ map.on('load', async () => {
 
         // let coordinates = e.features[0].geometry.coordinates;
 
-        const hotspot = getHotspot(id);
+        const hotspot = getHotspot(hotspots, id);
         makePopup(hotspot);
     });
 

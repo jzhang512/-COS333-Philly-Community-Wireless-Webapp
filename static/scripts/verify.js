@@ -5,11 +5,14 @@ async function setupReview() {
     history.pushState(null, "Verify Reviews", "/admin/reviews");
     // history.pushState({ page: 'reviews' }, "Verify Reviews", "/admin/reviews");
     document.title = siteTitle + " - Reviews"
-    const response = await fetch("/api/pending_reviews");
-    const reviews = await response.json();
+    const response_hotspots = await fetch("/api/hotspots");
+    const hotspots = await response_hotspots.json();
+
+    const response_reviews = await fetch("/api/pending_reviews");
+    const reviews = await response_reviews.json();
 
     for (let i = 0; i < reviews.length; i++) {
-        let hotspot = getHotspot(reviews[i]['hotspot_id']);
+        let hotspot = getHotspot(hotspots, reviews[i]['hotspot_id']);
         if (hotspot == null) {
             console.log("couldn't find associated hotspot");
         }

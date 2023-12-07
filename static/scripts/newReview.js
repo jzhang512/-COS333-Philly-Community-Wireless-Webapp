@@ -9,6 +9,7 @@ function clearReview() {
     $('#review-text').val('');
     $('input[name="star-rating"]:checked').prop('checked', false);
     $('#submit-review').prop('disabled', false);
+    $('#review-body').removeClass('pe-none');
 }
 
 function submitReview() {
@@ -35,6 +36,7 @@ function submitReview() {
     };
 
     $.ajax(requestData);
+    $('#review-body').addClass('pe-none');
     // clearReview();
 }
 
