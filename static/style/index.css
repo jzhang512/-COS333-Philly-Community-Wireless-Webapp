@@ -484,6 +484,10 @@ body {
     margin-bottom: 1.25%;
 }
 
+.external-link-icon {
+    color: #548ffb;
+}
+
 #hotspot-info-exit-button {
     color: #6c757d;
     width: 35px;

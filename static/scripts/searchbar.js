@@ -287,7 +287,7 @@ function display_search_panel() {
         'position': 'absolute',
         'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
-        'top': '160px',
+        'top': '140px',
         'left': '2.5%',
         'padding-bottom': '16px',
         'z-index': '1',/* Ensure the overlay is above the map */
@@ -336,7 +336,7 @@ function display_small_filter_panel() {
         'position': 'absolute',
         'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
-        'top': '144.5px',
+        'top': '124.5px',
         'left': '2.5%',
         'padding-bottom': '16px',
         'z-index': '1',/* Ensure the overlay is above the map */
