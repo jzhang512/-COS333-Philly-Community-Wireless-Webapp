@@ -12,7 +12,7 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-valid_subpaths = [None, 'update', 'reviews', 'manage']
+valid_subpaths = [None, 'update', 'reviews', 'manage', 'tags']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -160,7 +160,7 @@ def create_hotspots():
     try:
         hotspots = flask.request.json
         print(hotspots)
-        database_req.add_admin(hotspots)
+        database_req.create_hotspots(hotspots)
         print("Creation successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
@@ -239,12 +239,13 @@ def modify_hotspots():
         return flask.jsonify("Error")
 
 
-@app.route('/api/modify_hotspots_tags', methods=['POST'])
-def modify_hotspots_tags():
+@app.route('/api/modify_tags', methods=['POST'])
+def modify_tags():
     try:
-        hotspots = flask.request.json
-        print(hotspots)
-        database_req.update_hotspot_tags(hotspots)
+        tags = flask.request.json
+        # raise database_req.InvalidFormat("Testing error")
+        print(tags)
+        database_req.update_tags(tags)
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(ex)
@@ -292,6 +293,22 @@ def delete_hotspots():
         hotspot_ids = flask.request.json
         print(hotspot_ids)
         database_req.remove_hotspots(hotspot_ids)
+        print("Deletion successful")
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
+
+
+@app.route('/api/delete_tags', methods=['POST'])
+def delete_tags():
+    try:
+        tag_ids = flask.request.json
+        print(tag_ids)
+        database_req.delete_tags(tag_ids)
         print("Deletion successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
