@@ -66,6 +66,7 @@ function handleError(data, isServer) {
 
     //let image = $('<svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>');
     let failure = $('<div/>', { id: 'failure-review', class: 'alert alert-danger d-flex align-items-center', role: 'alert' }).append(message);
+    $('#failure-review').remove();
     $('#review-body').prepend(failure);
     // $('#submit-review').prop('disabled', true);
 }
