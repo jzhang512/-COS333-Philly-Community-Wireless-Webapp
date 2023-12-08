@@ -50,10 +50,6 @@ async function updateHotspotsList(hotspots) {
         button.append(buttonDiv)
         $('#hotspotsList').append(button);
         
-        // $('#hotspotsList').append(
-        //     $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action">')
-        //     .html('<div>' + hotspot_buttonText +'</div>')
-        // );
     });
 
     $(document).on("click",".list-group-item-action", function () {
@@ -61,6 +57,13 @@ async function updateHotspotsList(hotspots) {
         let hotspot = getHotspot(id);
         
         makePopup(hotspot);
+    });
+
+    $('.hotspots-list-button').on('click', function () {
+        if ($(window).width() <= SMALLSCREENWIDTH) {
+            //  console.log('small window blur')
+            hide_search_panel();
+         }
     });
 }
 
@@ -258,9 +261,9 @@ function smallSearchRendering() {
 
         display_search_panel();
 
-        $('#close-list-text-btn, .hotspots-list-button, #toggleFilterFromSearchbar').on('click', function() {
+        $('#close-list-text-btn, #toggleFilterFromSearchbar').on('click', function() {
             if ($(window).width() <= SMALLSCREENWIDTH) {
-                //  console.log('small window blur')
+                console.log('small window blur')
                 hide_search_panel();
              }
         });
@@ -430,6 +433,7 @@ function viewportWidthUpdates() {
                 display_small_filter_panel();
             }
         });
+        
     }
     else {
         hide_search_panel();
