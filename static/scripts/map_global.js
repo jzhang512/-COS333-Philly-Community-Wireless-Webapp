@@ -14,6 +14,7 @@ let hotspots;
 let displayed;
 let siteTitle = "Philly Wifi";
 let sort_type = "alphabetical";
+let SMALLSCREENWIDTH = 992;
 
 // User coordinates stored as [lon., lat.], null if not available
 let user_coords = null;
@@ -25,9 +26,20 @@ let filterTagsId = [];
 function getSearchResults() {
     let query = $('#searchInput').val();
 
-    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    const by_name = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+    const by_addr = hotspots.filter(item => item["address"].toLowerCase().includes(query.toLowerCase()));
+    const by_tag = hotspots.filter(item => {
+        let bool = false;
+        item["tags"].forEach(tag => {
+            if (tag["tag_name"].toLowerCase().includes(query.toLowerCase()))
+                bool = true;
+        })
+        return bool;
+    })
+    let combined_search = union(by_name, by_addr);
+    combined_search = union(combined_search, by_tag);
 
-    filtered_hotspots = filterByTag(by_name_hotspots, filterTagsId);
+    filtered_hotspots = filterByTag(combined_search, filterTagsId);
 
     // Updates the map hotspots accordingly.
     features = generateFeatures(filtered_hotspots);
@@ -45,6 +57,7 @@ function debouncedGetResults() {
 function setup() {
     getSearchResults();
     $('#searchInput').on('input', debouncedGetResults);
+    viewportWidthUpdates(); // from searchbar.js
 }
 
 // -------------------------------------------------------------------
@@ -91,7 +104,7 @@ $(document).ready(async () => {
     let params = new URLSearchParams(queryString);
     if (params.has('hotspot_id')) {
         let hotspot_id = params.get('hotspot_id');
-        let hotspot = getHotspot(hotspot_id);
+        let hotspot = getHotspot(hotspots, hotspot_id);
         if (hotspot != null) {
             makePopup(hotspot);
         } else {
@@ -163,6 +176,14 @@ $(document).ready(async () => {
         getSearchResults();
     });
 
+    // // Small screen rendering.
+    // $('.filter-render-small').on('click', function () {
+    //     // Needs to double check.
+    //     if ($(this).hasClass('filter-render-small')) {
+    //         console.log('hi');
+    //         display_filter_panel();
+    //     }
+    // });
 });
 
 const size = 200;
@@ -283,7 +304,7 @@ map.on('load', async () => {
 
         // let coordinates = e.features[0].geometry.coordinates;
 
-        const hotspot = getHotspot(id);
+        const hotspot = getHotspot(hotspots, id);
         makePopup(hotspot);
     });
 

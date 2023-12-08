@@ -141,6 +141,7 @@ def pending_reviews():
         print(ex)
         return flask.jsonify("Database Error")
 
+
 @app.route('/api/get_all_admin', methods=['GET'])
 def all_admin():
     try:
@@ -160,7 +161,7 @@ def create_hotspots():
     try:
         hotspots = flask.request.json
         print(hotspots)
-        database_req.add_admin(hotspots)
+        database_req.create_hotspots(hotspots)
         print("Creation successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
@@ -202,6 +203,7 @@ def publish_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
+
 
 @app.route('/api/add_admin', methods=['POST'])
 def add_admin():

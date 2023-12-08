@@ -16,38 +16,54 @@ async function updateHotspotsList(hotspots) {
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
-        var hotspot_buttonText = "<span class = 'd-flex justify-content-between'>"
-        hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
+        var top_row = $("<span class = 'd-flex justify-content-between'>")
+        var distance_button;
+        if (hotspot['dist'] !== undefined) {
+            distance_button = $("<span class='distance-pill'>").text(hotspot['dist'].toFixed(1)  + " mi");
+        } else {
+            distance_button = $("<span>");
+            distance_button.append($("<i class = 'no-rating-text'>").text("Can't calculate dist."))
+        }
+        top_row.append(distance_button);
+        // hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
 
-        let hotspot_buttonScore = "<span><span class = 'avg-rating-icon'>"
+        let score_button = $("<span>"); // = "<span><span class = 'avg-rating-icon'>"
         if (hotspot['avg_rating']) {
-            hotspot_buttonScore += parseFloat(hotspot['avg_rating']).toFixed(1) + "</span>";
+            score_button.text(parseFloat(hotspot['avg_rating']).toFixed(1)); // + "</span>";
 
             // Make star.
             let star = $('<span>').addClass("d-inline-block");
             let icon = document.createElement("i");
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
-            hotspot_buttonScore += star.prop("outerHTML") + "</span></span>";
+            score_button.append(star.prop("outerHTML")); //+ "</span></span>";
         } else {
-            hotspot_buttonScore += "<i class = 'no-rating-text'>No Rating</i></span></span></span>";
+            score_button.append($("<i class = 'no-rating-text'>").text("No Rating"));
         }
+        top_row.append(score_button);
 
-        hotspot_buttonText += hotspot_buttonScore;
-        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
-        console.log(hotspot_buttonText);
+        let buttonDiv = $('<div>');
+        buttonDiv.append(top_row)
+        buttonDiv.append($("<span>").text(hotspot['name']));
+
+        let button = $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action">');
+        button.append(buttonDiv)
+        $('#hotspotsList').append(button);
         
-        $('#hotspotsList').append(
-            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="list-group-item list-group-item-action"></button>')
-            .html('<div>' + hotspot_buttonText +'</div>')
-        );
     });
 
     $(document).on("click",".list-group-item-action", function () {
         let id = parseInt($(this).attr('id'));
-        let hotspot = getHotspot(id);
+        let hotspot = getHotspot(hotspots, id);
         
         makePopup(hotspot);
+    });
+
+    $('.hotspots-list-button').on('click', function () {
+        if ($(window).width() <= SMALLSCREENWIDTH) {
+            //  console.log('small window blur')
+            hide_search_panel();
+         }
     });
 }
 
@@ -146,6 +162,7 @@ function getLocation(callback = () => { }) {
                 // user_coords is global.
                 user_coords = [position['coords']['longitude'], position['coords']['latitude']];
                 updateDistances(user_coords);
+                updateHotspotsList(displayed);
             },
             (error) => {
                 callback(); // remove "lock"
@@ -213,11 +230,223 @@ $('#sort_distance').click(function () {
         $('#sort_distance').removeClass('sort-button-disabled');
     }
     else {
-        alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");
+        alert("Unable to access location. Geolocation and distance services unusable. " + 
+        "Please make sure you are allowing location access. You may need to refresh the page after enabling permission.");
 
         // // Color like disabled button. Good compromise?
         // $('#sort_distance').addClass('sort-button-disabled');
         // $('#sort_distance').removeClass('sort-button-unclicked');
     }
 });
+
+// For smaller screen rendering (SMALLSCREENWIDTH = 992 width or less).
+
+// Event listeners.
+$('#searchInput').on('focus', function () {smallSearchRendering()});
+$(window).on('resize', function() {
+    // Debounce the function to avoid excessive calls during resizing
+    clearTimeout($.data(this, 'resizeTimer'));
+    $.data(this, 'resizeTimer', setTimeout(function() {
+        // Call the function after a short delay to ensure the resizing is complete
+        viewportWidthUpdates();
+    }, 15));
+});
+
+
+// Helper functions.
+function smallSearchRendering() {
+    // Show the panel content when the input gains focus
+    if ($(window).width() <= SMALLSCREENWIDTH) {
+        // console.log('small window focus')
+
+        display_search_panel();
+
+        $('#close-list-text-btn, #toggleFilterFromSearchbar').on('click', function() {
+            if ($(window).width() <= SMALLSCREENWIDTH) {
+                console.log('small window blur')
+                hide_search_panel();
+             }
+        });
+
+        hide_small_filter_panel();
+
+        // $('#close-filter-text-btn').on('click', function () {
+        //     if ($(window).width() <= SMALLSCREENWIDTH) {
+        //         //  console.log('small window blur')
+        //         hide_small_filter_panel();
+        //      }
+        // });
+    }
+}
+
+function display_search_panel() {
+    $('#searchbar-content-div').removeClass('searchbar-content');
+    $('#searchbar-content-div').addClass('searchbar-content-small');
+    $('.searchbar-content-small').css({
+        "display":"block",
+        'position': 'absolute',
+        'width': '300px',   // hardcoded
+        'height': $(window).height() * 0.7+'',
+        'top': '140px',
+        'left': '2.5%',
+        'padding-bottom': '16px',
+        'z-index': '1',/* Ensure the overlay is above the map */
+        'background-color': '#E1E6F6',
+        'overflow-y': 'auto',
+        'overflow-x': 'auto',
+        'border': '2px solid #808080',
+        'border-top': 'none',
+        'border-radius': '0 0 10px 10px',
+    });
+
+    //$('#searchbar-header-container').removeClass('searchbar-header');
+    $('#close-list-text-btn').remove();
+    $('#close-list').append('<strong id = "close-list-text-btn" >CLOSE</strong>');
+}
+
+function hide_search_panel() {
+    $('#searchbar-content-div').addClass('searchbar-content');
+    $('.searchbar-content-small').css({
+        "display": "",
+        'position': '',
+        'width': '',
+        'height': '',
+        'top': '',
+        'left': '',
+        'padding-bottom': '',
+        'z-index': '',
+        'background-color': '',
+        'overflow-y': '',
+        'overflow-x': '',
+        'border': '',
+        'border-top': '',
+        'border-radius': '',
+    });
+
+    //$('#searchbar-header-container').removeClass('searchbar-header');
+    $('#searchbar-content-div').removeClass('searchbar-content-small');
+    // Redundant but just in case.
+    $('#close-list-text-btn').remove();
+}
+
+function display_small_filter_panel() {
+    // Styling modifications/additions.
+    $('.filterbar-content').css({
+        "display":"block",
+        'position': 'absolute',
+        'width': '300px',   // hardcoded
+        'height': $(window).height() * 0.7+'',
+        'top': '124.5px',
+        'left': '2.5%',
+        'padding-bottom': '16px',
+        'z-index': '1',/* Ensure the overlay is above the map */
+        'background-color': '#E1E6F6',
+        'overflow-y': 'auto',
+        'overflow-x': 'auto',
+        'border': '2px solid #808080',
+        'border-top': 'none',
+        'border-radius': '0 0 10px 10px',
+    });
+
+    // A bit jank but will do since small sizes are hardwired.
+    $('.small-screen-search').css({
+        'border-bottom':'none',
+        'border-radius': '10px 10px 0 0',
+    });
+
+    $('#filterTitleContainer').removeClass('col-9');
+
+    // // Goes together:
+    $('#filter-header-id').removeClass('row');
+    $('#filterTitleContainer').addClass('row');
+
+
+    $('#close-filter-text-btn').remove();
+
+    $('#close-filter').append('<strong id = "close-filter-text-btn" >CLOSE</strong>');
+
+    $('#close-filter-text-btn').on('click', function () {
+        if ($(window).width() <= SMALLSCREENWIDTH) {
+            //  console.log('small window blur')
+            hide_small_filter_panel();
+         }
+    });
+}
+
+function hide_small_filter_panel() {
+    $('.filterbar-content').css({
+        'display': '',
+        'position': '',
+        'width': '',
+        'height': '',
+        'top': '',
+        'left': '',
+        'padding-bottom': '',
+        'z-index': '',
+        'background-color': '',
+        'overflow-y': '',
+        'overflow-x': '',
+        'border': '',
+        'border-top': '',
+        'border-radius': '',
+    });
+
+    $('.small-screen-search').css({
+        'border-bottom':'',
+        'border-radius': '',
+    });
+
+    $('#filterTitleContainer').addClass('col-9');
+
+    // // Goes together:
+    $('#filter-header-id').addClass('row');
+    $('#filterTitleContainer').removeClass('row');
+
+    $('#close-filter-text-btn').remove();
+}
+
+function viewportWidthUpdates() {
+    var viewportWidth = $(window).width();
+
+    // Check if viewport width is less than 992 pixels
+    if (viewportWidth <= SMALLSCREENWIDTH) {
+        // Perform actions for viewport width less than 992 pixels
+        if ($('#searchInput').is(':focus')) {
+            smallSearchRendering();
+        }
+
+        // Remove the toggle/collapse attributes (will need to add 
+        // different style for small screens).
+        $('#toggleFilterFromSearchbar').removeAttr('data-bs-toggle');
+        $('#toggleFilterFromSearchbar').removeAttr('data-bs-target');
+        $('#toggleFilterFromSearchbar').removeAttr('aria-expanded');
+        $('#toggleFilterFromSearchbar').removeAttr('aria-controls');
+        $('#toggleFilterFromSearchbar').addClass('filter-render-small');
+        $('#collapseFilter').removeClass('collapse');
+        $('#collapseFilter').removeClass('collapse-horizontal');
+        
+
+        $('.filter-render-small').on('click', function () {
+            // Needs to double check.
+            if ($(this).hasClass('filter-render-small')) {
+                // console.log('hi');
+                display_small_filter_panel();
+            }
+        });
+        
+    }
+    else {
+        hide_search_panel();
+        hide_small_filter_panel();
+        $('#toggleFilterFromSearchbar').attr('data-bs-toggle', 'collapse');
+        $('#toggleFilterFromSearchbar').attr('data-bs-target', '#collapseFilter');
+        $('#toggleFilterFromSearchbar').attr('aria-expanded','false');
+        $('#toggleFilterFromSearchbar').attr('aria-controls','collapseFilter');
+        $('#toggleFilterFromSearchbar').removeAttr('aria-controls');
+        $('#toggleFilterFromSearchbar').removeClass('filter-render-small');
+
+        $('#collapseFilter').addClass('collapse');
+        $('#collapseFilter').addClass('collapse-horizontal');
+    }
+}
 

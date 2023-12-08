@@ -1,13 +1,13 @@
 // Miscellaneous functions.
 
-function getHotspot(id) {
+function getHotspot(hotspots, id) {
     for (const hotspot of hotspots) {
         if (hotspot['hotspot_id'] == id) return hotspot;
     }
     return null;
 }
 
-function getTag(id) {
+function getTag(tags, id) {
     for (const tag of tags) {
         if (tag['tag_id'] == id) return tag;
     }
@@ -23,4 +23,8 @@ function average(list) {
         return (sum / list.length).toFixed(2);
     } else
         return null;
+}
+
+function union(arrA, arrB) {
+    return [...new Set([...arrA, ...arrB])];
 }
