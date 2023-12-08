@@ -28,7 +28,25 @@ async function makePopup(hotspot) {
     $('#sidebar').on('hide.bs.modal', () => {
         history.pushState(null, "", "/");
         document.title = siteTitle;
-    })
+    });
+
+    $('#hotspot-info-exit-unhovered, #hotspot-info-exit-hovered').on('mouseover', function () {
+        $('#hotspot-info-exit-hovered').css({
+            'display':'block',
+        });
+        $('#hotspot-info-exit-unhovered').css({
+            'display':'none',
+        });
+    });
+
+    $('#hotspot-info-exit-unhovered, #hotspot-info-exit-hovered').on('mouseout', function () {
+        $('#hotspot-info-exit-unhovered').css({
+            'display':'block',
+        });
+        $('#hotspot-info-exit-hovered').css({
+            'display':'none',
+        });
+    });
 }
 
 // Helper for makePopup().
