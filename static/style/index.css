@@ -417,6 +417,7 @@ body {
         display: none;
     }
     .small-screen-search{
+        width: 300px;   /* hardcoded*/
         display: block;
         position: absolute;
         top: 75px;

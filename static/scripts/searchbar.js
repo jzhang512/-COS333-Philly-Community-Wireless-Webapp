@@ -282,7 +282,7 @@ function display_search_panel() {
     $('.searchbar-content-small').css({
         "display":"block",
         'position': 'absolute',
-        'width': '272px',
+        'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
         'top': '160px',
         'left': '2.5%',
@@ -331,7 +331,7 @@ function display_small_filter_panel() {
     $('.filterbar-content').css({
         "display":"block",
         'position': 'absolute',
-        'width': '272px',
+        'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
         'top': '144.5px',
         'left': '2.5%',
