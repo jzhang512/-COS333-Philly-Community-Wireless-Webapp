@@ -438,6 +438,13 @@ def get_all_admin():
 
     return db.read_data.get_all_admin()
 # ----------------------------------
+def delete_selected_admin(admins):
+    """
+    """
+    # TODO validate format of data
+
+    return db.write_data.remove_admins(admins)
+# ----------------------------------
 
 def main():
 
