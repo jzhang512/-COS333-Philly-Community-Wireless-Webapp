@@ -57,6 +57,7 @@ function debouncedGetResults() {
 function setup() {
     getSearchResults();
     $('#searchInput').on('input', debouncedGetResults);
+    viewportWidthUpdates(); // from searchbar.js
 }
 
 // -------------------------------------------------------------------
@@ -175,6 +176,14 @@ $(document).ready(async () => {
         getSearchResults();
     });
 
+    // // Small screen rendering.
+    // $('.filter-render-small').on('click', function () {
+    //     // Needs to double check.
+    //     if ($(this).hasClass('filter-render-small')) {
+    //         console.log('hi');
+    //         display_filter_panel();
+    //     }
+    // });
 });
 
 const size = 200;
