@@ -44,19 +44,19 @@ def logout_google_callback():
     return flask.redirect(flask.url_for('index'))
 
 
-@app.route('/unauthorized', methods=['GET'])
-def unauthorized():
-    user_email = auth.checkAuthenticate()
-    user_name = auth.getName()
-    # Check if the user is authorized
-    if database_req.is_authorized_user(user_email):
-        html_code = flask.render_template('admin.html', name=user_name)
-        response = flask.make_response(html_code)
-        return response
-    else:
-        html_code = flask.render_template('unauthorized.html')
-        response = flask.make_response(html_code)
-        return response
+# @app.route('/unauthorized', methods=['GET'])
+# def unauthorized():
+#     user_email = auth.checkAuthenticate()
+#     user_name = auth.getName()
+#     # Check if the user is authorized
+#     if database_req.is_authorized_user(user_email):
+#         html_code = flask.render_template('admin.html', name=user_name)
+#         response = flask.make_response(html_code)
+#         return response
+#     else:
+#         html_code = flask.render_template('unauthorized.html')
+#         response = flask.make_response(html_code)
+#         return response
 
 # ---------------------------------------------------------------------
 
@@ -141,6 +141,7 @@ def pending_reviews():
         print(ex)
         return flask.jsonify("Database Error")
 
+
 @app.route('/api/get_all_admin', methods=['GET'])
 def all_admin():
     try:
@@ -202,6 +203,7 @@ def publish_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
+
 
 @app.route('/api/add_admin', methods=['POST'])
 def add_admin():
@@ -309,6 +311,22 @@ def delete_tags():
         tag_ids = flask.request.json
         print(tag_ids)
         database_req.delete_tags(tag_ids)
+        print("Deletion successful")
+        return flask.jsonify("Success")
+    except database_req.InvalidFormat as ex:
+        print(ex)
+        return flask.jsonify(f"Error: {ex}")
+    except Exception as ex:
+        print(ex)
+        return flask.jsonify("Error")
+
+
+@app.route('/api/delete_admin', methods=['POST'])
+def delete_admin():
+    try:
+        admin_list = flask.request.json
+        print(admin_list    )
+        database_req.delete_selected_admin(admin_list)
         print("Deletion successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:

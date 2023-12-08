@@ -5,7 +5,6 @@ let hotspots = [];
 let tags = [];
 
 async function setup() {
-    console.log("setup!");
     let path = window.location.pathname;
 
     // Get hotspots
@@ -75,19 +74,17 @@ function setupDashboard() {
     $('<p/>').addClass("lead user-select-none").text("Add/edit/remove existing tags").appendTo(update_tags);
     row.append(pending, update, admin, update_tags);
 
-    $('#pending-review').click(setupReview);
-    $('#update-map').click(setupMap);
-    $('#manage-admin').click(setupManage);
-    $('#update-tags').click(setupTags);
+    $('#pending-review').click(function () {
+        window.location.href = '/admin/reviews';
+    });
+    $('#update-map').click(function () {
+        window.location.href = '/admin/update';
+    });
+    $('#manage-admin').click(function () {
+        window.location.href = '/admin/manage';
+    });
+    $('#update-tags').click(function () {
+        window.location.href = '/admin/tags';
+    });
 }
-
-
-function handleResponse(data) {
-    $('#results-div').html(data);
-}
-
-function handleError() {
-    alert('Error: Failed to fetch data from server.');
-}
-
 

@@ -57,6 +57,7 @@ function debouncedGetResults() {
 function setup() {
     getSearchResults();
     $('#searchInput').on('input', debouncedGetResults);
+    viewportWidthUpdates(); // from searchbar.js
 }
 
 // -------------------------------------------------------------------
@@ -103,7 +104,7 @@ $(document).ready(async () => {
     let params = new URLSearchParams(queryString);
     if (params.has('hotspot_id')) {
         let hotspot_id = params.get('hotspot_id');
-        let hotspot = getHotspot(hotspot_id);
+        let hotspot = getHotspot(hotspots, hotspot_id);
         if (hotspot != null) {
             makePopup(hotspot);
         } else {
@@ -175,6 +176,14 @@ $(document).ready(async () => {
         getSearchResults();
     });
 
+    // // Small screen rendering.
+    // $('.filter-render-small').on('click', function () {
+    //     // Needs to double check.
+    //     if ($(this).hasClass('filter-render-small')) {
+    //         console.log('hi');
+    //         display_filter_panel();
+    //     }
+    // });
 });
 
 const size = 200;
@@ -295,7 +304,7 @@ map.on('load', async () => {
 
         // let coordinates = e.features[0].geometry.coordinates;
 
-        const hotspot = getHotspot(id);
+        const hotspot = getHotspot(hotspots, id);
         makePopup(hotspot);
     });
 
