@@ -282,7 +282,7 @@ function display_search_panel() {
     $('.searchbar-content-small').css({
         "display":"block",
         'position': 'absolute',
-        'width': $('.small-screen-search').width()+'px',
+        'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
         'top': '160px',
         'left': '2.5%',
@@ -290,8 +290,13 @@ function display_search_panel() {
         'z-index': '1',/* Ensure the overlay is above the map */
         'background-color': '#E1E6F6',
         'overflow-y': 'auto',
+        'overflow-x': 'auto',
+        'border': '2px solid #808080',
+        'border-top': 'none',
+        'border-radius': '0 0 10px 10px',
     });
 
+    //$('#searchbar-header-container').removeClass('searchbar-header');
     $('#close-list-text-btn').remove();
     $('#close-list').append('<strong id = "close-list-text-btn" >CLOSE</strong>');
 }
@@ -309,7 +314,13 @@ function hide_search_panel() {
         'z-index': '',
         'background-color': '',
         'overflow-y': '',
+        'overflow-x': '',
+        'border': '',
+        'border-top': '',
+        'border-radius': '',
     });
+
+    //$('#searchbar-header-container').removeClass('searchbar-header');
     $('#searchbar-content-div').removeClass('searchbar-content-small');
     // Redundant but just in case.
     $('#close-list-text-btn').remove();
@@ -320,7 +331,7 @@ function display_small_filter_panel() {
     $('.filterbar-content').css({
         "display":"block",
         'position': 'absolute',
-        'width': $('.small-screen-search').width()+'px',
+        'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
         'top': '144.5px',
         'left': '2.5%',
@@ -328,6 +339,16 @@ function display_small_filter_panel() {
         'z-index': '1',/* Ensure the overlay is above the map */
         'background-color': '#E1E6F6',
         'overflow-y': 'auto',
+        'overflow-x': 'auto',
+        'border': '2px solid #808080',
+        'border-top': 'none',
+        'border-radius': '0 0 10px 10px',
+    });
+
+    // A bit jank but will do since small sizes are hardwired.
+    $('.small-screen-search').css({
+        'border-bottom':'none',
+        'border-radius': '10px 10px 0 0',
     });
 
     $('#filterTitleContainer').removeClass('col-9');
@@ -360,7 +381,16 @@ function hide_small_filter_panel() {
         'padding-bottom': '',
         'z-index': '',
         'background-color': '',
-        'overflow-y': ''
+        'overflow-y': '',
+        'overflow-x': '',
+        'border': '',
+        'border-top': '',
+        'border-radius': '',
+    });
+
+    $('.small-screen-search').css({
+        'border-bottom':'',
+        'border-radius': '',
     });
 
     $('#filterTitleContainer').addClass('col-9');

@@ -79,7 +79,6 @@ article h6.title {
     position: fixed;
     right: 0;
     margin: auto;
-    width: 23%;
     min-width: 250px;
     height: calc(100vh - 65px);
     margin-top: 65px;
@@ -223,7 +222,6 @@ body {
     margin-bottom: 10%;
     margin-left: 5%;
     margin-right: 10%;
-    height: 65%;
 }
 
 .vertical-separator {
@@ -332,9 +330,10 @@ body {
 
 .filter-clear {
     text-decoration: none;
-    color: grey !important;
+    background-color: white;
+    color: #808080 !important;
     border: 1px solid #6c757d;
-    padding: 5%;
+    padding: 10%;
     border-radius: 10px; 
     cursor: pointer;
 }
@@ -368,6 +367,9 @@ body {
 } */
 
 @media (min-width: 993px) {
+    .modal-dialog {
+        width: 23%;
+    }
     .filterbar-panel {
         width: 20%;
         border-right: 2px solid #5162ed; 
@@ -391,10 +393,16 @@ body {
         color: #5162ed;
         padding-bottom: 2.5px;
     }
+    #hotspotsList{
+        height: 55vh;
+    }
 }
 
 /* Smaller screens. */
 @media (max-width: 992px) {
+    .modal-dialog {
+        width: 70%;
+    }
     .searchbar-content {
         display: none;
     }
@@ -409,6 +417,7 @@ body {
         display: none;
     }
     .small-screen-search{
+        width: 300px;   /* hardcoded*/
         display: block;
         position: absolute;
         top: 75px;
@@ -417,12 +426,17 @@ body {
         z-index: 1; /* Ensure the overlay is above the map */
         background-color: #E1E6F6;
         border-radius: 10px;
+        border: 2px solid #808080;
     }
     .searchbar-search-text {
         font-size: .875em;
         color: #5162ed;
         padding-bottom: 2.5px;
         text-decoration: bold;
+    }
+
+    #hotspotsList {
+        height: 65%;
     }
 }
 
