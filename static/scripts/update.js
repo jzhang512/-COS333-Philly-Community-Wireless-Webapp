@@ -1,34 +1,45 @@
 // $('#new-hotspot').click(createNewHotspot);
+let tags = []
+let hotspots = []
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
+    console.log("pushed");
     document.title = siteTitle + " - Update Hotspots";
-    $("#results-div").empty();
 
     let requestData = {
         type: 'GET',
+        async: false,
         url: "/api/hotspots",
-        success: handleResponseMap
+        success: function (data) {
+            hotspots = data;
+            hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
+            setup();
+        }
     };
 
     let tagRequestData = {
         type: 'GET',
+        async: false,
         url: "/api/tags",
-        success: handleResponseTag
+        success: function (data) {
+            tags = data;
+        }
     };
 
     $.ajax(tagRequestData);
     $.ajax(requestData);
 }
 
-function setup(hotspots) {
+function setup() {
+    $("#results-div").empty();
     $('body').addClass('vh-100 mh-100 overflow-hidden');
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
-    $('<h2/>').addClass("row m-3 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
-    let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
+    $('<h2/>').addClass("row mx-2 mt-4 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
+    let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 mb-2 overflow-hidden").appendTo('#results-div');
 
     let tabCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
-    let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
+    let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 bottom-buffer overflow-auto").appendTo(mainGrid);
 
     let searchDiv = $('<div/>').appendTo(tabCol);
 
@@ -39,8 +50,6 @@ function setup(hotspots) {
 
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
-    // listGroup.prop('role', 'tablist');
-    // listGroup.prop('id', 'list-tab');
 
     getSearchResults();
     $('#search').on('input', debouncedGetResults);
@@ -48,14 +57,26 @@ function setup(hotspots) {
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-hotspot', text: 'Add New' }).appendTo(tabCol);
     addNew.click(createNewHotspot);
     $(".selectpicker").selectpicker('render');
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 }
 
 function populateHotspots(hotspots) {
     $('#list-tab').empty();
     $('#nav-tabContent').empty();
+    let i = 0;
     for (let hotspot of hotspots) {
-        makeTabElem(hotspot).appendTo('#list-tab');
-        makePaneElem(hotspot).appendTo('#nav-tabContent');
+        if (i == 0) {
+            let firstTab = makeTabElem(hotspot).appendTo('#list-tab');
+            firstTab.addClass("active");
+            let firstPane = makePaneElem(hotspot).appendTo('#nav-tabContent');
+            firstPane.addClass("active show");
+        }
+        else {
+            makeTabElem(hotspot).appendTo('#list-tab');
+            makePaneElem(hotspot).appendTo('#nav-tabContent');
+        }
+        i += 1;
     }
 }
 
@@ -83,16 +104,8 @@ function createNewHotspot() {
     }
     makePaneElem(null).appendTo('#nav-tabContent');
     $(".selectpicker").selectpicker('render');
-}
-
-function handleResponseMap(data) {
-    hotspots = data;
-    hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
-    setup(data);
-}
-
-function handleResponseTag(data) {
-    tags = data;
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 }
 
 function makeTabElem(hotspot) {
@@ -132,13 +145,10 @@ function makePaneElem(hotspot) {
 function makeHotspotCard(hotspot) {
     let hotspotCard = $('<div/>').addClass("m-3");
     let id = hotspot ? hotspot['hotspot_id'] : 'new';
-    // console.log(tags);
 
-    // let tagDict = {};
     let tagList = [];
     if (hotspot != null) {
         for (let tag of hotspot['tags']) {
-            // tagDict[tag['tag_id']] = tag['tag_name'];
             tagList.push(tag['tag_name']);
         }
     }
@@ -158,20 +168,20 @@ function makeHotspotCard(hotspot) {
         selector.val(tagList);
     }
 
-    $('<label/>', { for: 'hotspot-title' + id, text: 'Title:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-title' + id, class: 'form-control mb-3', value: hotspot ? hotspot['name'] : '' }).appendTo(hotspotCard);
+    $('<label/>', { for: 'hotspot-title' + id, text: 'Title', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-title' + id, maxlength: '80', class: 'form-control mb-3', value: hotspot ? hotspot['name'] : '' }).appendTo(hotspotCard);
 
-    $('<label/>', { for: 'hotspot-address' + id, text: 'Address:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-address' + id, class: 'form-control', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
+    $('<label/>', { for: 'hotspot-address' + id, text: 'Address', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-address' + id, maxlength: '150', class: 'form-control', value: hotspot ? hotspot['address'] : '' }).appendTo(hotspotCard);
     $('<div/>').addClass('form-text mb-3').text("Example: 123 NE 25th St. Princeton, NJ 08544").appendTo(hotspotCard);
 
-    $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude:', class: 'form-label' }).appendTo(hotspotCard);
+    $('<label/>', { for: 'hotspot-lati' + id, text: 'Latitude', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-lati' + id, class: 'form-control mb-3', value: hotspot ? hotspot['latitude'] : '', disabled: '' }).appendTo(hotspotCard);
-    
-    $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude:', class: 'form-label' }).appendTo(hotspotCard);
+
+    $('<label/>', { for: 'hotspot-long' + id, text: 'Longitude', class: 'form-label' }).appendTo(hotspotCard);
     $('<input/>', { type: 'text', id: 'hotspot-long' + id, class: 'form-control mb-3', value: hotspot ? hotspot['longitude'] : '', disabled: '' }).appendTo(hotspotCard);
-    
-    $('<label/>', { for: 'hotspot-tags' + id, text: 'Tags:', class: 'form-label' }).appendTo(hotspotCard);
+
+    $('<label/>', { for: 'hotspot-tags' + id, text: 'Tags', class: 'form-label' }).appendTo(hotspotCard);
     // $('<input/>', { type: 'text', id: 'hotspot-tags', class: 'form-control', 'aria-describedby': 'tag-info', value: tags }).appendTo(hotspotCard);
     $("<br/>").appendTo(hotspotCard);
     selector.appendTo(hotspotCard);
@@ -179,36 +189,73 @@ function makeHotspotCard(hotspot) {
     $("<br/>").appendTo(hotspotCard);
     // $('<div/>', { class: 'form-text mb-3', id: 'tag-info', text: 'Enter tags as a comma-delimited list' }).appendTo(hotspotCard);
 
-    $('<label/>', { for: 'hotspot-ul' + id, text: 'Upload Speed:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-ul' + id, class: 'form-control', value: hotspot ? hotspot['ul_speed'] : '-1' }).appendTo(hotspotCard);
-    $('<div/>').addClass('form-text mb-3').text("-1 for unknown (won't be displayed)").appendTo(hotspotCard);
+    $('<label/>', { for: 'hotspot-ul' + id, text: 'Upload Speed', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-ul' + id, class: 'form-control', value: hotspot ? hotspot['ul_speed'] : -1 }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("Default (unknown) value: -1").appendTo(hotspotCard);
 
-    $('<label/>', { for: 'hotspot-dl' + id, text: 'Download Speed:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control', value: hotspot ? hotspot['dl_speed'] : '-1' }).appendTo(hotspotCard);
-    $('<div/>').addClass('form-text mb-3').text("-1 for unknown (won't be displayed)").appendTo(hotspotCard);
+    $('<label/>', { for: 'hotspot-dl' + id, text: 'Download Speed', class: 'form-label' }).appendTo(hotspotCard);
+    $('<input/>', { type: 'text', id: 'hotspot-dl' + id, class: 'form-control', value: hotspot ? hotspot['dl_speed'] : -1 }).appendTo(hotspotCard);
+    $('<div/>').addClass('form-text mb-3').text("Default (unknown) value: -1").appendTo(hotspotCard);
 
-    $('<label/>', { for: 'hotspot-desc' + id, text: 'Description:', class: 'form-label' }).appendTo(hotspotCard);
-    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, class: 'form-control mb-3' }).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
+    $('<label/>', { for: 'hotspot-desc' + id, text: 'Description', class: 'form-label' }).appendTo(hotspotCard);
+    $('<textarea/>', { type: 'text', id: 'hotspot-desc' + id, maxlength: '300', class: 'form-control mb-3' }).text(hotspot ? hotspot['descrip'] : '').appendTo(hotspotCard);
 
-    let add = $('<button/>', { type: 'submit', class: 'btn btn-success me-2 mt-2', text: 'Save Changes' }).appendTo(hotspotCard);
+    // $('<button/>', { type: 'submit', class: 'btn btn-success me-2 mt-2', text: 'Save Changes' }).appendTo(hotspotCard);
+
+    let confirmChanges = $('<a/>', { id: 'confirmChanges' + id, type: "button", class: "btn btn-secondary", text: 'Confirm' });
+
+    $('<button/>', {
+        type: 'submit',
+        id: 'approve' + id,
+        class: 'btn btn-success me-2 mt-2',
+        'data-bs-container': "body",
+        'data-bs-custom-class': 'popover-center',
+        'data-bs-toggle': "popover",
+        'data-bs-placement': "bottom",
+        'data-bs-html': true,
+        'data-bs-trigger': "focus",
+        title: '<small>Confirm Selection</small>',
+        'data-bs-content': confirmChanges.prop('outerHTML'),
+        text: 'Save Changes'
+    }).appendTo(hotspotCard);
+
 
     if (hotspot != null) {
-        let del = $('<button/>', { type: 'button', class: 'btn btn-danger me-2 mt-2', text: 'Delete Hotspot' }).appendTo(hotspotCard);
-        del.click(function () {
+        let confirmDelete = $('<a/>', { id: 'confirmDelete' + id, type: "button", class: "btn btn-secondary", text: 'Confirm' });
+
+        $('<button/>', {
+            type: 'submit',
+            id: 'delete' + id,
+            class: 'btn btn-danger me-2 mt-2',
+            'data-bs-container': "body",
+            'data-bs-custom-class': 'popover-center',
+            'data-bs-toggle': "popover",
+            'data-bs-placement': "bottom",
+            'data-bs-html': true,
+            'data-bs-trigger': "focus",
+            title: '<small>Confirm Selection</small>',
+            'data-bs-content': confirmDelete.prop('outerHTML'),
+            text: 'Delete Hotspot'
+        }).appendTo(hotspotCard);
+
+        $(document).on('click', '#confirmDelete' + id, function () {
             deleteHotspot(id);
         });
-        add.click(function () {
+
+        $(document).on('click', '#confirmChanges' + id, function () {
             updateHotspot(id);
         });
     }
+
     else {
-        add.click(function () {
+        $(document).on('click', '#confirmChanges' + id, function () {
+            console.log("failed!");
             addHotspot();
         });
     }
 
-    let cancel = $('<button/>', { type: 'button', class: 'btn btn-secondary me-2 mt-2', text: 'Cancel' }).appendTo(hotspotCard);
-    cancel.click(function () { cancelQuery(id) });
+    let reset = $('<button/>', { type: 'button', class: 'btn btn-secondary me-2 mt-2', text: 'Reset Fields' }).appendTo(hotspotCard);
+    reset.click(function () { resetQuery(id) });
     return hotspotCard;
 }
 
@@ -220,15 +267,48 @@ function buildHotspot(id = 'new') {
 
     for (let tag of tags) {
         if (newTags.includes(tag['tag_name'])) {
+            hotspot['tags'].push(tag);
+        }
+    }
+
+    hotspot['hotspot_id'] = parseInt(id) || 'new';
+    hotspot['address'] = $('#hotspot-address' + id).val();
+    hotspot['name'] = $('#hotspot-title' + id).val();
+
+    let ulSpeed = parseFloat($('#hotspot-ul' + id).val());
+    let dlSpeed = parseFloat($('#hotspot-dl' + id).val());
+
+    $('#hotspot-ul' + id).val(Number.isInteger(ulSpeed) ? ulSpeed : -1);
+    $('#hotspot-dl' + id).val(Number.isInteger(dlSpeed) ? dlSpeed : -1);
+
+    hotspot['ul_speed'] = parseFloat($('#hotspot-ul' + id).val());
+    hotspot['dl_speed'] = parseFloat($('#hotspot-dl' + id).val());
+
+    hotspot['descrip'] = $('#hotspot-desc' + id).val();
+    hotspot['latitude'] = parseFloat($('#hotspot-lati' + id).val());
+    hotspot['longitude'] = parseFloat($('#hotspot-long' + id).val());
+
+    return hotspot;
+}
+
+function buildData(id = 'new') {
+    let hotspot = {};
+    let newTags = $('#select' + id).val();
+
+    hotspot['tags'] = [];
+
+    for (let tag of tags) {
+        if (newTags.includes(tag['tag_name'])) {
             hotspot['tags'].push(tag['tag_id']);
         }
     }
-    
-    hotspot['hotspot_id'] = parseInt(id);
+    if (id !== 'new')
+        hotspot['hotspot_id'] = parseInt(id);
+
     hotspot['address'] = $('#hotspot-address' + id).val();
     hotspot['location_name'] = $('#hotspot-title' + id).val();
-    hotspot['upload_speed'] = parseFloat($('#hotspot-ul' + id).val());
-    hotspot['download_speed'] = parseFloat($('#hotspot-dl' + id).val());
+    hotspot['upload_speed'] = parseFloat($('#hotspot-ul' + id).val()) || -1;
+    hotspot['download_speed'] = parseFloat($('#hotspot-dl' + id).val()) || -1;
     hotspot['description'] = $('#hotspot-desc' + id).val();
     hotspot['latitude'] = parseFloat($('#hotspot-lati' + id).val());
     hotspot['longitude'] = parseFloat($('#hotspot-long' + id).val());
@@ -238,82 +318,118 @@ function buildHotspot(id = 'new') {
 
 function addHotspot() {
     if (!verifyHotspot()) {
-        console.log("error with verification");
-        return
+        return;
     }
 
     let hotspot = buildHotspot();
+    let data = buildData();
+
     console.log(hotspot);
 
     let addRequest = {
         type: 'POST',
         url: "/api/create_hotspots",
-        data: JSON.stringify([hotspot]),
-        contentType: 'application/json'
+        data: JSON.stringify([data]),
+        contentType: 'application/json',
+        error: function () {
+            alert("Server Error. Unable to add hotspot.");
+        },
+        success: function () {
+            hotspots.push(hotspot);
+            resetPaneView('new');
+            console.log("Hotspot created!");
+            setupMap();
+        }
     };
 
     $.ajax(addRequest);
-    resetPaneView('new');
-    console.log("Hotspot created!")
 }
 
 function updateHotspot(id) {
     if (!verifyHotspot(id)) {
-        alert("error with verification");
         return
     }
+    console.log("updating");
 
     let hotspot = buildHotspot(id);
+    let data = buildData(id);
 
     let updateRequest = {
         type: 'POST',
         url: "/api/modify_hotspots",
-        data: JSON.stringify([hotspot]),
-        contentType: 'application/json'
+        data: JSON.stringify([data]),
+        contentType: 'application/json',
+        error: function () {
+            alert("Server Error. Unable to update hotspot.");
+            return;
+        },
+        success: function () {
+            console.log("successfully modified!");
+            hotspots = hotspots.map(old_hotspot => old_hotspot['hotspot_id'] === id ? hotspot : old_hotspot);
+            resetPaneView(id);
+        }
     };
 
     $.ajax(updateRequest);
-    resetPaneView(id);
-    console.log("successfully modified!")
 }
 
 function deleteHotspot(id) {
-    if (!verifyHotspot(id)) {
-        alert("error with verification");
-        return
-    }
-
     let deleteRequest = {
         type: 'POST',
         url: "/api/delete_hotspots",
         data: JSON.stringify([id]),
-        contentType: 'application/json'
+        contentType: 'application/json',
+        error: function () {
+            alert("Server Error. Unable to delete hotspot.");
+            return;
+        },
+        success: function () {
+            hotspots = hotspots.filter(hotspot => hotspot['hotspot_id'] !== id);
+            resetPaneView(id);
+            console.log("successfully deleted");
+            setup();
+        }
     };
 
     $.ajax(deleteRequest);
-    console.log("deleted " + id);
-    resetPaneView(id);
-    return
 }
 
 function resetPaneView(id) {
+    $('#list-' + id + '-tab').text($('#hotspot-title' + id).val());
     $('#list-' + id + '-tab').removeClass('active');
     $('#list-' + id).removeClass("active show");
 
-    setupMap();
+    $('#list-tab > :first-child').addClass('active');
+    $('#nav-tabContent > :first-child').addClass('active show');
 }
 
-function cancelQuery(id) {
+function resetQuery(id) {
     $('#list-' + id).empty();
-    resetPaneView(id)
 
     let hotspot = getHotspot(hotspots, id);
+    $(document).off('click', '#confirmChanges' + id);
+    $(document).off('click', '#confirmDelete' + id);
+
     $('#list-' + id).append(makeHotspotCard(hotspot));
     $(".selectpicker").selectpicker('render');
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 }
 
 function verifyHotspot(id = 'new') {
+    let title = $('#hotspot-title' + id).val();
     let address = $('#hotspot-address' + id).val();
+
+    if (!title) {
+        alert("Please provide a hotspot title.");
+        return false;
+    }
+
+    if (!address) {
+        alert("Please provide a hotspot address.");
+        return false;
+    }
+
     let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + address + ".json?proximity=ip&access_token=pk.eyJ1IjoianY4Mjk0IiwiYSI6ImNsbzRzdjQyZjA0bDgycW51ejdtYXBteWEifQ.5epqP-7J4pRUTJAmYygM8A"
     let result = true;
 

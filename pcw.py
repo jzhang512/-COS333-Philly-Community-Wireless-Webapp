@@ -75,20 +75,20 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    if admin_path not in valid_subpaths:
-        flask.abort(404)
+    # if admin_path not in valid_subpaths:
+    #     flask.abort(404)
 
-    user_email = auth.checkAuthenticate()
-    user_name = auth.getName()
-    # Check if the user is authorized
-    if database_req.is_authorized_user(user_email):
-        html_code = flask.render_template('admin.html', name=user_name)
-        response = flask.make_response(html_code)
-        return response
-    else:
-        html_code = flask.render_template('unauthorized.html')
-        response = flask.make_response(html_code)
-        return response
+    # user_email = auth.checkAuthenticate()
+    # user_name = auth.getName()
+    # # Check if the user is authorized
+    # if database_req.is_authorized_user(user_email):
+    html_code = flask.render_template('admin.html', name='user_name')
+    response = flask.make_response(html_code)
+    return response
+    # else:
+    #     html_code = flask.render_template('unauthorized.html')
+    #     response = flask.make_response(html_code)
+    #     return response
 
 
 @app.route('/api/hotspots', methods=['GET'])
@@ -141,6 +141,7 @@ def pending_reviews():
         print(ex)
         return flask.jsonify("Database Error")
 
+
 @app.route('/api/get_all_admin', methods=['GET'])
 def all_admin():
     try:
@@ -160,7 +161,7 @@ def create_hotspots():
     try:
         hotspots = flask.request.json
         print(hotspots)
-        database_req.add_admin(hotspots)
+        database_req.create_hotspots(hotspots)
         print("Creation successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
@@ -202,6 +203,7 @@ def publish_review():
     except Exception as ex:
         print(ex)
         return flask.jsonify("Error")
+
 
 @app.route('/api/add_admin', methods=['POST'])
 def add_admin():
