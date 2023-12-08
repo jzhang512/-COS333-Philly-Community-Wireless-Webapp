@@ -465,8 +465,9 @@ body {
 /* Hotspot Information Popup Styles */
 
 .review-card {
-    width: 16rem;
+    /* width: 16rem; */
     margin-left: 2.5%;
+    margin-right: 2.5%;
     margin-top: 2.5%;
 }
 
