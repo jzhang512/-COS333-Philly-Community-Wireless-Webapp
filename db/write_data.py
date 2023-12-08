@@ -379,11 +379,20 @@ def add_new_admin(admin_key):
      #     _engine.dispose()
 
 # ---------------------------------------------------------------------
-# def remove_admin(admin_key):
+def remove_admins(admins_to_delete):
      
-#      try:
-#           with sqlalchemy.orm.Session(_engine) as session:
+     try:
+          with sqlalchemy.orm.Session(_engine) as session:
 
+               for admin in admins_to_delete:
+
+                    stmt = sqlalchemy.delete(db.Admin).where(db.Admin.admin_id == admin)
+                    session.execute(stmt)
+               session.commit()
+     except Exception as ex:
+          session.rollback()
+          print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+          raise Exception("Database Error - Write")
 # ---------------------------------------------------------------------
 def main():
      # visualization_hotspots([23], False)
@@ -424,7 +433,11 @@ def main():
 
      # update_admin_username(87, "Jahhhmeezz")
 
-     add_new_admin("new@email.com")
+     # add_new_admin("new@email.com")
+
+     adminz = [25]
+
+     remove_admins(adminz)
 
      return
 
