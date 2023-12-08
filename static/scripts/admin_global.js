@@ -2,21 +2,8 @@ $('document').ready(setup);
 
 let siteTitle = "PCW Admin";
 
-
 async function setup() {
     let path = window.location.pathname;
-    // console.log(hotspots)
-    // console.log(tags)
-
-    // if (!hotspots.length || !tags.length) {
-    //     console.log("setting");
-    //     setGlobalVars();
-    // }
-
-    // if (tags == "Database Error") {
-    //     tags = [];
-    //     alert("Database error fetching tags");
-    // }
 
     if (path == '/admin/update') {
         setupMap();

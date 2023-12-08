@@ -250,13 +250,21 @@ body {
 .visible-scrollbar::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 6px;
-  }
-  
+}
+
+.bottom-buffer {
+    padding-bottom: 8%;
+}
+
+.popover-center {
+    text-align: center;
+}
+
 .visible-scrollbar::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: #6c757d;
 }
-  
+
 .visible-scrollbar::-webkit-scrollbar-track {
     background-color: #eee;
 }
@@ -284,7 +292,7 @@ body {
 }
 
 .sort-button-unclicked {
-    background-color:#fbfdff !important;
+    background-color: #fbfdff !important;
     color: grey !important;
     border: 1px solid #6c757d;
     white-space: nowrap;
@@ -298,7 +306,7 @@ body {
 }
 
 .sort-button-clicked {
-    background-color:#3960a6 !important;
+    background-color: #3960a6 !important;
     color: white !important;
     border: 1px solid #6c757d;
     white-space: nowrap;
@@ -325,7 +333,7 @@ body {
     margin-bottom: 1.5%;
     /* background-color: #c9cad2;
     border-bottom-right-radius: 20px;  */
-} 
+}
 
 .filter-header {
     margin-top: 7.5%;
@@ -340,7 +348,7 @@ body {
     color: grey !important;
     border: 1px solid #6c757d;
     padding: 5%;
-    border-radius: 10px; 
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -362,7 +370,7 @@ body {
 
 .custom-checkbox {
     border-left: 2px solid #555;
-    padding: 2px; 
+    padding: 2px;
 }
 
 /* Apply the custom style to checkboxes with the custom-checkbox class */
@@ -374,13 +382,13 @@ body {
 }
 
 .filter-bar-panel {
-    border-right: 2px solid #5162ed; 
+    border-right: 2px solid #5162ed;
 }
 
 .searchbar-panel {
     background-color: #E1E6F6;
-    border-right: 4px solid #5162ed; 
-    width: 25%; 
+    border-right: 4px solid #5162ed;
+    width: 25%;
     overflow-y: auto;
 }
 
@@ -408,10 +416,10 @@ body {
     margin-top: 2.5%;
 }
 
-#review-list{
+#review-list {
     border-top: 2px solid #5162ed;
     border-bottom: 2px solid #5162ed;
-    border-radius: 10px; 
+    border-radius: 10px;
     background-color: #E1E6F6;
     margin-top: 5%;
 }
@@ -437,7 +445,7 @@ body {
     background-color: #E1E6F6;
     padding: 5%;
     border-left: 4px solid #5162ed;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 .hotspot-address-text {
@@ -446,8 +454,9 @@ body {
 }
 
 .tag-onhotspot-display {
-    background-color: #3960a6!important;    /* override */
-    color: #fbfdff!important;
+    background-color: #3960a6 !important;
+    /* override */
+    color: #fbfdff !important;
 }
 
 .tag-container-display {
@@ -466,7 +475,7 @@ body {
 .descrip-content {
     background-color: #E1E6F6;
     padding: 5%;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 .review-container {
@@ -477,5 +486,5 @@ body {
     /* background-color: #E1E6F6;
     padding: 2.5%;
     border-radius: 10px;  */
-    height:40vh;
+    height: 40vh;
 }

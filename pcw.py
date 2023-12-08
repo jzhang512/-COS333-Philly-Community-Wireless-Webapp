@@ -161,7 +161,7 @@ def create_hotspots():
     try:
         hotspots = flask.request.json
         print(hotspots)
-        database_req.add_admin(hotspots)
+        database_req.create_hotspots(hotspots)
         print("Creation successful")
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
