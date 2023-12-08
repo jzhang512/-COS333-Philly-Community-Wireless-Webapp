@@ -230,41 +230,53 @@ $(window).on('resize', function() {
     clearTimeout($.data(this, 'resizeTimer'));
     $.data(this, 'resizeTimer', setTimeout(function() {
         // Call the function after a short delay to ensure the resizing is complete
-        checkViewportWidth();
+        viewportWidthUpdates();
     }, 15));
 });
+
 
 // Helper functions.
 function smallScreenRendering() {
     // Show the panel content when the input gains focus
     if ($(window).width() <= SMALLSCREENWIDTH) {
         // console.log('small window focus')
-        $('#searchbar-content-div').removeClass('searchbar-content');
-        $('#searchbar-content-div').addClass('searchbar-content-small');
 
-        $('.searchbar-content-small').css({
-            "display":"block",
-            'position': 'absolute',
-            'width': $('.small-screen-search').width()+'px',
-            'height': $(window).height() * 0.7+'',
-            'top': '160px',
-            'left': '2.5%',
-            'padding-bottom': '16px',
-            'z-index': '1',/* Ensure the overlay is above the map */
-            'background-color': '#E1E6F6',
-            'overflow-y': 'auto',
-        });
+        display_search_panel();
 
-        $('#close-list-text-btn').remove();
-        $('#close-list').append('<strong id = "close-list-text-btn" >CLOSE</strong>');
-
-        $('#close-list-text-btn, .hotspots-list-button').on('click', function() {
+        $('#close-list-text-btn, .hotspots-list-button, #toggleFilterFromSearchbar').on('click', function() {
             if ($(window).width() <= SMALLSCREENWIDTH) {
                 //  console.log('small window blur')
                 hide_search_panel();
              }
         });
+
+        // $('#close-filter-text-btn').on('click', function () {
+        //     if ($(window).width() <= SMALLSCREENWIDTH) {
+        //         //  console.log('small window blur')
+        //         hide_small_filter_panel();
+        //      }
+        // });
     }
+}
+
+function display_search_panel() {
+    $('#searchbar-content-div').removeClass('searchbar-content');
+    $('#searchbar-content-div').addClass('searchbar-content-small');
+    $('.searchbar-content-small').css({
+        "display":"block",
+        'position': 'absolute',
+        'width': $('.small-screen-search').width()+'px',
+        'height': $(window).height() * 0.7+'',
+        'top': '160px',
+        'left': '2.5%',
+        'padding-bottom': '16px',
+        'z-index': '1',/* Ensure the overlay is above the map */
+        'background-color': '#E1E6F6',
+        'overflow-y': 'auto',
+    });
+
+    $('#close-list-text-btn').remove();
+    $('#close-list').append('<strong id = "close-list-text-btn" >CLOSE</strong>');
 }
 
 function hide_search_panel() {
@@ -286,18 +298,87 @@ function hide_search_panel() {
     $('#close-list-text-btn').remove();
 }
 
-function checkViewportWidth() {
+function display_small_filter_panel() {
+    $('.filterbar-content').css({
+        "display":"block",
+        'position': 'absolute',
+        'width': $('.small-screen-search').width()+'px',
+        'height': $(window).height() * 0.7+'',
+        'top': '145px',
+        'left': '2.5%',
+        'padding-bottom': '16px',
+        'z-index': '1',/* Ensure the overlay is above the map */
+        'background-color': '#E1E6F6',
+        'overflow-y': 'auto',
+    });
+
+    $('#close-filter-text-btn').remove();
+    $('#close-filter').append('<strong id = "close-filter-text-btn" >CLOSE</strong>');
+
+    $('#close-filter-text-btn').on('click', function () {
+        if ($(window).width() <= SMALLSCREENWIDTH) {
+            //  console.log('small window blur')
+            hide_small_filter_panel();
+         }
+    });
+}
+
+function hide_small_filter_panel() {
+    $('.filterbar-content').css({
+        'display': '',
+        'position': '',
+        'width': '',
+        'height': '',
+        'top': '',
+        'left': '',
+        'padding-bottom': '',
+        'z-index': '',
+        'background-color': '',
+        'overflow-y': ''
+    });
+    $('#close-filter-text-btn').remove();
+}
+
+function viewportWidthUpdates() {
     var viewportWidth = $(window).width();
 
     // Check if viewport width is less than 992 pixels
-    if (viewportWidth <= 992) {
+    if (viewportWidth <= SMALLSCREENWIDTH) {
         // Perform actions for viewport width less than 992 pixels
         if ($('#searchInput').is(':focus')) {
             smallScreenRendering();
         }
+
+        // Remove the toggle/collapse attributes (will need to add 
+        // different style for small screens).
+        $('#toggleFilterFromSearchbar').removeAttr('data-bs-toggle');
+        $('#toggleFilterFromSearchbar').removeAttr('data-bs-target');
+        $('#toggleFilterFromSearchbar').removeAttr('aria-expanded');
+        $('#toggleFilterFromSearchbar').removeAttr('aria-controls');
+        $('#toggleFilterFromSearchbar').addClass('filter-render-small');
+        $('#collapseFilter').removeClass('collapse');
+        $('#collapseFilter').removeClass('collapse-horizontal');
+        // Small screen rendering.
+        $('.filter-render-small').on('click', function () {
+            // Needs to double check.
+            if ($(this).hasClass('filter-render-small')) {
+                console.log('hi');
+                display_small_filter_panel();
+            }
+        });
     }
     else {
-        hide_search_panel()
+        hide_search_panel();
+        hide_small_filter_panel();
+        $('#toggleFilterFromSearchbar').attr('data-bs-toggle', 'collapse');
+        $('#toggleFilterFromSearchbar').attr('data-bs-target', '#collapseFilter');
+        $('#toggleFilterFromSearchbar').attr('aria-expanded','false');
+        $('#toggleFilterFromSearchbar').attr('aria-controls','collapseFilter');
+        $('#toggleFilterFromSearchbar').removeAttr('aria-controls');
+        $('#toggleFilterFromSearchbar').removeClass('filter-render-small');
+
+        $('#collapseFilter').addClass('collapse');
+        $('#collapseFilter').addClass('collapse-horizontal');
     }
 }
 
