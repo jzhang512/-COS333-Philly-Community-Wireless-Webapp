@@ -16,30 +16,44 @@ async function updateHotspotsList(hotspots) {
     displayed = hotspots;
 
     hotspots.forEach((hotspot) => {
-        var hotspot_buttonText = "<span class = 'd-flex justify-content-between'>"
-        hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
+        var top_row = $("<span class = 'd-flex justify-content-between'>")
+        var distance_button;
+        if (hotspot['dist'] !== undefined) {
+            distance_button = $("<span class='distance-pill'>").text(hotspot['dist'].toFixed(1)  + " mi");
+        } else {
+            distance_button = $("<span>");
+            distance_button.append($("<i class = 'no-rating-text'>").text("Can't calculate dist."))
+        }
+        top_row.append(distance_button);
+        // hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
 
-        let hotspot_buttonScore = "<span><span class = 'avg-rating-icon'>"
+        let score_button = $("<span>"); // = "<span><span class = 'avg-rating-icon'>"
         if (hotspot['avg_rating']) {
-            hotspot_buttonScore += parseFloat(hotspot['avg_rating']).toFixed(1) + "</span>";
+            score_button.text(parseFloat(hotspot['avg_rating']).toFixed(1)); // + "</span>";
 
             // Make star.
             let star = $('<span>').addClass("d-inline-block");
             let icon = document.createElement("i");
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
-            hotspot_buttonScore += star.prop("outerHTML") + "</span></span>";
+            score_button.append(star.prop("outerHTML")); //+ "</span></span>";
         } else {
-            hotspot_buttonScore += "<i class = 'no-rating-text'>No Rating</i></span></span></span>";
+            score_button.append($("<i class = 'no-rating-text'>").text("No Rating"));
         }
+        top_row.append(score_button);
 
-        hotspot_buttonText += hotspot_buttonScore;
-        hotspot_buttonText += "<span>" + hotspot['name'] + "</span>";
+        let buttonDiv = $('<div>');
+        buttonDiv.append(top_row)
+        buttonDiv.append($("<span>").text(hotspot['name']));
+
+        let button = $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action">');
+        button.append(buttonDiv)
+        $('#hotspotsList').append(button);
         
-        $('#hotspotsList').append(
-            $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action"></button>')
-            .html('<div>' + hotspot_buttonText +'</div>')
-        );
+        // $('#hotspotsList').append(
+        //     $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action">')
+        //     .html('<div>' + hotspot_buttonText +'</div>')
+        // );
     });
 
     $(document).on("click",".list-group-item-action", function () {
@@ -145,6 +159,7 @@ function getLocation(callback = () => { }) {
                 // user_coords is global.
                 user_coords = [position['coords']['longitude'], position['coords']['latitude']];
                 updateDistances(user_coords);
+                updateHotspotsList(displayed);
             },
             (error) => {
                 callback(); // remove "lock"
@@ -212,7 +227,8 @@ $('#sort_distance').click(function () {
         $('#sort_distance').removeClass('sort-button-disabled');
     }
     else {
-        alert("Unable to access location. Geolocation and distance services unusable. Please make sure you are allowing location access.");
+        alert("Unable to access location. Geolocation and distance services unusable. " + 
+        "Please make sure you are allowing location access. You may need to refresh the page after enabling permission.");
 
         // // Color like disabled button. Good compromise?
         // $('#sort_distance').addClass('sort-button-disabled');
