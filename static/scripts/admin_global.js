@@ -1,30 +1,9 @@
 $('document').ready(setup);
 
 let siteTitle = "PCW Admin";
-let hotspots = [];
-let tags = [];
 
 async function setup() {
-    console.log("setup!");
     let path = window.location.pathname;
-
-    // Get hotspots
-    let response = await fetch("/api/hotspots");
-    hotspots = await response.json();
-
-    if (hotspots == "Database Error") {
-        hotspots = [];
-        alert("Database error fetching hotspots");
-    }
-
-    // Get Tags
-    response = await fetch("/api/tags");
-    tags = await response.json();
-
-    if (tags == "Database Error") {
-        tags = [];
-        alert("Database error fetching tags");
-    }
 
     if (path == '/admin/update') {
         setupMap();
@@ -59,20 +38,16 @@ function setupDashboard() {
     $('<p/>').addClass("lead user-select-none").text("Grant or remove administrator privileges.").appendTo(admin)
     row.append(pending, update, admin);
 
-    $('#pending-review').click(setupReview);
-    $('#update-map').click(setupMap);
-    $('#manage-admin').click(setupManage);
+    $('#pending-review').click(function () {
+        window.location.href = '/admin/reviews';
+    });
+    $('#update-map').click(function () {
+        window.location.href = '/admin/update';
+    });
+    $('#manage-admin').click(function () {
+        window.location.href = '/admin/manage';
+    });
 
 
 }
-
-
-function handleResponse(data) {
-    $('#results-div').html(data);
-}
-
-function handleError() {
-    alert('Error: Failed to fetch data from server.');
-}
-
 
