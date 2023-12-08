@@ -224,7 +224,7 @@ $('#sort_distance').click(function () {
 // For smaller screen rendering (SMALLSCREENWIDTH = 992 width or less).
 
 // Event listeners.
-$('#searchInput').on('focus', function () {smallScreenRendering()});
+$('#searchInput').on('focus', function () {smallSearchRendering()});
 $(window).on('resize', function() {
     // Debounce the function to avoid excessive calls during resizing
     clearTimeout($.data(this, 'resizeTimer'));
@@ -236,7 +236,7 @@ $(window).on('resize', function() {
 
 
 // Helper functions.
-function smallScreenRendering() {
+function smallSearchRendering() {
     // Show the panel content when the input gains focus
     if ($(window).width() <= SMALLSCREENWIDTH) {
         // console.log('small window focus')
@@ -249,6 +249,8 @@ function smallScreenRendering() {
                 hide_search_panel();
              }
         });
+
+        hide_small_filter_panel();
 
         // $('#close-filter-text-btn').on('click', function () {
         //     if ($(window).width() <= SMALLSCREENWIDTH) {
@@ -299,12 +301,13 @@ function hide_search_panel() {
 }
 
 function display_small_filter_panel() {
+    // Styling modifications/additions.
     $('.filterbar-content').css({
         "display":"block",
         'position': 'absolute',
         'width': $('.small-screen-search').width()+'px',
         'height': $(window).height() * 0.7+'',
-        'top': '145px',
+        'top': '144.5px',
         'left': '2.5%',
         'padding-bottom': '16px',
         'z-index': '1',/* Ensure the overlay is above the map */
@@ -312,7 +315,15 @@ function display_small_filter_panel() {
         'overflow-y': 'auto',
     });
 
+    $('#filterTitleContainer').removeClass('col-9');
+
+    // // Goes together:
+    $('#filter-header-id').removeClass('row');
+    $('#filterTitleContainer').addClass('row');
+
+
     $('#close-filter-text-btn').remove();
+
     $('#close-filter').append('<strong id = "close-filter-text-btn" >CLOSE</strong>');
 
     $('#close-filter-text-btn').on('click', function () {
@@ -336,6 +347,13 @@ function hide_small_filter_panel() {
         'background-color': '',
         'overflow-y': ''
     });
+
+    $('#filterTitleContainer').addClass('col-9');
+
+    // // Goes together:
+    $('#filter-header-id').addClass('row');
+    $('#filterTitleContainer').removeClass('row');
+
     $('#close-filter-text-btn').remove();
 }
 
@@ -346,7 +364,7 @@ function viewportWidthUpdates() {
     if (viewportWidth <= SMALLSCREENWIDTH) {
         // Perform actions for viewport width less than 992 pixels
         if ($('#searchInput').is(':focus')) {
-            smallScreenRendering();
+            smallSearchRendering();
         }
 
         // Remove the toggle/collapse attributes (will need to add 
@@ -358,11 +376,12 @@ function viewportWidthUpdates() {
         $('#toggleFilterFromSearchbar').addClass('filter-render-small');
         $('#collapseFilter').removeClass('collapse');
         $('#collapseFilter').removeClass('collapse-horizontal');
-        // Small screen rendering.
+        
+
         $('.filter-render-small').on('click', function () {
             // Needs to double check.
             if ($(this).hasClass('filter-render-small')) {
-                console.log('hi');
+                // console.log('hi');
                 display_small_filter_panel();
             }
         });
