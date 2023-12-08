@@ -1,3 +1,7 @@
+.site-title {
+    color: white;
+}
+
 .navbar {
     background-color: #5263ED;
 }
@@ -364,11 +368,10 @@ body {
 .filter-form {
     padding-left: 35px;
     margin-left: 5%;
-    border-left: 1px solid #5162ed;
-    border-top: 1px solid #5162ed;
-    border-bottom: 1px solid #5162ed;
     border-radius: 10px;
     background-color: white;
+    width: 80%;
+    border: 1px solid #5162ed;
 }
 
 .custom-checkbox {
@@ -425,10 +428,10 @@ body {
     .filterbar-content {
         display: none;
     }
-    .form-check {
+    /* .form-check {
         width: 80%;
         border-right: 1px solid #5162ed;
-    }
+    } */
     #toggleFilterBack{
         display: none;
     }
@@ -492,12 +495,20 @@ body {
     color: #548ffb;
 }
 
-#hotspot-info-exit-button {
+.hotspot-info-exit-button {
     color: #6c757d;
     width: 35px;
     height: 35px;
     padding-bottom: 5px;
     cursor: pointer;
+}
+
+#hotspot-info-exit-unhovered {
+    display: block;
+}
+
+#hotspot-info-exit-hovered {
+    display: none;
 }
 
 #review-list {
