@@ -522,6 +522,10 @@ body {
 
 /* Hotspot Information Popup Styles */
 
+#new-tab-hotspot {
+    margin-left: 5px;
+}
+
 .review-card {
     /* width: 16rem; */
     margin-left: 2.5%;
@@ -550,6 +554,10 @@ body {
     display: none;
 }
 
+.star-span-spacing {
+    margin-left: 3px;
+}
+
 #review-list {
     border-top: 2px solid #5162ed;
     border-bottom: 2px solid #5162ed;
@@ -565,7 +573,7 @@ body {
     justify-content: space-between;
 }
 
-.open-with-googlemaps-text {
+#open-with-googlemaps-text {
     font-size: 0.8em;
     margin-top: -5%;
 }

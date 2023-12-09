@@ -32,7 +32,7 @@ async function updateHotspotsList(hotspots) {
             score_button.text(parseFloat(hotspot['avg_rating']).toFixed(1)); // + "</span>";
 
             // Make star.
-            let star = $('<span>').addClass("d-inline-block");
+            let star = $('<span class = "star-span-spacing">').addClass("d-inline-block");
             let icon = document.createElement("i");
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
