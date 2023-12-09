@@ -14,7 +14,7 @@ let hotspots;
 let displayed;
 let siteTitle = "Find Philly Wi-Fi";
 let sort_type = "alphabetical";
-let SMALLSCREENWIDTH = 992;
+let SMALLSCREENWIDTH = 1150;
 
 // User coordinates stored as [lon., lat.], null if not available
 let user_coords = null;
@@ -135,7 +135,7 @@ $(document).ready(async () => {
 
     categories.sort();
     categories.forEach((cat) => {
-        $('#filterView').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'),
+        $('#filters-list').append($('<h6 id=\"' + cat + 'tag\" class = \"tagHeader\">' + cat + '<br></h6>'),
             $('<div class=\"form-check filter-form\" id = \"form' + cat + '\"></div>')
         );
     });

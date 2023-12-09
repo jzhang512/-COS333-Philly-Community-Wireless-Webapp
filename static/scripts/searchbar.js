@@ -336,7 +336,7 @@ function display_small_filter_panel() {
         'position': 'fixed',
         'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
-        'top': '124.5px',
+        'top': '140px',
         'left': '2.5%',
         'padding-bottom': '16px',
         'z-index': '1',/* Ensure the overlay is above the map */
