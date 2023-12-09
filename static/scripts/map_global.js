@@ -12,7 +12,7 @@ let active_id = null;
 let tags;
 let hotspots;
 let displayed;
-let siteTitle = "Philly Wifi";
+let siteTitle = "Find Philly Wi-Fi";
 let sort_type = "alphabetical";
 let SMALLSCREENWIDTH = 992;
 
@@ -146,7 +146,7 @@ $(document).ready(async () => {
         let tagId = tag['tag_id'];
         $('#form' + category).append($('<div class=""></div>').append(
             $('<input class=\"form-check-input custom-filter-checkbox\" type=\"checkbox\" value=\"\" id=\"check' + tagId + '\">'),
-            $('<label class=\"form-check-label col-12\" for=\"check' + tagId + '\">' +
+            $('<label class=\"form-check-label\" for=\"check' + tagId + '\">' +
                 tagName +
                 '</label>'), $('<br>'))
         );

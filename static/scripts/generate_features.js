@@ -14,12 +14,12 @@ function filterByTag(hotspots, tagIds = []) {
         'Accessibility': 4, 'Establishment': 5
     };
 
-    let tags = [];
+    let tags_include = [];
 
     // Set categories that are included in tagIds to false
     tagIds.forEach((id) => {
         let tag = getTag(tags, id);
-        tags.push(tag);
+        tags_include.push(tag);
         let cat = tag['category'];
         cat_bools[cat_num[cat]] = false;
     })
@@ -30,7 +30,7 @@ function filterByTag(hotspots, tagIds = []) {
 
         // Add if hotspot has a least 1 tag from each category
         let bools_copy = [...cat_bools];
-        tags.forEach((tag) => {
+        tags_include.forEach((tag) => {
             let id = tag['tag_id'];
             let cat = tag['category'];
             if (hotspotTagIds.has(id)) bools_copy[cat_num[cat]] = true;

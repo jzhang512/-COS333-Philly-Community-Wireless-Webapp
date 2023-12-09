@@ -17,3 +17,17 @@ $('.filter-clear').on('click', function() {
 // Should have an event listener for checked filters here but located in
 // map_global.js. Can't be separated from the document.ready function
 // for some reason.
+
+$('#filter-clear-span-btn').on('mouseover', function () {
+    $('.filter-clear').css({
+        'background-color':'#6c757d',
+        'color':'#fefefe'
+    });
+});
+
+$('#filter-clear-span-btn').on('mouseout', function () {
+    $('.filter-clear').css({
+        'background-color':'',
+        'color':''
+    });
+});
