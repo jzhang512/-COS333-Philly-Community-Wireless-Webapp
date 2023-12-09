@@ -4,12 +4,26 @@
 
 .navbar {
     background-color: #5263ED;
+    border: 0px solid white;
+}
+
+#custom-navbar-toggler {
+    width: 30px;
+    height: 30px;
+    color: white;
 }
 
 .navbar-toggler {
     color: white;
-    background-color: #E1E6F6;
+    border: none;
 }
+/* 
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+} */
 
 .navbar-active-sidebar {
     margin-left: 0px;
