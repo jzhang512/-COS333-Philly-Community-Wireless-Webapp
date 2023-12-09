@@ -6,6 +6,10 @@
     background-color: #5263ED;
 }
 
+.navbar-toggler {
+    color: white !important;
+}
+
 .navbar-active-sidebar {
     margin-left: 0px;
 }
@@ -438,7 +442,7 @@ body {
     .small-screen-search{
         width: 300px;   /* hardcoded*/
         display: block;
-        position: absolute;
+        position: fixed;
         top: 75px;
         left: 2.5%;
         padding-bottom: 16px;
@@ -582,4 +586,6 @@ body {
     padding: 2.5%;
     border-radius: 10px;  */
     height: 40vh;
+    overflow-y: scroll;
+    overflow-x: auto;
 }
