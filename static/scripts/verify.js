@@ -173,9 +173,10 @@ async function manageReview(isVerify, id) {
     }
 
     if (!response.ok) {
-        alert("Server issue. Unable to verify this review.")
+        makeToast(false, "Server issue. Unable to verify this review.")
         return;
     }
+    makeToast(true, "Successfully verified this review!");
 
     let reviewTab = $('#list-' + id + '-tab');
     let reviewCard = $('#list-' + id);
