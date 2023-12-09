@@ -78,11 +78,11 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    if admin_path not in valid_subpaths:
-        flask.abort(404)
+    # if admin_path not in valid_subpaths:
+    #     flask.abort(404)
 
-    user_email = auth.checkAuthenticate()
-    user_name = auth.getName()
+    # user_email = auth.checkAuthenticate()
+    # user_name = auth.getName()
     # Check if the user is authorized
     if database_req.is_authorized_user(user_email):
         html_code = flask.render_template('admin.html', name=user_name, csrf_token=flask_wtf.csrf.generate_csrf())
@@ -333,7 +333,7 @@ def delete_tags():
 def delete_admin():
     try:
         admin_list = flask.request.json
-        print(admin_list    )
+        print(admin_list)
         database_req.delete_selected_admin(admin_list)
         print("Deletion successful")
         return flask.jsonify("Success")
