@@ -107,10 +107,19 @@ function fillPopup(hotspot, reviews) {
     }
 
     // Add avg rating
-    if (hotspot['avg_rating']) 
+    if (hotspot['avg_rating']) {
+        // Make star.
+        let star = $('<span>').addClass("d-inline-block");
+        let icon = document.createElement("i");
+        icon.classList.add("fas", "fa-star", "star");
+        star.append(icon);
+
         $('#avg-rating').text("Average Rating: " + parseFloat(hotspot['avg_rating']).toFixed(1));
-    else
+        $('#avg-rating').append(star.prop("outerHTML"));
+    }
+    else {
         $('#avg-rating').text("Average Rating: None");
+    }
 
     // Add Reviews
     $('#review-list').empty();
