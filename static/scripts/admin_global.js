@@ -1,17 +1,17 @@
 $('document').ready(setup);
 
 let siteTitle = "PCW Admin";
-let hotspots = [];
-let tags = [];
+// let hotspots = [];
+// let tags = [];
 
 async function setup() {
     let path = window.location.pathname;
 
-    // Get hotspots
-    await getHotspots();
+    // // Get hotspots
+    // await getHotspots();
 
-    // Get Tags
-    await getTags();
+    // // Get Tags
+    // await getTags();
 
     if (path == '/admin/update') {
         setupMap();
@@ -30,7 +30,7 @@ async function setup() {
     }
 }
 
-async function getHotspots(errorFunc = () => {}) {
+async function getHotspots(errorFunc = () => { }) {
     let response = await fetch("/api/hotspots");
     hotspots = await response.json();
 
@@ -41,7 +41,7 @@ async function getHotspots(errorFunc = () => {}) {
     }
 }
 
-async function getTags(errorFunc = () => {}) {
+async function getTags(errorFunc = () => { }) {
     response = await fetch("/api/tags");
     tags = await response.json();
 
@@ -61,7 +61,7 @@ function setupDashboard() {
     let pending = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'pending-review' });
     let update = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'update-map' });
     let admin = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'manage-admin' });
-    let update_tags = $('<div/>', {role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'update-tags'});
+    let update_tags = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'update-tags' });
 
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Pending Reviews").appendTo(pending);
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Update Map").appendTo(update);

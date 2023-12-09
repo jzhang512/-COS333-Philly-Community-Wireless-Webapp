@@ -35,6 +35,8 @@ function setupAdminList(admins) {
 
     authorizied_text = $('<h5> Authorized Administrators </h5>').appendTo(tabColAdmin)
 
+    const confirmAdmin = $('<a/>', { id: 'confirmAdmin', type: "button", class: "btn btn-secondary", text: 'Confirm' });
+
     let editButton = $('<button/>', {
         type: 'button',
         class: 'btn btn-primary my-3',
@@ -42,14 +44,30 @@ function setupAdminList(admins) {
         text: 'Edit'
     }).appendTo(tabColAdmin);
 
-    let deleteButton = $('<button/>', {
+    $('<button/>', {
         type: 'button',
-        class: 'btn btn-danger btn-sm',
         id: 'delete-all-admins',
-        text: 'Delete All Selected Admin'
+        class: 'btn btn-danger ms-2 my-3 invisible',
+        'data-bs-container': "body",
+        'data-bs-custom-class': 'popover-center',
+        'data-bs-toggle': "popover",
+        'data-bs-placement': "bottom",
+        'data-bs-html': true,
+        'data-bs-trigger': "focus",
+        title: '<small>Confirm Selection</small>',
+        'data-bs-content': confirmAdmin.prop('outerHTML'),
+        text: 'Delete Selected'
     }).appendTo(tabColAdmin);
 
-    let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabColAdmin);
+
+    // let deleteButton = $('<button/>', {
+    //     type: 'button',
+    //     class: 'btn btn-danger ',
+    //     id: 'delete-all-admins',
+    //     text: 'Delete Selected'
+    // }).appendTo(tabColAdmin);
+
+    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabColAdmin);
 
 
 
@@ -60,22 +78,16 @@ function setupAdminList(admins) {
     getSearchResultsAdmins();
     //$('#search').on('input', debouncedGetResultsAdmin);
 
-  
-    editButton.click(function() {
+    editButton.click(function () {
         toggleEditMode();
-    });
-
-    deleteButton.click(function() {
-        deleteAdmin();
     });
 
     addNew.click(function () {
         console.log("enter: " + $('#add_email').val())
         addAdmin($('#add_email').val());
     });
-    // onclick.addNew(addAdmin($('#search').val()))
-    // addNew.click(addAdmin($('#search').val()))
-    $(".selectpicker").selectpicker('render');
+
+
 }
 
 function makeAdminElem(admins) {
@@ -107,11 +119,10 @@ function getSearchResultsAdmins() {
 
     const by_name_admins = admins.filter(item => item["admin_key"]);
     // .toLowerCase().includes(query.toLowerCase()));
-    
+
     console.log(by_name_admins)
 
     populateAdmins(by_name_admins);
-    $(".selectpicker").selectpicker('render');
 }
 
 
@@ -130,54 +141,55 @@ function toggleSelectAllAdmins() {
     $('.admin-checkbox').prop('checked', (i, val) => !val);
 }
 
-// function createNewAdmin() {
-//     console.log("made new admin!")
-//     $(".active").removeClass("active show");
-//     if ($("#list-new")) {
-//         $("#list-new").remove();
-//     }
-//     // makePaneElem(null).appendTo('#nav-tabContent');
-//     $(".selectpicker").selectpicker('render');
-// }
-
 function addAdmin(adminName) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    
+
     if (adminName === '') {
         alert('Please enter a valid admin email.');
         return; // Exit the function if the input is empty
-    }    
-    
+    }
+
     if (!emailRegex.test(adminName)) {
         alert('Please enter a valid email address.');
         return; // Exit the function if the email is invalid
     }
 
 
-
+    
     let addAdminRequest = {
         type: 'POST',
         async: false,
         url: "/api/add_admin",
         data: JSON.stringify(adminName),
         contentType: 'application/json',
+        error: function () {
+            makeToast(false, "Server error. Unable to add admin.");
+            return;
+        },
+        success: function () {
+            makeToast(true, "Successfully added admin!");
+            console.log("Admin created!")
+            resetPaneViewAdmin()
+        },
         headers: {
             'X-CSRFToken': csrfToken
         }
     };
 
     $.ajax(addAdminRequest);
-    // resetPaneView('new');
-    console.log("Admin created!")
-    resetPaneViewAdmin()
 }
 
 function deleteAdmin() {
     var selectedAdmins = [];
-    $('.admin-checkbox:checked').each(function() {
+    $('.admin-checkbox:checked').each(function () {
         let adminId = $(this).attr('id').split('-')[1]; // Extract the admin ID from the checkbox ID
         selectedAdmins.push(adminId);
     });
+
+    if (selectedAdmins.length === 0) {
+        makeToast(false, "Please select at least one admin.")
+        return;
+    }
 
     let deleteAdminRequest = {
         type: 'POST',
@@ -185,21 +197,29 @@ function deleteAdmin() {
         url: "/api/delete_admin",
         data: JSON.stringify(selectedAdmins),
         contentType: 'application/json',
+        error: function () {
+            makeToast(false, "Server error. Unable to delete admin(s).");
+            return;
+        },
+        success: function () {
+            makeToast(true, "Successfully deleted admin(s)!");
+            console.log("Admin Deleted!")
+            resetPaneViewAdmin()
+        },
         headers: {
             'X-CSRFToken': csrfToken
         }
     };
 
     $.ajax(deleteAdminRequest);
-    // resetPaneView('new');
-    console.log("Admin Deleted!")
-    resetPaneViewAdmin()
 }
 
 function toggleEditMode() {
     // Toggle edit mode
     $('.admin-checkbox').toggle();
+
     // Additional logic to handle edit mode can be added here
+    $('#delete-all-admins').toggleClass('invisible visible');
 }
 
 function resetPaneViewAdmin(id) {
@@ -211,7 +231,16 @@ function resetPaneViewAdmin(id) {
 
 function handleResponseManage(data) {
     admins = data;
-    console.log("Admins: " + admins)
+    // console.log("Admins: " + admins)
     admins.sort((a, b) => a['admin_key'].localeCompare(b['admin_key']))
     setupAdminList(admins);
+
+    // Prevent duplicate event handler instances
+    $(document).on('click', '#confirmAdmin', function () {
+        console.log("clickerino");
+        deleteAdmin();
+    });
+
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 }

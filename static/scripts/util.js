@@ -28,3 +28,13 @@ function average(list) {
 function union(arrA, arrB) {
     return [...new Set([...arrA, ...arrB])];
 }
+
+function makeToast(isSuccess, message = null) {
+    const toast = document.getElementById(isSuccess ? 'successToast' : 'failToast');
+    if (message) {
+        const toastBody = toast.querySelector('.toast-body');
+        toastBody.textContent = message;
+    }
+    const toastObj = new bootstrap.Toast(toast);
+    toastObj.show();
+}
