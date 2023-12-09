@@ -284,7 +284,7 @@ function display_search_panel() {
     $('#searchbar-content-div').addClass('searchbar-content-small');
     $('.searchbar-content-small').css({
         "display":"block",
-        'position': 'absolute',
+        'position': 'fixed',
         'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
         'top': '140px',
@@ -333,10 +333,10 @@ function display_small_filter_panel() {
     // Styling modifications/additions.
     $('.filterbar-content').css({
         "display":"block",
-        'position': 'absolute',
+        'position': 'fixed',
         'width': '300px',   // hardcoded
         'height': $(window).height() * 0.7+'',
-        'top': '124.5px',
+        'top': '140px',
         'left': '2.5%',
         'padding-bottom': '16px',
         'z-index': '1',/* Ensure the overlay is above the map */
