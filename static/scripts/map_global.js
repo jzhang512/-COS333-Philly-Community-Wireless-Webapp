@@ -289,7 +289,7 @@ map.on('load', async () => {
         }
     });
 
-    // Handle point-click on map
+    // Handle point-click on map (when user clicks on a certain hotspot).
     map.on('click', 'circles', async (e) => {
         map.flyTo({
             center: e.features[0].geometry.coordinates
@@ -306,6 +306,12 @@ map.on('load', async () => {
 
         const hotspot = getHotspot(hotspots, id);
         makePopup(hotspot);
+
+        // For smaller screens.
+        if ($(window).width() <= SMALLSCREENWIDTH) {
+            hide_search_panel();
+            hide_small_filter_panel();
+         }
     });
 
     const popup = new mapboxgl.Popup({
