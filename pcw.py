@@ -15,7 +15,7 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 
 flask_wtf.csrf.CSRFProtect(app)
 
-valid_subpaths = [None, 'update', 'reviews', 'manage']
+# valid_subpaths = [None, 'update', 'reviews', 'manage']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
