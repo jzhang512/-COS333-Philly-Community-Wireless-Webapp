@@ -61,7 +61,7 @@ function setupDashboard() {
 
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Pending Reviews").appendTo(pending);
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Update Map").appendTo(update);
-    $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Manage Admin").appendTo(admin);
+    $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Admin Management").appendTo(admin);
     $('<h1/>').addClass("text-body-emphasis border-bottom user-select-none p-2").text("Update Tags").appendTo(update_tags);
 
     $('<p/>').addClass("lead user-select-none").text("Approve/deny any new user-generated reviews.").appendTo(pending);

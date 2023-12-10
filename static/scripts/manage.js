@@ -109,6 +109,7 @@ function makeAdminElem(admins) {
         class: 'admin-checkbox',
         id: 'admin-' + admins['admin_id']
     }).appendTo(adminItem);
+    
     adminCheckbox.hide();
 
     return adminItem;
@@ -139,6 +140,8 @@ function populateAdmins(admins) {
 function toggleSelectAllAdmins() {
     // Toggle the checked state of all admin checkboxes
     $('.admin-checkbox').prop('checked', (i, val) => !val);
+
+
 }
 
 function addAdmin(adminName) {
@@ -214,7 +217,16 @@ function deleteAdmin() {
 
 function toggleEditMode() {
     // Toggle edit mode
-    $('.admin-checkbox').toggle();
+    $('.admin-checkbox').each(function () {
+        // Check if the checkbox is currently visible
+        if ($(this).is(':visible')) {
+            $(this).hide(); // Hide and disable the checkbox
+            $(this).prop('disabled', true);
+        } else {
+            $(this).show(); // Show and enable the checkbox
+            $(this).prop('disabled', false);
+        }
+    });
 
     // Additional logic to handle edit mode can be added here
     $('#delete-all-admins').toggleClass('invisible visible');
