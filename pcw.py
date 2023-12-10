@@ -4,6 +4,7 @@
 
 import os
 import flask
+import flask_wtf.csrf
 import database_req
 import auth
 
@@ -11,6 +12,8 @@ import auth
 app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
+
+flask_wtf.csrf.CSRFProtect(app)
 
 valid_subpaths = [None, 'update', 'reviews', 'manage']
 # ---------------------------------------------------------------------
@@ -63,7 +66,7 @@ def logout_google_callback():
 
 @app.route('/', methods=['GET'])
 def index():
-    html_code = flask.render_template('index.html')
+    html_code = flask.render_template('index.html', csrf_token=flask_wtf.csrf.generate_csrf())
     response = flask.make_response(html_code)
     return response
 
@@ -82,7 +85,7 @@ def admin(admin_path=None):
     user_name = auth.getName()
     # Check if the user is authorized
     if database_req.is_authorized_user(user_email):
-        html_code = flask.render_template('admin.html', name=user_name)
+        html_code = flask.render_template('admin.html', name=user_name, csrf_token=flask_wtf.csrf.generate_csrf())
         response = flask.make_response(html_code)
         return response
     else:
@@ -274,6 +277,11 @@ def approve_review():
 @app.route('/api/reject_review', methods=['POST'])
 def reject_review():
     pin = flask.request.args.get("id", default="")
+    
+    user_email = auth.checkAuthenticate()
+    if not database_req.is_authorized_user(user_email):
+        return flask.jsonify("Error: Unauthorized"), 401
+
     try:
         pin = int(pin)
         database_req.reject_review(pin)

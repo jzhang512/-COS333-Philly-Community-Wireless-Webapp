@@ -331,6 +331,9 @@ function addHotspot() {
         url: "/api/create_hotspots",
         data: JSON.stringify([data]),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         error: function () {
             alert("Server Error. Unable to add hotspot.");
         },
@@ -359,6 +362,9 @@ function updateHotspot(id) {
         url: "/api/modify_hotspots",
         data: JSON.stringify([data]),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         error: function () {
             alert("Server Error. Unable to update hotspot.");
             return;
