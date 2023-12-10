@@ -319,11 +319,11 @@ map.on('load', async () => {
         closeOnClick: false
     });
 
-    $('.collapse').on('hidden.bs.collapse', function () {
+    $('.filterbar-panel').on('hidden.bs.collapse', function () {
         map.resize();
     });
 
-    $('.collapse').on('shown.bs.collapse', function () {
+    $('.filterbar-panel').on('shown.bs.collapse', function () {
 
         map.easeTo({
             padding: {
@@ -336,7 +336,7 @@ map.on('load', async () => {
         });
     });
 
-    $('.collapse').on('hide.bs.collapse', function () {
+    $('.filterbar-panel').on('hide.bs.collapse', function () {
         map.easeTo({
             padding: {
                 left: 0,

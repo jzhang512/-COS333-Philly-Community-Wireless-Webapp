@@ -22,7 +22,7 @@ async function updateHotspotsList(hotspots) {
             distance_button = $("<span class='distance-pill'>").text(hotspot['dist'].toFixed(1)  + " mi");
         } else {
             distance_button = $("<span>");
-            distance_button.append($("<i class = 'no-rating-text'>").text("Can't calculate dist."))
+            distance_button.append($("<i class = 'no-rating-text'>").text("no distance data"))
         }
         top_row.append(distance_button);
         // hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
