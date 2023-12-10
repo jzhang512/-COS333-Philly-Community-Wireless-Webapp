@@ -37,9 +37,11 @@ async function updateHotspotsList(hotspots) {
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
             score_button.append(star.prop("outerHTML")); //+ "</span></span>";
-        } else {
+        } 
+        else {
             score_button.append($("<i class = 'no-rating-text'>").text("No Rating"));
         }
+
         top_row.append(score_button);
 
         let buttonDiv = $('<div>');
@@ -49,7 +51,6 @@ async function updateHotspotsList(hotspots) {
         let button = $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action">');
         button.append(buttonDiv)
         $('#hotspotsList').append(button);
-        
     });
 
     $(document).on("click",".list-group-item-action", function () {
@@ -65,6 +66,18 @@ async function updateHotspotsList(hotspots) {
             hide_search_panel();
          }
     });
+
+    // Display number of results.
+    let num_results = hotspots.length;
+    if (num_results === 0) {
+        $('#number-hotspots-list-text').text('no results');
+    }
+    else if (num_results === 1) {
+        $('#number-hotspots-list-text').text('1 result');
+    }
+    else {
+        $('#number-hotspots-list-text').text(num_results + " results");
+    }
 }
 
 

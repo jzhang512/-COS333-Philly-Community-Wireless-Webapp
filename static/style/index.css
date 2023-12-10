@@ -272,6 +272,16 @@ body {
     padding-top: 10%;
 }
 
+#hotspots-list-text-div {
+    /* color: #5162ed; */
+    font-style: italic;
+    /* font-size: 0.9em; */
+}
+
+#are-filters-active-text {
+    display:none;
+}
+
 .searchbar-sort {
     padding-bottom: 5%;
 }
@@ -453,7 +463,7 @@ body {
     }
 
     #hotspotsList {
-        height: 60vh;
+        height: 58vh;
     }
 
     #filters-list {
@@ -506,7 +516,7 @@ body {
     }
 
     #hotspotsList {
-        height: 65%;
+        height: 63%;
     }
 
     #filters-list {
