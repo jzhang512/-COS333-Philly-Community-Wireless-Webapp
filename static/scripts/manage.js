@@ -154,8 +154,6 @@ function addAdmin(adminName) {
         return; // Exit the function if the email is invalid
     }
 
-
-    
     let addAdminRequest = {
         type: 'POST',
         async: false,
