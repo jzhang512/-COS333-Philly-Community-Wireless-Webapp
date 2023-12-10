@@ -1,6 +1,6 @@
 // $('#new-hotspot').click(createNewHotspot);
-let tags = []
-let hotspots = []
+// let tags = []
+// let hotspots = []
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
@@ -37,16 +37,19 @@ function setup() {
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $('<h2/>').addClass("row mx-2 mt-4 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
     let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 mb-2 overflow-hidden").appendTo('#results-div');
+    let leftCol = $('<div/>').addClass("d-flex flex-column col-4 mh-100 overflow-hidden").appendTo(mainGrid);
 
-    let tabCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
+    // let tabCol = $('<div/>').addClass("border-end pb-3 overflow-auto").appendTo(leftCol);
     let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 bottom-buffer overflow-auto").appendTo(mainGrid);
 
-    let searchDiv = $('<div/>').appendTo(tabCol);
+    let searchDiv = $('<div/>').appendTo(leftCol);
 
     let search = $('<h5>').appendTo(searchDiv);
     search.text('Search');
     let searchBox = $('<input type="text" class="form-control search-box" id="search">').appendTo(searchDiv);
-    $('<br>').appendTo(searchDiv);
+    // $('<br>').appendTo(searchDiv);
+
+    let tabCol = $('<div/>').addClass("border rounded-2 my-3 flex-grow-1 overflow-auto").appendTo(leftCol);
 
     let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
@@ -54,7 +57,7 @@ function setup() {
     getSearchResults();
     $('#search').on('input', debouncedGetResults);
 
-    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-hotspot', text: 'Add New' }).appendTo(tabCol);
+    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
     $(".selectpicker").selectpicker('render');
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
