@@ -46,3 +46,4 @@ wrapt==1.15.0
 wsproto==1.2.0
 requests
 oauthlib
+Flask-WTF
