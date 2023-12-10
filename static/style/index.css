@@ -2,6 +2,10 @@
     color: white;
 }
 
+.red-font {
+    color: red;
+}
+
 .navbar {
     background-color: #5263ED;
     border: 0px solid white;
@@ -278,6 +282,10 @@ body {
     /* font-size: 0.9em; */
 }
 
+#review-summary-text {
+    font-style: italic;
+}
+
 #are-filters-active-text {
     display:none;
 }
@@ -410,6 +418,12 @@ body {
     border-bottom: 2px solid #555;
 }
 
+.custom-filter-checkbox:checked {
+    background-color:#3960a6;
+    border-color: #3960a6;
+    /* border-color: #5162ed; */
+}
+
 .filter-form {
     padding-left: 35px;
     margin-left: 5px;
@@ -474,7 +488,7 @@ body {
 /* Smaller screens. */
 @media (max-width: 1150px) {
     .modal-dialog {
-        width: 70%;
+        width: 40vh;
     }
 
     .searchbar-content {

@@ -111,6 +111,23 @@ function fillPopup(hotspot, reviews) {
     }
 
     // Add avg rating
+    // if (hotspot['avg_rating']) {
+    //     // Make star.
+    //     let star = $('<span class = "star-span-spacing">').addClass("d-inline-block");
+    //     let icon = document.createElement("i");
+    //     icon.classList.add("fas", "fa-star", "star");
+    //     star.append(icon);
+
+    //     $('#avg-rating').text("Average Rating: " + parseFloat(hotspot['avg_rating']).toFixed(1));
+    //     $('#avg-rating').append(star.prop("outerHTML"));
+    // }
+    // else {
+    //     $('#avg-rating').text("Average Rating: None");
+    // }
+
+    // Add Reviews
+
+    // Let user know how many reviews there are with average rating.
     if (hotspot['avg_rating']) {
         // Make star.
         let star = $('<span class = "star-span-spacing">').addClass("d-inline-block");
@@ -118,32 +135,41 @@ function fillPopup(hotspot, reviews) {
         icon.classList.add("fas", "fa-star", "star");
         star.append(icon);
 
-        $('#avg-rating').text("Average Rating: " + parseFloat(hotspot['avg_rating']).toFixed(1));
+        $('#avg-rating').text("Average " + parseFloat(hotspot['avg_rating']).toFixed(1));
         $('#avg-rating').append(star.prop("outerHTML"));
     }
     else {
-        $('#avg-rating').text("Average Rating: None");
+        $('#avg-rating').text('');
     }
 
-    // Add Reviews
+    if (reviews.length) {
+        $("#number-reviews-text").text("(" + reviews.length + ")");
+    }
+    else {
+        $('#number-reviews-text').text('');
+    }
+    
+
     $('#review-list').empty();
 
     if (reviews.length == 0) {
-        let card = $('<div>').addClass('card');
+        let card = $('<div>').addClass('card review-card');
         let body = $('<div>').addClass('card-body').text("No reviews yet.");
         card.append(body);
         $('#review-list').append(card);
     }
 
     for (let review of reviews) {
-        let card = $('<div>').addClass('card review-card');
-        let body = $('<div>').addClass('card-body');
-        let starDiv = makeStars(review['stars']);
-        let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>'+review['time']+'</span>');
-        let text = $('<div>').text(review['text']);
-        body.append(text);
-        card.append(header, body);
-        $('#review-list').append(card);
+        // if (review['text']) {
+            let card = $('<div>').addClass('card review-card');
+            let body = $('<div>').addClass('card-body');
+            let starDiv = makeStars(review['stars']);
+            let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>'+review['time']+'</span>');
+            let text = $('<div>').text(review['text']);
+            body.append(text);
+            card.append(header, body);
+            $('#review-list').append(card);
+        // }
     }
 }
 
