@@ -1,6 +1,4 @@
 // $('#new-hotspot').click(createNewHotspot);
-let tags = []
-let hotspots = []
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
