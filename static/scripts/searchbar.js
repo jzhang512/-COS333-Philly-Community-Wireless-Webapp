@@ -22,7 +22,7 @@ async function updateHotspotsList(hotspots) {
             distance_button = $("<span class='distance-pill'>").text(hotspot['dist'].toFixed(1)  + " mi");
         } else {
             distance_button = $("<span>");
-            distance_button.append($("<i class = 'no-rating-text'>").text("Can't calculate dist."))
+            distance_button.append($("<i class = 'no-rating-text'>").text("no distance data"))
         }
         top_row.append(distance_button);
         // hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
@@ -32,7 +32,7 @@ async function updateHotspotsList(hotspots) {
             score_button.text(parseFloat(hotspot['avg_rating']).toFixed(1)); // + "</span>";
 
             // Make star.
-            let star = $('<span>').addClass("d-inline-block");
+            let star = $('<span class = "star-span-spacing">').addClass("d-inline-block");
             let icon = document.createElement("i");
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
