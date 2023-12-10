@@ -1,3 +1,5 @@
+const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
 function setupManage() {
     history.pushState(null, "Manage Admin", "/admin/manage");
     document.title = siteTitle + " - Manage";
@@ -152,13 +154,16 @@ function addAdmin(adminName) {
     }
 
 
-    
+
     let addAdminRequest = {
         type: 'POST',
         async: false,
         url: "/api/add_admin",
         data: JSON.stringify(adminName),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
     };
 
     $.ajax(addAdminRequest);
@@ -180,6 +185,9 @@ function deleteAdmin() {
         url: "/api/delete_admin",
         data: JSON.stringify(selectedAdmins),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
     };
 
     $.ajax(deleteAdminRequest);

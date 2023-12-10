@@ -29,12 +29,17 @@ function submitReview() {
     review["text"] = $("#review-text").val();
     review["time"] = new Date().toLocaleDateString();
 
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
     let requestData = {
         type: 'POST',
         async: false,
         url: "/api/publish_review",
         data: JSON.stringify(review),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         success: handleSuccess,
         error: function (data) {
             handleError(data, true)

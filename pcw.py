@@ -12,7 +12,9 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-valid_subpaths = [None, 'update', 'reviews', 'manage', 'tags']
+flask_wtf.csrf.CSRFProtect(app)
+
+valid_subpaths = [None, 'update', 'reviews', 'manage']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -275,6 +277,11 @@ def approve_review():
 @app.route('/api/reject_review', methods=['POST'])
 def reject_review():
     pin = flask.request.args.get("id", default="")
+    
+    user_email = auth.checkAuthenticate()
+    if not database_req.is_authorized_user(user_email):
+        return flask.jsonify("Error: Unauthorized"), 401
+
     try:
         pin = int(pin)
         database_req.reject_review(pin)
