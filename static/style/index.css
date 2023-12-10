@@ -4,7 +4,26 @@
 
 .navbar {
     background-color: #5263ED;
+    border: 0px solid white;
 }
+
+#custom-navbar-toggler {
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+.navbar-toggler {
+    color: white;
+    border: none;
+}
+/* 
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+} */
 
 .navbar-active-sidebar {
     margin-left: 0px;
@@ -324,9 +343,20 @@ body {
 
 /* */
 
-#filterView {
+/* #filterView {
+    padding-top: 2.5%;
+    padding-bottom: 5%;
+} */
+
+#filters-list {
+    padding-right:0;
+    overflow-y: auto;
+    overflow-x: auto;
     margin-top: 2.5%;
-    margin-bottom: 5%;
+    /* border-top: 2px solid #5162ed;
+    border-bottom: 2px solid #5162ed;
+    border-radius: 10px; */
+    /* margin-right: 5px; */
 }
 
 .underline-border {
@@ -367,7 +397,7 @@ body {
 
 .filter-form {
     padding-left: 35px;
-    margin-left: 5%;
+    margin-left: 5px;
     border-radius: 10px;
     background-color: white;
     width: 80%;
@@ -385,15 +415,15 @@ body {
     height: 18px;
 } */
 
-@media (min-width: 993px) {
+@media (min-width: 1151px) {
     .modal-dialog {
         width: 23%;
     }
     .filterbar-panel {
-        width: 20%;
+        width: 250px;
         border-right: 2px solid #5162ed; 
         overflow-y: auto;
-        overflow-x: hidden;
+        overflow-x: auto;
         background-color: #E1E6F6;
         /* text-wrap: nowrap; */
         /* flex: 0 0 auto; */
@@ -402,7 +432,8 @@ body {
         background-color: #E1E6F6;
         border-right: 4px solid #5162ed; 
         width: 25%; 
-        overflow-y: auto;
+        min-width: 245px;
+        /* overflow: auto; */
     }
     /* .small-screen-search{
         display: none;
@@ -413,12 +444,16 @@ body {
         padding-bottom: 2.5px;
     }
     #hotspotsList{
-        height: 55vh;
+        height: 60vh;
+    }
+
+    #filters-list {
+        height: 73.5vh;
     }
 }
 
 /* Smaller screens. */
-@media (max-width: 992px) {
+@media (max-width: 1150px) {
     .modal-dialog {
         width: 70%;
     }
@@ -438,7 +473,7 @@ body {
     .small-screen-search{
         width: 300px;   /* hardcoded*/
         display: block;
-        position: absolute;
+        position: fixed;
         top: 75px;
         left: 2.5%;
         padding-bottom: 16px;
@@ -456,6 +491,10 @@ body {
 
     #hotspotsList {
         height: 65%;
+    }
+
+    #filters-list {
+        height: 80%;
     }
 }
 
@@ -582,4 +621,6 @@ body {
     padding: 2.5%;
     border-radius: 10px;  */
     height: 40vh;
+    overflow-y: scroll;
+    overflow-x: auto;
 }
