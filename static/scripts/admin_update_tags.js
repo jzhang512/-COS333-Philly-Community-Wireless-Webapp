@@ -14,7 +14,7 @@ function setupTags() {
         success: function (data) {
             tags = data;
         },
-        error: function (data) {
+        error: function () {
             makeToast(false, "Server Error. Unable to retrieve tags.");
             return;
         }
@@ -72,7 +72,7 @@ function setupLeftCol() {
         let header = $('<button/>', { class: "list-group-item category-list-item list-group-item-primary" }).text(cat);
         $('#tagsList').append(header);
         let tagsList = $('<div/>', { id: "collapse" + cat });
-        if (opened && ! opened[i]) {
+        if (opened && !opened[i]) {
             tagsList.hide();
         }
         $('#tagsList').append(tagsList);
@@ -133,7 +133,7 @@ function createModal() {
     $("<strong/>").text("This action can't be undone.").appendTo($("<p/>")).appendTo(body);
 
     let footer = $("<div/>", { class: "modal-footer" }).appendTo(modal);
-    $("<button/>", { id: "deleteFinal", class: "btn btn-danger btn-dark-blue"}).text("Delete").appendTo(footer);
+    $("<button/>", { id: "deleteFinal", class: "btn btn-danger btn-dark-blue" }).text("Delete").appendTo(footer);
     $("<button/>", { class: "btn btn-secondary btn-complement-white", "data-bs-dismiss": "modal" }).text("Cancel").appendTo(footer);
 }
 
@@ -167,11 +167,11 @@ function editTag(tag) {
             },
             success: async (result) => {
                 if (result != "Success") {
-                    alert("Error writing to database");
+                    makeToast(false, "Server error: Unable to edit tag.");
                     console.log(result);
                     return;
                 }
-
+                makeToast(true, "Successfully edited tag!");
                 // update tags
                 tags = await getTags(setupLeftCol);
             }
@@ -205,12 +205,13 @@ function deleteTag(tag) {
             },
             success: async (result) => {
                 if (result != "Success") {
-                    alert("Error writing to database");
+                    makeToast(false, "Server error: Unable to delete tag.");
                     console.log(result);
                     return;
                 }
 
                 // update tags
+                makeToast(true, "Successfully deleted tag!");
                 tags = await getTags();
                 setupLeftCol();
             }
@@ -261,12 +262,12 @@ function createAddForm() {
             },
             success: async (result) => {
                 if (result != "Success") {
-                    alert("Error writing to database");
+                    makeToast(false, "Server error: Unable to create tag.");
                     console.log(result);
                     return;
                 }
-
                 // update tags
+                makeToast(true, "Successfully created tag!");
                 tags = await getTags();
                 setupLeftCol();
             }

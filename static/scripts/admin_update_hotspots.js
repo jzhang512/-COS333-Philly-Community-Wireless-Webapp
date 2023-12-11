@@ -13,6 +13,10 @@ function setupMap() {
             hotspots = data;
             hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
             setup();
+        },
+        error: function () {
+            makeToast(false, "Server error: Unable to retrieve hotspots.");
+            return;
         }
     };
 
@@ -22,6 +26,10 @@ function setupMap() {
         url: "/api/tags",
         success: function (data) {
             tags = data;
+        },
+        error: function () {
+            makeToast(false, "Server error: Unable to retrieve tags.");
+            return;
         }
     };
 
