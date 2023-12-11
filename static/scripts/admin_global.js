@@ -1,8 +1,9 @@
 $('document').ready(setup);
 
 let siteTitle = "PCW Admin";
-let tags = []
-let hotspots = []
+let tags = [];
+let hotspots = [];
+let search_check_timer = null;
 
 async function setup() {
     let path = window.location.pathname;

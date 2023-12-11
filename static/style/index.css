@@ -54,6 +54,11 @@
     border-color: #808080 !important;
 }
 
+/* Admin manage admin. */
+.authorized-admin-list {
+    height: 70%;
+}
+
 .navbar {
     background-color: #5263ED;
     border: 0px solid white;
@@ -467,9 +472,15 @@ body {
 }
 
 .custom-filter-checkbox:checked {
-    background-color:#3960a6;
-    border-color: #3960a6;
+    background-color:#3960a6 !important;
+    border-color: #3960a6 !important;
     /* border-color: #5162ed; */
+}
+
+.admin-checkbox {
+    background-color:#3960a6 !important;
+    border-color: #3960a6 !important;
+    color: #3960a6 !important;
 }
 
 .filter-form {
