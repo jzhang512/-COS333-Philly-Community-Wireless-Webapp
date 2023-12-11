@@ -137,24 +137,19 @@ function populateAdmins(admins) {
     }
 }
 
-function toggleSelectAllAdmins() {
-    // Toggle the checked state of all admin checkboxes
-    $('.admin-checkbox').prop('checked', (i, val) => !val);
-
-
-}
-
 function addAdmin(adminName) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
     if (adminName === '') {
-        alert('Please enter a valid admin email.');
-        return; // Exit the function if the input is empty
+        $('#add_email').val('');
+        makeToast(false, "Please enter an email.");
+        return;
     }
 
     if (!emailRegex.test(adminName)) {
-        alert('Please enter a valid email address.');
-        return; // Exit the function if the email is invalid
+        $('#add_email').val('');
+        makeToast(false, "Please enter a valid email address.");
+        return;
     }
 
     let addAdminRequest = {
@@ -220,10 +215,10 @@ function toggleEditMode() {
     $('.admin-checkbox').each(function () {
         // Check if the checkbox is currently visible
         if ($(this).is(':visible')) {
-            $(this).hide(); // Hide and disable the checkbox
+            $(this).hide(); 
             $(this).prop('disabled', true);
         } else {
-            $(this).show(); // Show and enable the checkbox
+            $(this).show();
             $(this).prop('disabled', false);
         }
     });
@@ -239,6 +234,7 @@ function resetPaneViewAdmin(id) {
     setupManage();
 }
 
+/* POST Request Handelers */
 function handleResponseManage(data) {
     admins = data;
     // console.log("Admins: " + admins)

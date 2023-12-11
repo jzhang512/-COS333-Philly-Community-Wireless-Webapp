@@ -164,20 +164,42 @@ async function manageReview(isVerify, id) {
 
     if (isVerify) {
         // Approve this review
-        response = await fetch("/api/approve_review?id=" + id, { method: "POST" });
+        let requestData = {
+            type: 'POST',
+            url: '/api/approve_review?id=' + id,
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            error: function () {
+                makeToast(false, "Server issue. Unable to verify this review.")
+                return;
+            },
+            success: function () {
+                makeToast(true, "Successfully verified this review!");
+            }
+        };
+        $.ajax(requestData);
 
     }
     else {
         // Deny this review
-        response = await fetch("/api/reject_review?id=" + id, { method: "POST" });
+        let requestData = {
+            type: 'POST',
+            url: '/api/reject_review?id=' + id,
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            error: function () {
+                makeToast(false, "Server issue. Unable to verify this review.")
+                return;
+            },
+            success: function () {
+                makeToast(true, "Successfully verified this review!");
+            }
+        };
+        $.ajax(requestData);
     }
-
-    if (!response.ok) {
-        makeToast(false, "Server issue. Unable to verify this review.")
-        return;
-    }
-    makeToast(true, "Successfully verified this review!");
-
+  
     let reviewTab = $('#list-' + id + '-tab');
     let reviewCard = $('#list-' + id);
 
