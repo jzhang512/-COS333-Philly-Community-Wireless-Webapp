@@ -13,6 +13,10 @@ function setupMap() {
             hotspots = data;
             hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
             setup();
+        },
+        error: function () {
+            makeToast(false, "Server error: Unable to retrieve hotspots.");
+            return;
         }
     };
 
@@ -22,6 +26,10 @@ function setupMap() {
         url: "/api/tags",
         success: function (data) {
             tags = data;
+        },
+        error: function () {
+            makeToast(false, "Server error: Unable to retrieve tags.");
+            return;
         }
     };
 
@@ -44,7 +52,7 @@ function setup() {
 
     $('<br>').appendTo(searchDiv);
 
-    $('<input type="text" class="form-control search-box" id="search" placeholder = "Search Hotspots Here">').appendTo(searchDiv);
+    $('<input type="text" class="form-control search-box" id="search_hotspots_update" placeholder = "Search Hotspots Here">').appendTo(searchDiv);
     // $('<br>').appendTo(searchDiv);
 
     let tabCol = $('<div/>').addClass("border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar").appendTo(leftCol);
@@ -53,7 +61,7 @@ function setup() {
     $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
 
     getSearchResults();
-    $('#search').on('input', debouncedGetResults);
+    $('#search_hotspots_update').on('input', debouncedGetResults);
 
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2 btn-dark-blue', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
@@ -81,7 +89,7 @@ function populateHotspots(hotspots) {
 }
 
 function getSearchResults() {
-    let query = $('#search').val();
+    let query = $('#search_hotspots_update').val();
 
     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
 
@@ -89,15 +97,13 @@ function getSearchResults() {
     $(".selectpicker").selectpicker('render');
 }
 
-let search_check_timer = null;
-
 function debouncedGetResults() {
     clearTimeout(search_check_timer);
     search_check_timer = setTimeout(getSearchResults, 500);
 }
 
 function createNewHotspot() {
-    console.log("made new!")
+    //console.log("made new!")
     $(".active").removeClass("active show");
     if ($("#list-new")) {
         $("#list-new").remove();
@@ -154,7 +160,7 @@ function makeHotspotCard(hotspot) {
     }
 
     let selector = $("<select id=\"select" + id + "\" class=\"selectpicker\" data-size=\"10\" data-width=\"50%\" multiple></select>");
-    let optGroups = ["Cost", "Establishment", "Accessibility", "Password", "Amenities"].map(category => {
+    let optGroups = ["Cost", "Establishment", "Accessibility", "Password", "Privacy", "Amenities"].map(category => {
         return $(`<optgroup id="${category}${id}" label="${category}" data-max-options="1">`);
     });
 
@@ -368,7 +374,7 @@ function updateHotspot(id) {
             return;
         },
         success: function () {
-            console.log("successfully modified!");
+            //console.log("successfully modified!");
             hotspots = hotspots.map(old_hotspot => old_hotspot['hotspot_id'] === id ? hotspot : old_hotspot);
             makeToast(true, "Successfully updated hotspot!");
             resetPaneView(id);
@@ -384,6 +390,9 @@ function deleteHotspot(id) {
         url: "/api/delete_hotspots",
         data: JSON.stringify([id]),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         error: function () {
             makeToast(false, "Server Error. Unable to delete hotspot.");
             return;

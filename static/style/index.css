@@ -17,7 +17,13 @@
     color: #5162ed !important;
 }
 
-/* Admin pending reviews. */
+/* Admin update tags. */
+
+.category-list-item {
+   background-color: #e7ebf5 !important;
+   border-color:#dee2e6 !important;
+   color: black;
+}
 
 .btn-confirm-decision {
     color: white !important;
@@ -25,10 +31,10 @@
     border-color: #5162ed !important;
 }
 
-.list-group-item-custom-color[aria-selected="true"] {
+/* .list-group-item-custom-color[aria-selected="true"] {
     background-color: #5263ED !important;
     border-color: #3960a6 !important;
-}
+} */
 
 .list-group-item-custom-color.active {
     background-color: #5263ED !important;
@@ -46,6 +52,11 @@
     color: #878787 !important;
     background-color: white !important;
     border-color: #808080 !important;
+}
+
+/* Admin manage admin. */
+.authorized-admin-list {
+    height: 70%;
 }
 
 .navbar {
@@ -461,9 +472,15 @@ body {
 }
 
 .custom-filter-checkbox:checked {
-    background-color:#3960a6;
-    border-color: #3960a6;
+    background-color:#3960a6 !important;
+    border-color: #3960a6 !important;
     /* border-color: #5162ed; */
+}
+
+.admin-checkbox {
+    background-color:#3960a6 !important;
+    border-color: #3960a6 !important;
+    color: #3960a6 !important;
 }
 
 .filter-form {
@@ -604,6 +621,14 @@ body {
 } */
 
 /* Hotspot Information Popup Styles */
+
+.rate-stars {
+    padding-top: 0;
+}
+
+.rate-stars-container {
+    padding-top: 20px;
+}
 
 #new-tab-hotspot {
     margin-left: 5px;

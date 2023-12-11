@@ -1,14 +1,24 @@
-$("#submit-review").click(submitReview);
-$("#close-review").click(clearReview);
-$("#close-review-x").click(clearReview)
+function setupNewReview() {
+    // $('#close-review-x').click(() => {
+    //     $('#newReview').hide();
+    // });
+    // $('#close-review').click(() => {
+    //     $('#newReview').hide();
+    // });
+
+    $("#submit-review").click(submitReview);
+    $('#newReview').on('hide.bs.modal', clearReview);
+}
 
 function clearReview() {
+    reviewVisible = false;
     $('#success-review').remove();
     $('#failure-review').remove();
     $('#review-text').val('');
     $('input[name="star-rating"]:checked').prop('checked', false);
     $('#submit-review').prop('disabled', false);
     $('#review-body').removeClass('pe-none');
+    $('#sidebar').show();
 }
 
 function submitReview() {
@@ -18,12 +28,10 @@ function submitReview() {
     let stars = $('input[name="star-rating"]:checked').val() || 0;
 
     if (stars <= 0 || stars > 5) {
-        console.log("here1");
         handleError("Please select at least 1 star.", false);
-        console.log("here2");
         return;
     }
-    console.log("meow");
+
     review["hotspot_id"] = active_id;
     review["rating"] = stars;
     review["text"] = $("#review-text").val();
@@ -61,13 +69,13 @@ function handleSuccess() {
     $('#review-body').addClass('pe-none');
 }
 
-function handleError(data, isServer) {
-    let message;
+function handleError(message, isServer) {
+    let text;
 
     if (isServer)
-        message = $('<div/>').text("Failed to create review. Server error: " + data.toString());
+        text = $('<div/>').text("Server Error: Failed to create review.");
     else
-        message = $('<div/>').text(data.toString());
+        text = $('<div/>').text(message.toString());
 
     //let image = $('<svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>');
     let failure = $('<div/>', { id: 'failure-review', class: 'alert alert-danger d-flex align-items-center', role: 'alert' }).append(message);

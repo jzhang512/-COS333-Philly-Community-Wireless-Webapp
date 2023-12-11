@@ -3,10 +3,12 @@
 # ---------------------------------------------------------------------
 
 import os
+
+import auth
 import flask
 import flask_wtf.csrf
+
 import database_req
-import auth
 
 # ---------------------------------------------------------------------
 app = flask.Flask(__name__)
@@ -104,7 +106,7 @@ def hotspots():
         pins = database_req.get_pins(include_reviews=ratings)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
     return flask.jsonify(pins)
 
@@ -115,7 +117,7 @@ def tags():
         tags = database_req.get_tags_by_category()
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
     return flask.jsonify(tags)
 
@@ -132,7 +134,7 @@ def review_pin():
         return flask.jsonify("Invalid Arg, not an int")
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
 
 @app.route('/api/pending_reviews', methods=['GET'])
@@ -144,7 +146,7 @@ def pending_reviews():
 
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
 
 @app.route('/api/get_all_admin', methods=['GET'])
@@ -156,7 +158,7 @@ def all_admin():
 
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
 #############################   Create   ###############################
 
@@ -171,10 +173,10 @@ def create_hotspots():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(f"Database Error: {ex}")
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(f"Error: {ex}")
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/create_tags', methods=['POST'])
@@ -186,10 +188,10 @@ def create_tags():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/publish_review', methods=['POST'])
@@ -204,10 +206,10 @@ def publish_review():
         return flask.jsonify(f"Error: hotspot_id and rating must be ints.")
     except database_req.InvalidFormat as ex:
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/add_admin', methods=['POST'])
@@ -220,10 +222,10 @@ def add_admin():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(f"Database Error: {ex}")
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(f"Error: {ex}")
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 #############################   Modify   ###############################
 
@@ -239,11 +241,11 @@ def modify_hotspots():
     except database_req.InvalidFormat as ex:
         print("Invalid format error:")
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print("General Error:")
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/modify_tags', methods=['POST'])
@@ -256,10 +258,10 @@ def modify_tags():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/approve_review', methods=['POST'])
@@ -274,7 +276,7 @@ def approve_review():
         return flask.jsonify("Invalid Arg, not an int")
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
 
 @app.route('/api/reject_review', methods=['POST'])
@@ -294,7 +296,7 @@ def reject_review():
         return flask.jsonify("Invalid Arg, not an int")
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Database Error")
+        flask.abort(500)
 
 #############################   Delete   ###############################
 
@@ -309,10 +311,10 @@ def delete_hotspots():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/delete_tags', methods=['POST'])
@@ -325,10 +327,10 @@ def delete_tags():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)
 
 
 @app.route('/api/delete_admin', methods=['POST'])
@@ -341,7 +343,7 @@ def delete_admin():
         return flask.jsonify("Success")
     except database_req.InvalidFormat as ex:
         print(ex)
-        return flask.jsonify(f"Error: {ex}")
+        flask.abort(400)
     except Exception as ex:
         print(ex)
-        return flask.jsonify("Error")
+        flask.abort(500)

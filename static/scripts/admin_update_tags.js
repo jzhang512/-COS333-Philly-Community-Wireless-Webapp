@@ -8,11 +8,14 @@ function setupTags() {
         type: 'GET',
         async: false,
         url: "/api/tags",
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         success: function (data) {
             tags = data;
         },
-        error: function (data) {
-            makeToast(false, data);
+        error: function () {
+            makeToast(false, "Server Error. Unable to retrieve tags.");
             return;
         }
     };
@@ -31,7 +34,7 @@ function setupTagsPage() {
     let body = $("<div/>", { class: "row flex-grow-1 mt-3 overflow-hidden" }).appendTo($("#results-div"));
 
     // Left Side
-    $("<div/>", { id: 'leftCol', class: "col-6 mh-100 pb-3 overflow-auto" }).appendTo(body);
+    $("<div/>", { id: 'leftCol', class: "col-6 mh-100 pb-3 overflow-auto visible-scrollbar" }).appendTo(body);
     setupLeftCol();
 
     // Right Side
@@ -55,15 +58,23 @@ function getCategories() {
 function setupLeftCol() {
     let categories = getCategories();
 
+    let opened = [];
+    $("#tagsList").children("div").each((i, child) => {
+        opened.push($(child).is(":visible"));
+    });
+    console.log(opened);
+
     $("#leftCol").empty();
 
     $("<div/>", { id: 'tagsList', role: "tablist", class: "list-group" }).appendTo($("#leftCol"));
 
-    categories.forEach((cat) => {
-        let header = $('<button/>', { class: "list-group-item list-group-item-primary" }).text(cat);
+    categories.forEach((cat, i) => {
+        let header = $('<button/>', { class: "list-group-item category-list-item list-group-item-primary" }).text(cat);
         $('#tagsList').append(header);
         let tagsList = $('<div/>', { id: "collapse" + cat });
-        tagsList.hide();
+        if (opened && !opened[i]) {
+            tagsList.hide();
+        }
         $('#tagsList').append(tagsList);
 
         header.click(() => {
@@ -79,7 +90,7 @@ function setupLeftCol() {
 }
 
 function setupRightCol() {
-    let newTagButton = $("<button/>", { id: 'newTagButton', class: 'btn btn-success' }).text("Add new").appendTo($("#rightCol"));
+    let newTagButton = $("<button/>", { id: 'newTagButton', class: 'btn btn-success btn-dark-blue' }).text("Add New").appendTo($("#rightCol"));
 
     newTagButton.click(createAddForm);
 }
@@ -89,8 +100,8 @@ function setTag(tag) {
     row.append($("<span/>").text(tag["tag_name"]));
 
     let icons = $("<span/>");
-    let editButton = $("<button/>", { class: 'btn btn-warning' }).append($("<i/>", { class: 'bi bi-pencil' })).appendTo(icons);
-    let deleteButton = $("<button/>", { class: 'btn btn-danger', "data-bs-toggle": 'modal', "data-bs-target": '#deleteTagModal' })
+    let editButton = $("<button/>", { class: 'btn btn-warning btn-dark-blue' }).append($("<i/>", { class: 'bi bi-pencil' })).appendTo(icons);
+    let deleteButton = $("<button/>", { class: 'btn btn-danger btn-complement-white', "data-bs-toggle": 'modal', "data-bs-target": '#deleteTagModal' })
         .append($("<i/>", { class: 'bi bi-trash' })).appendTo(icons);
     row.append(icons);
 
@@ -116,13 +127,14 @@ function createModal() {
     $("<h5/>", { id: "modalTitle", class: "modal-title" }).appendTo(header);
     $("<button/>", { type: "button", class: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" }).appendTo(header);
 
-    let body = $("<div/>", { class: "modal-body" }).appendTo(modal);
+    let body = $("<div/>", { class: "modal-body p-3" }).appendTo(modal);
     $("<p/>").text("Are you sure you want to delete this tag?").appendTo(body);
-    $("<p/>").text("Deleting this tag will remove it from any hotspots to which it is currently assigned. This action can't be undone.").appendTo(body);
+    $("<p/>").text("Deleting this tag will remove it from any hotspots to which it is currently assigned.").appendTo(body);
+    $("<strong/>").text("This action can't be undone.").appendTo($("<p/>")).appendTo(body);
 
     let footer = $("<div/>", { class: "modal-footer" }).appendTo(modal);
-    $("<button/>", { id: "deleteFinal", class: "btn btn-danger" }).text("Delete").appendTo(footer);
-    $("<button/>", { class: "btn btn-secondary", "data-bs-dismiss": "modal" }).text("Cancel").appendTo(footer);
+    $("<button/>", { id: "deleteFinal", class: "btn btn-danger btn-dark-blue" }).text("Delete").appendTo(footer);
+    $("<button/>", { class: "btn btn-secondary btn-complement-white", "data-bs-dismiss": "modal" }).text("Cancel").appendTo(footer);
 }
 
 function editTag(tag) {
@@ -137,8 +149,8 @@ function editTag(tag) {
 
     let row = $("<span/>", { class: 'd-flex form-row' });
     let input = $("<input/>", { type: 'text', class: 'form-control', value: tag["tag_name"] });
-    let approve = $("<button/>", { class: 'btn btn-success btn-circle btn-small' }).append($("<i/>", { class: 'bi bi-check2-circle' }));
-    let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small' }).append($("<i/>", { class: 'bi bi-x-circle' }));
+    let approve = $("<button/>", { class: 'btn btn-success btn-circle btn-small btn-confirm-decision' }).append($("<i/>", { class: 'bi bi-check2-circle' }));
+    let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small btn-complement-white' }).append($("<i/>", { class: 'bi bi-x-circle' }));
     row.append(input, approve, cancel);
     row.appendTo($("#tag" + tag["tag_id"]));
 
@@ -150,13 +162,16 @@ function editTag(tag) {
             url: "/api/modify_tags",
             data: JSON.stringify([tag]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
-                    alert("Error writing to database");
+                    makeToast(false, "Server error: Unable to edit tag.");
                     console.log(result);
                     return;
                 }
-
+                makeToast(true, "Successfully edited tag!");
                 // update tags
                 tags = await getTags(setupLeftCol);
             }
@@ -176,7 +191,7 @@ function editTag(tag) {
 }
 
 function deleteTag(tag) {
-    $("#modalTitle").text("Delete " + tag["tag_name"]);
+    $("#modalTitle").text('Delete "' + tag["tag_name"] + '" Tag');
     $("#deleteFinal").click(() => {
         console.log("Deleting " + tag["tag_name"]);
         console.log(tag);
@@ -185,14 +200,18 @@ function deleteTag(tag) {
             url: "/api/delete_tags",
             data: JSON.stringify([tag["tag_id"]]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
-                    alert("Error writing to database");
+                    makeToast(false, "Server error: Unable to delete tag.");
                     console.log(result);
                     return;
                 }
 
                 // update tags
+                makeToast(true, "Successfully deleted tag!");
                 tags = await getTags();
                 setupLeftCol();
             }
@@ -210,7 +229,7 @@ function createAddForm() {
 
     let label = $("<div/>", { class: "row" });
     label.append($("<div/>", { class: "col-auto" }).append($("<h5/>").text("Name")))
-    label.append($("<div/>", { class: "col" }).append($("<small/>").text("Limit 30 characters")))
+    label.append($("<div/>", { class: "col" }).append($("<small/>").html("<i>30 char. max</i>")))
     form.append(label);
 
     let nameInput = $("<input/>", { type: "text", class: "form-control", placeholder: "Tag Name", maxlength: nameCharLimit });
@@ -224,8 +243,8 @@ function createAddForm() {
     })
 
     let buttons = $("<div/>", { class: "form-row mt-4" }).appendTo(form);
-    let approve = $("<button/>", { class: "btn btn-success me-3" }).text("Add tag");
-    let cancel = $("<button/>", { class: "btn btn-warning" }).text("Cancel");
+    let approve = $("<button/>", { class: "btn btn-success me-3 btn-confirm-decision" }).text("Add Tag");
+    let cancel = $("<button/>", { class: "btn btn-warning btn-complement-white" }).text("Cancel");
     buttons.append(approve, cancel);
 
     approve.click(() => {
@@ -238,14 +257,17 @@ function createAddForm() {
             url: "/api/create_tags",
             data: JSON.stringify([tag]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
-                    alert("Error writing to database");
+                    makeToast(false, "Server error: Unable to create tag.");
                     console.log(result);
                     return;
                 }
-
                 // update tags
+                makeToast(true, "Successfully created tag!");
                 tags = await getTags();
                 setupLeftCol();
             }

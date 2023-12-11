@@ -1,4 +1,4 @@
-const csrfToken = $('meta[name="csrf-token"]').attr('content');
+let editing = false;
 
 function setupManage() {
     history.pushState(null, "Manage Admin", "/admin/manage");
@@ -7,47 +7,58 @@ function setupManage() {
     let requestDataAdmin = {
         type: 'GET',
         url: "/api/get_all_admin",
-        success: handleResponseManage
+        success: handleResponseManage,
+        error: function () {
+            makeToast(false, "Server error: Unable to retrieve admin.")
+        }
     };
 
     $.ajax(requestDataAdmin);
 }
 
-function setupAdminList(admins) {
+function setupAdminList() {
     // Clear existing content and prepare for new content
     $("#results-div").empty();
-    $('body').addClass('vh-100 mh-100 overflow-hidden');
-    $('#results-div').addClass("d-flex flex-column vh-100 mh-100 overflow-hidden")
+    $('body').addClass('vh-100 mh-100 overflow-auto');
+    $('#results-div').addClass("d-flex flex-column vh-100 mh-100")
 
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Add/Remove Administrators").appendTo('#results-div');
-    let mainGridAdmin = $('<div/>').addClass("row flex-grow-1 mt-3 overflow-hidden").appendTo('#results-div');
+    let mainGridAdmin = $('<div/>').addClass("row flex-grow-1 mt-3 mb-2 overflow-hidden").appendTo('#results-div');
 
-    let tabColAdmin = $('<div/>').addClass("col-lg-4 col-md-6 col-sm-12 mh-100 pb-3 overflow-auto").appendTo(mainGridAdmin);
-    // let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5 overflow-auto").appendTo(mainGrid);
+    let leftCol = $('<div/>').addClass("d-flex flex-column col-4 mh-100 overflow-hidden").appendTo(mainGridAdmin);
+    let rightCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5").appendTo(mainGridAdmin);
 
-    let searchDivAdmin = $('<div/>').appendTo(tabColAdmin);
+    let addDivAdmin = $('<div/>').appendTo(rightCol);
 
-    let search = $('<h5>').appendTo(searchDivAdmin);
-    search.text('Add a New Administrator');
-    let searchBox = $('<input type="text" placeholder="Enter Admin Email", class="form-control" id="add_email">').appendTo(searchDivAdmin);
-    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-admin', text: 'Add New' }).appendTo(searchDivAdmin);
-    $('<br>').appendTo(searchDivAdmin);
+    let addAdminHeader = $('<h5>').appendTo(addDivAdmin);
+    addAdminHeader.text('Add New Administrator');
+    $('<input type="text" placeholder="Enter Admin Email", class="form-control" id="add_email">').appendTo(addDivAdmin);
+    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3 btn-dark-blue', id: 'new-admin', text: 'Add New' }).appendTo(addDivAdmin);
+    $('<br>').appendTo(addDivAdmin);
 
-    authorizied_text = $('<h5> Authorized Administrators </h5>').appendTo(tabColAdmin)
+    $('<span class = "row"><h5> Authorized Administrators </h5><span>').appendTo(leftCol);
 
-    const confirmAdmin = $('<a/>', { id: 'confirmAdmin', type: "button", class: "btn btn-secondary", text: 'Confirm' });
+    const confirmAdmin = $('<a/>', { id: 'confirmAdmin', type: "button", class: "btn btn-secondary btn-confirm-decision", text: 'Confirm' });
+
+    let searchDiv = $('<div/>');
+    $('<input type="text" class="form-control search-box" id="search_admin_emails" placeholder = "Search Admin Emails Here">').appendTo(searchDiv);
+    $('#search_hotspots_update').on('input', debouncedGetResults);
+
+    searchDiv.appendTo(leftCol);
+
+    let buttonsRow = $('<div/>', { class: "d-flex" }).appendTo(leftCol);
 
     let editButton = $('<button/>', {
         type: 'button',
-        class: 'btn btn-primary my-3',
+        class: 'flex-grow-1 btn btn-primary my-3 btn-dark-blue',
         id: 'edit-admins',
         text: 'Edit'
-    }).appendTo(tabColAdmin);
+    }).appendTo(buttonsRow);
 
     $('<button/>', {
         type: 'button',
         id: 'delete-all-admins',
-        class: 'btn btn-danger ms-2 my-3 invisible',
+        class: 'flex-grow-1 btn btn-danger ms-2 my-3 invisible btn-complement-white',
         'data-bs-container': "body",
         'data-bs-custom-class': 'popover-center',
         'data-bs-toggle': "popover",
@@ -57,17 +68,11 @@ function setupAdminList(admins) {
         title: '<small>Confirm Selection</small>',
         'data-bs-content': confirmAdmin.prop('outerHTML'),
         text: 'Delete Selected'
-    }).appendTo(tabColAdmin);
+    }).appendTo(buttonsRow);
 
+    let flexDiv = $('<div/>', { class: 'border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar' }).appendTo(leftCol)
 
-    // let deleteButton = $('<button/>', {
-    //     type: 'button',
-    //     class: 'btn btn-danger ',
-    //     id: 'delete-all-admins',
-    //     text: 'Delete Selected'
-    // }).appendTo(tabColAdmin);
-
-    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabColAdmin);
+    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group authorized-admin-list' }).appendTo(flexDiv);
 
 
 
@@ -76,7 +81,7 @@ function setupAdminList(admins) {
     // listGroup.prop('id', 'list-tab');
 
     getSearchResultsAdmins();
-    //$('#search').on('input', debouncedGetResultsAdmin);
+    $('#search_admin_emails').on('input', debouncedGetResultsAdmin);
 
     editButton.click(function () {
         toggleEditMode();
@@ -86,20 +91,18 @@ function setupAdminList(admins) {
         console.log("enter: " + $('#add_email').val())
         addAdmin($('#add_email').val());
     });
-
-
 }
 
-function makeAdminElem(admins) {
+function makeAdminElem(admin) {
     let adminItem = $('<div/>', {
         class: 'list-group-item d-flex justify-content-between align-items-center',
-        id: 'admin-item-' + admins['admin_id']
+        id: 'admin-item-' + admin['admin_id']
     });
 
     // Admin label
     $('<label/>', {
-        for: 'admin-' + admins['admin_id'],
-        text: admins['admin_key'],
+        for: 'admin-' + admin['admin_id'],
+        text: admin['admin_key'],
         class: 'flex-grow-1 text-wrap'
     }).appendTo(adminItem);
 
@@ -107,33 +110,50 @@ function makeAdminElem(admins) {
     let adminCheckbox = $('<input/>', {
         type: 'checkbox',
         class: 'admin-checkbox',
-        id: 'admin-' + admins['admin_id']
+        id: 'admin-' + admin['admin_id']
     }).appendTo(adminItem);
-    
-    adminCheckbox.hide();
+
+    adminCheckbox.attr("checked", admin["selected"]);
+    if (!editing) {
+        adminCheckbox.hide();
+    }
+
+    adminCheckbox.change(() => {
+        admin["selected"] = adminCheckbox.is(":checked");
+    });
 
     return adminItem;
 }
 
 function getSearchResultsAdmins() {
-    // let query = $('#search').val();
+    let query = $('#search_admin_emails').val();
+    console.log("Searching for " + query);
 
-    const by_name_admins = admins.filter(item => item["admin_key"]);
-    // .toLowerCase().includes(query.toLowerCase()));
+    const by_name_admins = admins.filter(item => item["admin_key"].toLowerCase().includes(query.toLowerCase()));
+    const selected = admins.filter(item => item["selected"]);
+    let displayed = union(by_name_admins, selected);
+    displayed.sort((a, b) => {
+        let aSearch = a["admin_key"].toLowerCase().includes(query.toLowerCase());
+        let bSearch = b["admin_key"].toLowerCase().includes(query.toLowerCase());
+        if (aSearch && !bSearch) {
+            return -1;
+        } else if (bSearch && !aSearch) {
+            return 1;
+        }
+        return a['admin_key'].localeCompare(b['admin_key']);
+    })
 
-    console.log(by_name_admins)
+    // console.log(by_name_admins)
 
-    populateAdmins(by_name_admins);
+    populateAdmins(displayed);
 }
 
-
-
 function populateAdmins(admins) {
+    console.log("Populating " + admins.length + " elements.");
     $('#list-tab').empty();
     // $('#nav-tabContent').empty();
     for (let admin of admins) {
         makeAdminElem(admin).appendTo('#list-tab');
-        // makePaneElem(hotspot).appendTo('#nav-tabContent');
     }
 }
 
@@ -164,7 +184,7 @@ function addAdmin(adminName) {
         },
         success: function () {
             makeToast(true, "Successfully added admin!");
-            console.log("Admin created!")
+            //console.log("Admin created!")
             resetPaneViewAdmin()
         },
         headers: {
@@ -199,7 +219,8 @@ function deleteAdmin() {
         },
         success: function () {
             makeToast(true, "Successfully deleted admin(s)!");
-            console.log("Admin Deleted!")
+            //console.log("Admin Deleted!")
+            editing = false;
             resetPaneViewAdmin()
         },
         headers: {
@@ -211,11 +232,18 @@ function deleteAdmin() {
 }
 
 function toggleEditMode() {
+    editing = !editing;
+    if (!editing) { // reset selections
+        admins.forEach((admin) => {
+            admin["selected"] = false;
+        });
+    }
+
     // Toggle edit mode
     $('.admin-checkbox').each(function () {
         // Check if the checkbox is currently visible
         if ($(this).is(':visible')) {
-            $(this).hide(); 
+            $(this).hide();
             $(this).prop('disabled', true);
         } else {
             $(this).show();
@@ -225,6 +253,15 @@ function toggleEditMode() {
 
     // Additional logic to handle edit mode can be added here
     $('#delete-all-admins').toggleClass('invisible visible');
+
+    getSearchResultsAdmins();
+}
+
+function exitEditMode() {
+    $('.admin-checkbox').each(function () {
+        $(this).hide();
+        $(this).prop('disabled', true);
+    });
 }
 
 function resetPaneViewAdmin(id) {
@@ -237,9 +274,12 @@ function resetPaneViewAdmin(id) {
 /* POST Request Handelers */
 function handleResponseManage(data) {
     admins = data;
+    admins.forEach((admin) => {
+        admin["selected"] = false;
+    })
     // console.log("Admins: " + admins)
     admins.sort((a, b) => a['admin_key'].localeCompare(b['admin_key']))
-    setupAdminList(admins);
+    setupAdminList();
 
     // Prevent duplicate event handler instances
     $(document).on('click', '#confirmAdmin', function () {
@@ -249,4 +289,9 @@ function handleResponseManage(data) {
 
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
     [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+}
+
+function debouncedGetResultsAdmin() {
+    clearTimeout(search_check_timer);
+    search_check_timer = setTimeout(getSearchResultsAdmins, 500);
 }

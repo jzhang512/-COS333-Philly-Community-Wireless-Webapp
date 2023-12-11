@@ -1,8 +1,11 @@
 $('document').ready(setup);
 
+const csrfToken = $('meta[name="csrf-token"]').attr('content');
 let siteTitle = "PCW Admin";
-let tags = []
-let hotspots = []
+let tags = [];
+let hotspots = [];
+let admins = [];
+let search_check_timer = null;
 
 async function setup() {
     let path = window.location.pathname;
@@ -55,7 +58,7 @@ function setupDashboard() {
     let mainDiv = $('<div/>').addClass("m-5").appendTo('#results-div');
     let row = $('<div/>').addClass("row").appendTo(mainDiv);
 
-    let title = $('<div/>', {class: 'd-flex justify-content-center', id: 'admin-dashboard-text'});
+    let title = $('<div/>', { class: 'd-flex justify-content-center', id: 'admin-dashboard-text' });
     $('<h1/>').text("Admin Dashboard").appendTo(title);
 
     let pending = $('<div/>', { role: 'button', class: 'jumbo m-3 col p-5 text-center rounded-3', id: 'pending-review' });

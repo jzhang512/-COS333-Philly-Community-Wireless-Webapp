@@ -5,11 +5,36 @@ async function setupReview() {
     history.pushState(null, "Verify Reviews", "/admin/reviews");
 
     document.title = siteTitle + " - Reviews"
-    const response_hotspots = await fetch("/api/hotspots");
-    const hotspots = await response_hotspots.json();
+    let hotspots = [];
+    let reviews = [];
 
-    const response_reviews = await fetch("/api/pending_reviews");
-    const reviews = await response_reviews.json();
+    let requestHotspotData = {
+        type: 'GET',
+        async: false,
+        url: '/api/hotspots',
+        success: function (data) {
+            hotspots = data;
+        },
+        error: function () {
+            makeToast(false, "Server issue. Unable to retrieve hotspots.")
+            return;
+        }
+    };
+    $.ajax(requestHotspotData);
+
+    let requestReviewData = {
+        type: 'GET',
+        async: false,
+        url: '/api/hotspots',
+        success: function (data) {
+            reviews = data;
+        },
+        error: function () {
+            makeToast(false, "Server issue. Unable to retrieve reviews.")
+            return;
+        }
+    };
+    $.ajax(requestReviewData);
 
     for (let i = 0; i < reviews.length; i++) {
         let hotspot = getHotspot(hotspots, reviews[i]['hotspot_id']);
@@ -36,12 +61,14 @@ function fillReviews(reviews) {
     }
 
     let mainGrid = $('<div/>').addClass("row main-grid flex-grow-1 overflow-hidden");
-    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto  visible-scrollbar").appendTo(mainGrid);
-    let paneCol = $('<div/>').addClass("col-8 col-sm-8 overflow-hidden").appendTo(mainGrid);
+    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto visible-scrollbar").appendTo(mainGrid);
+    let paneCol = $('<div/>').addClass("col-8 col-sm-8").appendTo(mainGrid);
 
     // let activeCol = $('<div/>', { id: 'active-card', class: 'col card active-card' }).text("No review selected.").appendTo(mainGrid);
     let reviewGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(reviewCol); // reviews class add
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
+
+    // let num_reviews = $('<i/>', {})
 
     let i = 0;
     for (let review of reviews) {
@@ -85,7 +112,7 @@ function makeReviewCard(review) {
     console.log("creating active card!");
     let cardBody = $('<div/>').addClass('card-body').appendTo(reviewCard);
 
-    $('<h5/>').addClass('card-title').html("<h3>Review " + review["review_id"]+"</h3>").appendTo(cardBody);
+    $('<h5/>').addClass('card-title').html("<h3>Review " + review["review_id"] + "</h3>").appendTo(cardBody);
     let stars = makeStars(review["stars"]);
     stars.appendTo(cardBody);
 
@@ -171,11 +198,11 @@ async function manageReview(isVerify, id) {
                 'X-CSRFToken': csrfToken
             },
             error: function () {
-                makeToast(false, "Server issue. Unable to verify this review.")
+                makeToast(false, "Server issue. Unable to approve this review.")
                 return;
             },
             success: function () {
-                makeToast(true, "Successfully verified this review!");
+                makeToast(true, "Successfully approved this review!");
             }
         };
         $.ajax(requestData);
@@ -190,16 +217,16 @@ async function manageReview(isVerify, id) {
                 'X-CSRFToken': csrfToken
             },
             error: function () {
-                makeToast(false, "Server issue. Unable to verify this review.")
+                makeToast(false, "Server issue. Unable to deny this review.")
                 return;
             },
             success: function () {
-                makeToast(true, "Successfully verified this review!");
+                makeToast(true, "Successfully denied this review!");
             }
         };
         $.ajax(requestData);
     }
-  
+
     let reviewTab = $('#list-' + id + '-tab');
     let reviewCard = $('#list-' + id);
 
