@@ -2,6 +2,9 @@ function setupHotspotInfo() {
     $('#add-review').click(() => {
         reviewVisible = true;
         $('#sidebar').hide();
+
+        let hotspot = getHotspot(displayed, active_id);
+        $('#add-review-location-name-text').html('<i>'+hotspot['name']+'</i>');
     });
 
     $('#sidebar').on('show.bs.modal', () => {

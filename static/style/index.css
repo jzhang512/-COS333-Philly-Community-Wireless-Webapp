@@ -622,6 +622,14 @@ body {
 
 /* Hotspot Information Popup Styles */
 
+.rate-stars {
+    padding-top: 0;
+}
+
+.rate-stars-container {
+    padding-top: 20px;
+}
+
 #new-tab-hotspot {
     margin-left: 5px;
 }
