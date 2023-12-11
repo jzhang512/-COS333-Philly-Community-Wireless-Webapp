@@ -30,7 +30,7 @@ function setupAdminList(admins) {
     let search = $('<h5>').appendTo(searchDivAdmin);
     search.text('Add a New Administrator');
     let searchBox = $('<input type="text" placeholder="Enter Admin Email", class="form-control" id="add_email">').appendTo(searchDivAdmin);
-    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-admin', text: 'Add New' }).appendTo(searchDivAdmin);
+    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3 btn-dark-blue', id: 'new-admin', text: 'Add New' }).appendTo(searchDivAdmin);
     $('<br>').appendTo(searchDivAdmin);
 
     authorizied_text = $('<h5> Authorized Administrators </h5>').appendTo(tabColAdmin)
@@ -59,13 +59,6 @@ function setupAdminList(admins) {
         text: 'Delete Selected'
     }).appendTo(tabColAdmin);
 
-
-    // let deleteButton = $('<button/>', {
-    //     type: 'button',
-    //     class: 'btn btn-danger ',
-    //     id: 'delete-all-admins',
-    //     text: 'Delete Selected'
-    // }).appendTo(tabColAdmin);
 
     $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabColAdmin);
 

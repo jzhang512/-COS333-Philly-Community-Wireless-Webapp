@@ -60,7 +60,7 @@ function setupLeftCol() {
     $("<div/>", { id: 'tagsList', role: "tablist", class: "list-group" }).appendTo($("#leftCol"));
 
     categories.forEach((cat) => {
-        let header = $('<button/>', { class: "list-group-item list-group-item-primary" }).text(cat);
+        let header = $('<button/>', { class: "list-group-item category-list-item list-group-item-primary" }).text(cat);
         $('#tagsList').append(header);
         let tagsList = $('<div/>', { id: "collapse" + cat });
         tagsList.hide();
@@ -79,7 +79,7 @@ function setupLeftCol() {
 }
 
 function setupRightCol() {
-    let newTagButton = $("<button/>", { id: 'newTagButton', class: 'btn btn-success' }).text("Add new").appendTo($("#rightCol"));
+    let newTagButton = $("<button/>", { id: 'newTagButton', class: 'btn btn-success btn-confirm-decision' }).text("Add New").appendTo($("#rightCol"));
 
     newTagButton.click(createAddForm);
 }
@@ -89,8 +89,8 @@ function setTag(tag) {
     row.append($("<span/>").text(tag["tag_name"]));
 
     let icons = $("<span/>");
-    let editButton = $("<button/>", { class: 'btn btn-warning' }).append($("<i/>", { class: 'bi bi-pencil' })).appendTo(icons);
-    let deleteButton = $("<button/>", { class: 'btn btn-danger', "data-bs-toggle": 'modal', "data-bs-target": '#deleteTagModal' })
+    let editButton = $("<button/>", { class: 'btn btn-warning btn-dark-blue' }).append($("<i/>", { class: 'bi bi-pencil' })).appendTo(icons);
+    let deleteButton = $("<button/>", { class: 'btn btn-danger btn-complement-white', "data-bs-toggle": 'modal', "data-bs-target": '#deleteTagModal' })
         .append($("<i/>", { class: 'bi bi-trash' })).appendTo(icons);
     row.append(icons);
 
@@ -137,8 +137,8 @@ function editTag(tag) {
 
     let row = $("<span/>", { class: 'd-flex form-row' });
     let input = $("<input/>", { type: 'text', class: 'form-control', value: tag["tag_name"] });
-    let approve = $("<button/>", { class: 'btn btn-success btn-circle btn-small' }).append($("<i/>", { class: 'bi bi-check2-circle' }));
-    let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small' }).append($("<i/>", { class: 'bi bi-x-circle' }));
+    let approve = $("<button/>", { class: 'btn btn-success btn-circle btn-small btn-confirm-decision' }).append($("<i/>", { class: 'bi bi-check2-circle' }));
+    let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small btn-complement-white' }).append($("<i/>", { class: 'bi bi-x-circle' }));
     row.append(input, approve, cancel);
     row.appendTo($("#tag" + tag["tag_id"]));
 
@@ -210,7 +210,7 @@ function createAddForm() {
 
     let label = $("<div/>", { class: "row" });
     label.append($("<div/>", { class: "col-auto" }).append($("<h5/>").text("Name")))
-    label.append($("<div/>", { class: "col" }).append($("<small/>").text("Limit 30 characters")))
+    label.append($("<div/>", { class: "col" }).append($("<small/>").html("<i>30 char. max</i>")))
     form.append(label);
 
     let nameInput = $("<input/>", { type: "text", class: "form-control", placeholder: "Tag Name", maxlength: nameCharLimit });
@@ -224,8 +224,8 @@ function createAddForm() {
     })
 
     let buttons = $("<div/>", { class: "form-row mt-4" }).appendTo(form);
-    let approve = $("<button/>", { class: "btn btn-success me-3" }).text("Add tag");
-    let cancel = $("<button/>", { class: "btn btn-warning" }).text("Cancel");
+    let approve = $("<button/>", { class: "btn btn-success me-3 btn-dark-blue" }).text("Add Tag");
+    let cancel = $("<button/>", { class: "btn btn-warning btn-complement-white" }).text("Cancel");
     buttons.append(approve, cancel);
 
     approve.click(() => {
