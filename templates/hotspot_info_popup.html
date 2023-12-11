@@ -17,12 +17,10 @@ aria-hidden="true">
                     <h3 class = "hotspot-title" id="hotspot-title">Title</h3>
                     <div class="container tag-container-display" id="tag-container"></div>
                     
-                    <h6 class="hotspot-address-text" id="hotspot-address"><a id="hotspot-googlemaps-link" href="" target="childWindow">Address</a> <svg class = "external-link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
-                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
-                        </svg></h6>
+                    <h6 class="hotspot-address-text" id="hotspot-address"><a id="hotspot-googlemaps-link" href="" target="childWindow">Address</a>
+                    </h6>
         
-                    <i class = "open-with-googlemaps-text"><small>Click address to open with Google Maps.</small></i>
+                    <i id = "open-with-googlemaps-text"><small>Click address to open with Google Maps.</small></i>
                 </div>
 
                 <div class="container speeds-container">
@@ -51,9 +49,9 @@ aria-hidden="true">
                     <p>{{ desc }}</p> -->
                 </div>
 
-                <div class="container avg-rating-container">
+                <!-- <div class="container avg-rating-container">
                     <h5 id="avg-rating">Average Rating: </h5>
-                </div>
+                </div> -->
 
                 <div class="container review-container">
                     <div class="row">
@@ -65,9 +63,13 @@ aria-hidden="true">
                                 data-bs-dismiss="modal" data-bs-toggle="modal">ADD</button>
                         </div>
                     </div>
+                    <div id = "review-summary-text">
+                        <span id = "avg-rating"></span>
+                        <span id = "number-reviews-text"></span>
+                    </div>
                     <div class="row">
                         <div class="col-12">
-                            <div id="review-list" class="review-content"></div>
+                            <div id="review-list" class="review-content visible-scrollbar overflow-auto"></div>
                         </div>
                     </div>
                 </div>

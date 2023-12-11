@@ -36,7 +36,7 @@ function fillReviews(reviews) {
     }
 
     let mainGrid = $('<div/>').addClass("row main-grid flex-grow-1 overflow-hidden");
-    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
+    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto  visible-scrollbar").appendTo(mainGrid);
     let paneCol = $('<div/>').addClass("col-8 col-sm-8 overflow-hidden").appendTo(mainGrid);
 
     // let activeCol = $('<div/>', { id: 'active-card', class: 'col card active-card' }).text("No review selected.").appendTo(mainGrid);
@@ -46,7 +46,7 @@ function fillReviews(reviews) {
     let i = 0;
     for (let review of reviews) {
         let infoTab = {
-            class: 'list-group-item list-group-item-action',
+            class: 'list-group-item list-group-item-custom-color list-group-item-action',
             id: 'list-' + review['review_id'] + '-tab',
             'data-bs-toggle': 'list',
             href: '#list-' + review['review_id'],
@@ -85,26 +85,26 @@ function makeReviewCard(review) {
     console.log("creating active card!");
     let cardBody = $('<div/>').addClass('card-body').appendTo(reviewCard);
 
-    $('<h5/>').addClass('card-title').text("Review " + review["review_id"]).appendTo(cardBody);
+    $('<h5/>').addClass('card-title').html("<h3>Review " + review["review_id"]+"</h3>").appendTo(cardBody);
     let stars = makeStars(review["stars"]);
     stars.appendTo(cardBody);
 
     $('<p/>').text(review['time']).appendTo(cardBody);
-    $('<p/>').text("Location: " + review['hotspot']['name']).appendTo(cardBody);
-    $('<p/>').text("Address: " + review['hotspot']['address']).appendTo(cardBody);
+    $('<p/>').html("<i>Location</i>: " + review['hotspot']['name']).appendTo(cardBody);
+    $('<p/>').html("<i>Address</i>: " + review['hotspot']['address']).appendTo(cardBody);
 
     let text = review['text'] || "<i>User left no review.</i>"
     $('<p/>').addClass("border rounded p-2").html(text).appendTo(cardBody);
 
     // let buttonDiv = $('<div/>').addClass("d-flex justify-content-evenly").appendTo(cardBody);
 
-    let confirmApprove = $('<a/>', { id: 'confirmApprove' + review['review_id'], type: "button", class: "btn btn-secondary", text: 'Confirm' });
-    let confirmDeny = $('<a/>', { id: 'confirmDeny' + review['review_id'], type: "button", class: "btn btn-secondary", text: 'Confirm' });
+    let confirmApprove = $('<a/>', { id: 'confirmApprove' + review['review_id'], type: "button", class: "btn btn-secondary btn-confirm-review-decision", text: 'Confirm' });
+    let confirmDeny = $('<a/>', { id: 'confirmDeny' + review['review_id'], type: "button", class: "btn btn-secondary btn-confirm-review-decision", text: 'Confirm' });
 
     $('<button/>', {
         type: 'button',
         id: 'approve' + review['review_id'],
-        class: 'btn btn-success me-3 mt-3',
+        class: 'btn btn-success btn-approve-custom-color me-3 mt-3',
         'data-bs-container': "body",
         'data-bs-custom-class': 'popover-center',
         'data-bs-toggle': "popover",
@@ -119,7 +119,7 @@ function makeReviewCard(review) {
     $('<button/>', {
         type: 'button',
         id: 'approve' + review['review_id'],
-        class: 'btn btn-danger mt-3',
+        class: 'btn btn-danger btn-deny-custom-color mt-3',
         'data-bs-container': "body",
         'data-bs-custom-class': 'popover-center',
         'data-bs-toggle': "popover",
@@ -173,9 +173,10 @@ async function manageReview(isVerify, id) {
     }
 
     if (!response.ok) {
-        alert("Server issue. Unable to verify this review.")
+        makeToast(false, "Server issue. Unable to verify this review.")
         return;
     }
+    makeToast(true, "Successfully verified this review!");
 
     let reviewTab = $('#list-' + id + '-tab');
     let reviewCard = $('#list-' + id);

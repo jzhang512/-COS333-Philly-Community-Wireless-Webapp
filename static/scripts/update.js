@@ -1,6 +1,4 @@
 // $('#new-hotspot').click(createNewHotspot);
-// let tags = []
-// let hotspots = []
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
@@ -46,19 +44,21 @@ function setup() {
 
     let search = $('<h5>').appendTo(searchDiv);
     search.text('Search');
+
     let searchBox = $('<input type="text" class="form-control search-box" id="search">').appendTo(searchDiv);
     // $('<br>').appendTo(searchDiv);
 
     let tabCol = $('<div/>').addClass("border rounded-2 my-3 flex-grow-1 overflow-auto").appendTo(leftCol);
 
-    let tabGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
-    let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
+    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
+    $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
 
     getSearchResults();
     $('#search').on('input', debouncedGetResults);
 
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
+
     $(".selectpicker").selectpicker('render');
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
     [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
@@ -70,10 +70,8 @@ function populateHotspots(hotspots) {
     let i = 0;
     for (let hotspot of hotspots) {
         if (i == 0) {
-            let firstTab = makeTabElem(hotspot).appendTo('#list-tab');
-            firstTab.addClass("active");
-            let firstPane = makePaneElem(hotspot).appendTo('#nav-tabContent');
-            firstPane.addClass("active show");
+            makeTabElem(hotspot).addClass("active").appendTo('#list-tab');
+            makePaneElem(hotspot).addClass("active show").appendTo('#nav-tabContent');
         }
         else {
             makeTabElem(hotspot).appendTo('#list-tab');
@@ -327,20 +325,21 @@ function addHotspot() {
     let hotspot = buildHotspot();
     let data = buildData();
 
-    console.log(hotspot);
-
     let addRequest = {
         type: 'POST',
         url: "/api/create_hotspots",
         data: JSON.stringify([data]),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         error: function () {
-            alert("Server Error. Unable to add hotspot.");
+            makeToast(false, "Server Error. Unable to add hotspot.");
         },
         success: function () {
             hotspots.push(hotspot);
             resetPaneView('new');
-            console.log("Hotspot created!");
+            makeToast(true, "Successfully added hotspot!");
             setupMap();
         }
     };
@@ -362,13 +361,17 @@ function updateHotspot(id) {
         url: "/api/modify_hotspots",
         data: JSON.stringify([data]),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         error: function () {
-            alert("Server Error. Unable to update hotspot.");
+            makeToast(false, "Server Error. Unable to update hotspot.");
             return;
         },
         success: function () {
             console.log("successfully modified!");
             hotspots = hotspots.map(old_hotspot => old_hotspot['hotspot_id'] === id ? hotspot : old_hotspot);
+            makeToast(true, "Successfully updated hotspot!");
             resetPaneView(id);
         }
     };
@@ -383,13 +386,13 @@ function deleteHotspot(id) {
         data: JSON.stringify([id]),
         contentType: 'application/json',
         error: function () {
-            alert("Server Error. Unable to delete hotspot.");
+            makeToast(false, "Server Error. Unable to delete hotspot.");
             return;
         },
         success: function () {
             hotspots = hotspots.filter(hotspot => hotspot['hotspot_id'] !== id);
+            makeToast(true, "Successfully deleted hotspot!");
             resetPaneView(id);
-            console.log("successfully deleted");
             setup();
         }
     };
@@ -424,12 +427,12 @@ function verifyHotspot(id = 'new') {
     let address = $('#hotspot-address' + id).val();
 
     if (!title) {
-        alert("Please provide a hotspot title.");
+        makeToast(false, "Please provide a hotspot title.");
         return false;
     }
 
     if (!address) {
-        alert("Please provide a hotspot address.");
+        makeToast(false, "Please provide a hotspot address.");
         return false;
     }
 
@@ -443,7 +446,7 @@ function verifyHotspot(id = 'new') {
         success: function (data) {
             let points = data['features']
             if (points.length == 0) {
-                alert("No valid address found. Please try again.");
+                makeToast(false, "No valid address found. Please try again.");
                 result = false;
             }
             else {
@@ -454,11 +457,11 @@ function verifyHotspot(id = 'new') {
                 let index = start.indexOf(points[0]['properties']['address']);
 
                 $('#hotspot-address' + id).val(start.substring(index));
-                setTimeout(function () { }, 4000);
+                // setTimeout(function () { }, 4000);
             }
         },
         error: function () {
-            alert("An error has occured.");
+            makeToast(false, "A MapBox server error has occurred.");
             result = false;
         }
     };

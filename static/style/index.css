@@ -2,6 +2,51 @@
     color: white;
 }
 
+.red-font {
+    color: red;
+}
+
+/* Admin main page. */
+
+#admin-dashboard-text {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.admin-action-title-text {
+    color: #5162ed !important;
+}
+
+/* Admin pending reviews. */
+
+.btn-approve-custom-color {
+    color: white !important;
+    background-color: #3960a6 !important;
+    border-color: #3960a6 !important;
+}
+
+.btn-deny-custom-color {
+    color: #878787 !important;
+    background-color: white !important;
+    border-color: #808080 !important;
+}
+
+.btn-confirm-review-decision {
+    color: white !important;
+    background-color: #5162ed !important;
+    border-color: #5162ed !important;
+}
+
+.list-group-item-custom-color[aria-selected="true"] {
+    background-color: #5263ED !important;
+    border-color: #3960a6 !important;
+}
+
+.list-group-item-custom-color.active {
+    background-color: #5263ED !important;
+    border-color: #3960a6 !important;
+}
+
 .navbar {
     background-color: #5263ED;
     border: 0px solid white;
@@ -17,6 +62,7 @@
     color: white;
     border: none;
 }
+
 /* 
 .navbar-toggler:focus,
 .navbar-toggler:active,
@@ -244,6 +290,10 @@ body {
     transition: all 0.4s;
 }
 
+.toast .fade {
+    transition: opacity 0.5s linear !important;
+}
+
 #hotspotsList {
     margin-top: 2.5%;
     margin-bottom: 10%;
@@ -265,6 +315,20 @@ body {
 
 .searchbar-header {
     padding-top: 10%;
+}
+
+#hotspots-list-text-div {
+    /* color: #5162ed; */
+    font-style: italic;
+    /* font-size: 0.9em; */
+}
+
+#review-summary-text {
+    font-style: italic;
+}
+
+#are-filters-active-text {
+    display:none;
 }
 
 .searchbar-sort {
@@ -323,8 +387,8 @@ body {
 }
 
 .sort-button-disabled {
-    background-color: #e7ebf5!important;
-    color: #adb3bd!important;
+    background-color: #e7ebf5 !important;
+    color: #adb3bd !important;
     border: 1px solid #adb3bd !important;
     /* white-space: nowrap; */
 }
@@ -349,7 +413,7 @@ body {
 } */
 
 #filters-list {
-    padding-right:0;
+    padding-right: 0;
     overflow-y: auto;
     overflow-x: auto;
     margin-top: 2.5%;
@@ -384,7 +448,7 @@ body {
     color: #808080;
     border: 1px solid #6c757d;
     padding: 2.5px;
-    border-radius: 10px; 
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -393,6 +457,12 @@ body {
     border-right: 1px solid #555;
     border-left: 2px solid #555;
     border-bottom: 2px solid #555;
+}
+
+.custom-filter-checkbox:checked {
+    background-color:#3960a6;
+    border-color: #3960a6;
+    /* border-color: #5162ed; */
 }
 
 .filter-form {
@@ -419,22 +489,25 @@ body {
     .modal-dialog {
         width: 23%;
     }
+
     .filterbar-panel {
         width: 250px;
-        border-right: 2px solid #5162ed; 
+        border-right: 2px solid #5162ed;
         overflow-y: auto;
         overflow-x: auto;
         background-color: #E1E6F6;
         /* text-wrap: nowrap; */
         /* flex: 0 0 auto; */
     }
+
     .searchbar-panel {
         background-color: #E1E6F6;
-        border-right: 4px solid #5162ed; 
-        width: 25%; 
+        border-right: 4px solid #5162ed;
+        width: 25%;
         min-width: 245px;
         /* overflow: auto; */
     }
+
     /* .small-screen-search{
         display: none;
     } */
@@ -443,8 +516,9 @@ body {
         color: #5162ed;
         padding-bottom: 2.5px;
     }
-    #hotspotsList{
-        height: 60vh;
+
+    #hotspotsList {
+        height: 58vh;
     }
 
     #filters-list {
@@ -455,33 +529,40 @@ body {
 /* Smaller screens. */
 @media (max-width: 1150px) {
     .modal-dialog {
-        width: 70%;
+        width: 40vh;
     }
+
     .searchbar-content {
         display: none;
     }
+
     .filterbar-content {
         display: none;
     }
+
     /* .form-check {
         width: 80%;
         border-right: 1px solid #5162ed;
     } */
-    #toggleFilterBack{
+    #toggleFilterBack {
         display: none;
     }
-    .small-screen-search{
-        width: 300px;   /* hardcoded*/
+
+    .small-screen-search {
+        width: 300px;
+        /* hardcoded*/
         display: block;
         position: fixed;
         top: 75px;
         left: 2.5%;
         padding-bottom: 16px;
-        z-index: 1; /* Ensure the overlay is above the map */
+        z-index: 1;
+        /* Ensure the overlay is above the map */
         background-color: #E1E6F6;
         border-radius: 10px;
         border: 2px solid #808080;
     }
+
     .searchbar-search-text {
         font-size: .875em;
         color: #5162ed;
@@ -490,7 +571,7 @@ body {
     }
 
     #hotspotsList {
-        height: 65%;
+        height: 63%;
     }
 
     #filters-list {
@@ -498,9 +579,10 @@ body {
     }
 }
 
-#close-list-text-btn, #close-filter-text-btn {
+#close-list-text-btn,
+#close-filter-text-btn {
     color: grey !important;
-    border-radius: 10px; 
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -521,6 +603,10 @@ body {
 } */
 
 /* Hotspot Information Popup Styles */
+
+#new-tab-hotspot {
+    margin-left: 5px;
+}
 
 .review-card {
     /* width: 16rem; */
@@ -550,6 +636,10 @@ body {
     display: none;
 }
 
+.star-span-spacing {
+    margin-left: 3px;
+}
+
 #review-list {
     border-top: 2px solid #5162ed;
     border-bottom: 2px solid #5162ed;
@@ -565,7 +655,7 @@ body {
     justify-content: space-between;
 }
 
-.open-with-googlemaps-text {
+#open-with-googlemaps-text {
     font-size: 0.8em;
     margin-top: -5%;
 }

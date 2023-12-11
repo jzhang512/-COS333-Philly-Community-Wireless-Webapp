@@ -4,6 +4,7 @@
 
 import os
 import flask
+import flask_wtf.csrf
 import database_req
 import auth
 
@@ -12,7 +13,9 @@ app = flask.Flask(__name__)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 
-valid_subpaths = [None, 'update', 'reviews', 'manage', 'tags']
+flask_wtf.csrf.CSRFProtect(app)
+
+# valid_subpaths = [None, 'update', 'reviews', 'manage']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -44,40 +47,8 @@ def logout_google_callback():
     return flask.redirect(flask.url_for('index'))
 
 
-# @app.route('/unauthorized', methods=['GET'])
-# def unauthorized():
-#     user_email = auth.checkAuthenticate()
-#     user_name = auth.getName()
-#     # Check if the user is authorized
-#     if database_req.is_authorized_user(user_email):
-#         html_code = flask.render_template('admin.html', name=user_name)
-#         response = flask.make_response(html_code)
-#         return response
-#     else:
-#         html_code = flask.render_template('unauthorized.html')
-#         response = flask.make_response(html_code)
-#         return response
-
-# ---------------------------------------------------------------------
-
-
-@app.route('/', methods=['GET'])
-def index():
-    html_code = flask.render_template('index.html')
-    response = flask.make_response(html_code)
-    return response
-
-# @app.route('/search', methods=['GET'])
-# def search():
-
-
-@app.route('/admin/<path:admin_path>', methods=['GET'])
-@app.route('/admin', methods=['GET'])
-@app.route('/admin/', methods=['GET'])
-def admin(admin_path=None):
-    if admin_path not in valid_subpaths:
-        flask.abort(404)
-
+@app.route('/unauthorized', methods=['GET'])
+def unauthorized():
     user_email = auth.checkAuthenticate()
     user_name = auth.getName()
     # Check if the user is authorized
@@ -89,6 +60,40 @@ def admin(admin_path=None):
         html_code = flask.render_template('unauthorized.html')
         response = flask.make_response(html_code)
         return response
+
+# ---------------------------------------------------------------------
+
+
+@app.route('/', methods=['GET'])
+def index():
+    html_code = flask.render_template(
+        'index.html', csrf_token=flask_wtf.csrf.generate_csrf())
+    response = flask.make_response(html_code)
+    return response
+
+# @app.route('/search', methods=['GET'])
+# def search():
+
+
+@app.route('/admin/<path:admin_path>', methods=['GET'])
+@app.route('/admin', methods=['GET'])
+@app.route('/admin/', methods=['GET'])
+def admin(admin_path=None):
+    # if admin_path not in valid_subpaths:
+    #     flask.abort(404)
+
+    # user_email = auth.checkAuthenticate()
+    # user_name = auth.getName()
+    # # Check if the user is authorized
+    # if database_req.is_authorized_user(user_email):
+    html_code = flask.render_template(
+        'admin.html', name="user_name", csrf_token=flask_wtf.csrf.generate_csrf())
+    response = flask.make_response(html_code)
+    return response
+    # else:
+    #     html_code = flask.render_template('unauthorized.html')
+    #     response = flask.make_response(html_code)
+    #     return response
 
 
 @app.route('/api/hotspots', methods=['GET'])
@@ -275,6 +280,11 @@ def approve_review():
 @app.route('/api/reject_review', methods=['POST'])
 def reject_review():
     pin = flask.request.args.get("id", default="")
+
+    user_email = auth.checkAuthenticate()
+    if not database_req.is_authorized_user(user_email):
+        return flask.jsonify("Error: Unauthorized"), 401
+
     try:
         pin = int(pin)
         database_req.reject_review(pin)
@@ -325,7 +335,7 @@ def delete_tags():
 def delete_admin():
     try:
         admin_list = flask.request.json
-        print(admin_list    )
+        print(admin_list)
         database_req.delete_selected_admin(admin_list)
         print("Deletion successful")
         return flask.jsonify("Success")

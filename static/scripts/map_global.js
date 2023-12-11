@@ -158,12 +158,14 @@ $(document).ready(async () => {
     $('.custom-filter-checkbox').on('change', function () {
 
         if ($(this).is(':checked')) {
-            console.log('Checkbox with ID ' + this.id + ' is checked!');
+            //console.log('Checkbox with ID ' + this.id + ' is checked!');
+            
             // Perform actions when checkbox is checked
             filterTagsId.push(parseInt(this.id.slice(5)));   // filterTags is global!
         }
         else {
-            console.log('Checkbox with ID ' + this.id + ' is unchecked!');
+            //console.log('Checkbox with ID ' + this.id + ' is unchecked!');
+            
             // Perform actions when checkbox is unchecked. Removes from
             // list of tags to filter.
             const index = filterTagsId.indexOf(parseInt(this.id.slice(5)));
@@ -171,6 +173,19 @@ $(document).ready(async () => {
                 // 2nd parameter means remove one item only. Trivial
                 filterTagsId.splice(index, 1);
             }
+        }
+
+        // To let user know if any filters are applied or not.
+        if ($('.custom-filter-checkbox:checked').length !== 0) {
+            console.log("none checked");
+            $('#are-filters-active-text').css({
+                'display':'inline'
+            });
+        }
+        else {
+            $('#are-filters-active-text').css({
+                'display':'none'
+            });
         }
 
         getSearchResults();
@@ -319,11 +334,11 @@ map.on('load', async () => {
         closeOnClick: false
     });
 
-    $('.collapse').on('hidden.bs.collapse', function () {
+    $('.filterbar-panel').on('hidden.bs.collapse', function () {
         map.resize();
     });
 
-    $('.collapse').on('shown.bs.collapse', function () {
+    $('.filterbar-panel').on('shown.bs.collapse', function () {
 
         map.easeTo({
             padding: {
@@ -336,7 +351,7 @@ map.on('load', async () => {
         });
     });
 
-    $('.collapse').on('hide.bs.collapse', function () {
+    $('.filterbar-panel').on('hide.bs.collapse', function () {
         map.easeTo({
             padding: {
                 left: 0,

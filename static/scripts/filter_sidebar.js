@@ -6,9 +6,15 @@ $('.filter-clear').on('click', function() {
     // Iterate through all checkboxes with class 'custom-filter-checkbox' and uncheck them
     $('.custom-filter-checkbox').prop('checked', false);
 
+    // Do nothing if already "cleared".
     if (filterTagsId.length == 0) {
         return;
     }
+
+    // Let users know.
+    $('#are-filters-active-text').css({
+        'display':'none'
+    });
 
     filterTagsId = [];  // global!
     getSearchResults();

@@ -22,7 +22,7 @@ async function updateHotspotsList(hotspots) {
             distance_button = $("<span class='distance-pill'>").text(hotspot['dist'].toFixed(1)  + " mi");
         } else {
             distance_button = $("<span>");
-            distance_button.append($("<i class = 'no-rating-text'>").text("Can't calculate dist."))
+            distance_button.append($("<i class = 'no-rating-text'>").text("no distance data"))
         }
         top_row.append(distance_button);
         // hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
@@ -32,14 +32,16 @@ async function updateHotspotsList(hotspots) {
             score_button.text(parseFloat(hotspot['avg_rating']).toFixed(1)); // + "</span>";
 
             // Make star.
-            let star = $('<span>').addClass("d-inline-block");
+            let star = $('<span class = "star-span-spacing">').addClass("d-inline-block");
             let icon = document.createElement("i");
             icon.classList.add("fas", "fa-star", "star");
             star.append(icon);
             score_button.append(star.prop("outerHTML")); //+ "</span></span>";
-        } else {
+        } 
+        else {
             score_button.append($("<i class = 'no-rating-text'>").text("No Rating"));
         }
+
         top_row.append(score_button);
 
         let buttonDiv = $('<div>');
@@ -49,7 +51,6 @@ async function updateHotspotsList(hotspots) {
         let button = $('<button type="button" id=' + hotspot['hotspot_id'] + ' class="hotspots-list-button list-group-item list-group-item-action">');
         button.append(buttonDiv)
         $('#hotspotsList').append(button);
-        
     });
 
     $(document).on("click",".list-group-item-action", function () {
@@ -65,6 +66,18 @@ async function updateHotspotsList(hotspots) {
             hide_search_panel();
          }
     });
+
+    // Display number of results.
+    let num_results = hotspots.length;
+    if (num_results === 0) {
+        $('#number-hotspots-list-text').text('no results');
+    }
+    else if (num_results === 1) {
+        $('#number-hotspots-list-text').text('1 result');
+    }
+    else {
+        $('#number-hotspots-list-text').text(num_results + " results");
+    }
 }
 
 
