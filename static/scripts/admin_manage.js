@@ -182,7 +182,7 @@ function addAdmin(adminName) {
         },
         success: function () {
             makeToast(true, "Successfully added admin!");
-            console.log("Admin created!")
+            //console.log("Admin created!")
             resetPaneViewAdmin()
         },
         headers: {
@@ -217,7 +217,7 @@ function deleteAdmin() {
         },
         success: function () {
             makeToast(true, "Successfully deleted admin(s)!");
-            console.log("Admin Deleted!")
+            //console.log("Admin Deleted!")
             editing = false;
             resetPaneViewAdmin()
         },
