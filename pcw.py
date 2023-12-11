@@ -15,7 +15,7 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 
 flask_wtf.csrf.CSRFProtect(app)
 
-# valid_subpaths = [None, 'update', 'reviews', 'manage']
+valid_subpaths = [None, 'update', 'reviews', 'manage', 'tags']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -79,8 +79,8 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    # if admin_path not in valid_subpaths:
-    #     flask.abort(404)
+    if admin_path not in valid_subpaths:
+         flask.abort(404)
 
     # user_email = auth.checkAuthenticate()
     # user_name = auth.getName()
