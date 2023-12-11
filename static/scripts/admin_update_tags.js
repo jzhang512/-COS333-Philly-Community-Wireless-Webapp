@@ -58,15 +58,23 @@ function getCategories() {
 function setupLeftCol() {
     let categories = getCategories();
 
+    let opened = [];
+    $("#tagsList").children("div").each((i, child) => {
+        opened.push($(child).is(":visible"));
+    });
+    console.log(opened);
+
     $("#leftCol").empty();
 
     $("<div/>", { id: 'tagsList', role: "tablist", class: "list-group" }).appendTo($("#leftCol"));
 
-    categories.forEach((cat) => {
+    categories.forEach((cat, i) => {
         let header = $('<button/>', { class: "list-group-item category-list-item list-group-item-primary" }).text(cat);
         $('#tagsList').append(header);
         let tagsList = $('<div/>', { id: "collapse" + cat });
-        tagsList.hide();
+        if (opened && ! opened[i]) {
+            tagsList.hide();
+        }
         $('#tagsList').append(tagsList);
 
         header.click(() => {
