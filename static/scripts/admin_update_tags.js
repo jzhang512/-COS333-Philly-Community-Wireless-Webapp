@@ -8,6 +8,9 @@ function setupTags() {
         type: 'GET',
         async: false,
         url: "/api/tags",
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         success: function (data) {
             tags = data;
         },
@@ -150,6 +153,9 @@ function editTag(tag) {
             url: "/api/modify_tags",
             data: JSON.stringify([tag]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
                     alert("Error writing to database");
@@ -185,6 +191,9 @@ function deleteTag(tag) {
             url: "/api/delete_tags",
             data: JSON.stringify([tag["tag_id"]]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
                     alert("Error writing to database");
@@ -238,6 +247,9 @@ function createAddForm() {
             url: "/api/create_tags",
             data: JSON.stringify([tag]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
                     alert("Error writing to database");
