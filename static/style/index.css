@@ -6,6 +6,8 @@
     color: red;
 }
 
+/* Admin main page. */
+
 #admin-dashboard-text {
     padding-top: 5vh;
     padding-bottom: 5vh;
@@ -13,6 +15,36 @@
 
 .admin-action-title-text {
     color: #5162ed !important;
+}
+
+/* Admin pending reviews. */
+
+.btn-approve-custom-color {
+    color: white !important;
+    background-color: #3960a6 !important;
+    border-color: #3960a6 !important;
+}
+
+.btn-deny-custom-color {
+    color: #878787 !important;
+    background-color: white !important;
+    border-color: #808080 !important;
+}
+
+.btn-confirm-review-decision {
+    color: white !important;
+    background-color: #5162ed !important;
+    border-color: #5162ed !important;
+}
+
+.list-group-item-custom-color[aria-selected="true"] {
+    background-color: #5263ED !important;
+    border-color: #3960a6 !important;
+}
+
+.list-group-item-custom-color.active {
+    background-color: #5263ED !important;
+    border-color: #3960a6 !important;
 }
 
 .navbar {
