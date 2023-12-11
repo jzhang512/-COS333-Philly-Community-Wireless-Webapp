@@ -199,7 +199,7 @@ async function manageReview(isVerify, id) {
         };
         $.ajax(requestData);
     }
-   
+  
     let reviewTab = $('#list-' + id + '-tab');
     let reviewCard = $('#list-' + id);
 

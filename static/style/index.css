@@ -2,6 +2,52 @@
     color: white;
 }
 
+.red-font {
+    color: red;
+}
+
+/* Admin main page. */
+
+#admin-dashboard-text {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.admin-action-title-text {
+    color: #5162ed !important;
+}
+
+/* Admin pending reviews. */
+
+.btn-confirm-decision {
+    color: white !important;
+    background-color: #5162ed !important;
+    border-color: #5162ed !important;
+}
+
+.list-group-item-custom-color[aria-selected="true"] {
+    background-color: #5263ED !important;
+    border-color: #3960a6 !important;
+}
+
+.list-group-item-custom-color.active {
+    background-color: #5263ED !important;
+    border-color: #3960a6 !important;
+}
+
+/* Admin update hotspots. */
+.btn-dark-blue {
+    color: white !important;
+    background-color: #3960a6 !important;
+    border-color: #3960a6 !important;
+}
+
+.btn-complement-white {
+    color: #878787 !important;
+    background-color: white !important;
+    border-color: #808080 !important;
+}
+
 .navbar {
     background-color: #5263ED;
     border: 0px solid white;
@@ -272,6 +318,20 @@ body {
     padding-top: 10%;
 }
 
+#hotspots-list-text-div {
+    /* color: #5162ed; */
+    font-style: italic;
+    /* font-size: 0.9em; */
+}
+
+#review-summary-text {
+    font-style: italic;
+}
+
+#are-filters-active-text {
+    display:none;
+}
+
 .searchbar-sort {
     padding-bottom: 5%;
 }
@@ -400,6 +460,12 @@ body {
     border-bottom: 2px solid #555;
 }
 
+.custom-filter-checkbox:checked {
+    background-color:#3960a6;
+    border-color: #3960a6;
+    /* border-color: #5162ed; */
+}
+
 .filter-form {
     padding-left: 35px;
     margin-left: 5px;
@@ -453,7 +519,7 @@ body {
     }
 
     #hotspotsList {
-        height: 60vh;
+        height: 58vh;
     }
 
     #filters-list {
@@ -464,7 +530,7 @@ body {
 /* Smaller screens. */
 @media (max-width: 1150px) {
     .modal-dialog {
-        width: 70%;
+        width: 40vh;
     }
 
     .searchbar-content {
@@ -506,7 +572,7 @@ body {
     }
 
     #hotspotsList {
-        height: 65%;
+        height: 63%;
     }
 
     #filters-list {

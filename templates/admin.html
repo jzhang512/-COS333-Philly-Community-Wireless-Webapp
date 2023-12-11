@@ -23,7 +23,9 @@
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <svg id = "custom-navbar-toggler" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -91,13 +93,12 @@
     <!-- <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
         data-bs-placement="bottom" data-bs-content="Bottom popover">Popover on bottom</button> -->
 
-    <div class="container-fluid" id="results-div">
-
+    <div class="container-fluid" id="results-div">  
     </div>
 
-    <script src="{{url_for('static', filename='scripts/verify.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/admin_pending_reviews.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/admin_global.js')}}"></script>
-    <script src="{{url_for('static', filename='scripts/update.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/admin_update_hotspots.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/util.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/manage.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/admin_update_tags.js')}}"></script>

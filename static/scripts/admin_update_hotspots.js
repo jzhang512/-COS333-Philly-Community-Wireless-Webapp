@@ -35,16 +35,19 @@ function setup() {
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $('<h2/>').addClass("row mx-2 mt-4 flex-shrink-1").text("Update/Add/Remove Hotspots").appendTo('#results-div');
     let mainGrid = $('<div/>').addClass("row flex-grow-1 mt-3 mb-2 overflow-hidden").appendTo('#results-div');
+    let leftCol = $('<div/>').addClass("d-flex flex-column col-4 mh-100 overflow-hidden").appendTo(mainGrid);
 
-    let tabCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto").appendTo(mainGrid);
-    let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 bottom-buffer overflow-auto").appendTo(mainGrid);
+    // let tabCol = $('<div/>').addClass("border-end pb-3 overflow-auto").appendTo(leftCol);
+    let paneCol = $('<div/>').addClass("col-8 mh-100 px-3 bottom-buffer overflow-auto visible-scrollbar").appendTo(mainGrid);
 
-    let searchDiv = $('<div/>').appendTo(tabCol);
+    let searchDiv = $('<div/>').appendTo(leftCol);
 
-    let search = $('<h5>').appendTo(searchDiv);
-    search.text('Search');
-    $('<input type="text" class="form-control search-box" id="search">').appendTo(searchDiv);
     $('<br>').appendTo(searchDiv);
+
+    $('<input type="text" class="form-control search-box" id="search" placeholder = "Search Hotspots Here">').appendTo(searchDiv);
+    // $('<br>').appendTo(searchDiv);
+
+    let tabCol = $('<div/>').addClass("border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar").appendTo(leftCol);
 
     $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(tabCol);
     $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
@@ -52,7 +55,7 @@ function setup() {
     getSearchResults();
     $('#search').on('input', debouncedGetResults);
 
-    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success my-3', id: 'new-hotspot', text: 'Add New' }).appendTo(tabCol);
+    let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2 btn-dark-blue', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
 
     $(".selectpicker").selectpicker('render');
@@ -107,7 +110,7 @@ function createNewHotspot() {
 
 function makeTabElem(hotspot) {
     let infoTab = {
-        class: 'list-group-item list-group-item-action',
+        class: 'list-group-item list-group-item-custom-color list-group-item-action',
         id: 'list-' + hotspot['hotspot_id'] + '-tab',
         'data-bs-toggle': 'list',
         href: '#list-' + hotspot['hotspot_id'],
@@ -199,12 +202,12 @@ function makeHotspotCard(hotspot) {
 
     // $('<button/>', { type: 'submit', class: 'btn btn-success me-2 mt-2', text: 'Save Changes' }).appendTo(hotspotCard);
 
-    let confirmChanges = $('<a/>', { id: 'confirmChanges' + id, type: "button", class: "btn btn-secondary", text: 'Confirm' });
+    let confirmChanges = $('<a/>', { id: 'confirmChanges' + id, type: "button", class: "btn btn-secondary btn-confirm-decision", text: 'Confirm' });
 
     $('<button/>', {
         type: 'submit',
         id: 'approve' + id,
-        class: 'btn btn-success me-2 mt-2',
+        class: 'btn btn-success me-2 mt-2 btn-dark-blue',
         'data-bs-container': "body",
         'data-bs-custom-class': 'popover-center',
         'data-bs-toggle': "popover",
@@ -218,12 +221,12 @@ function makeHotspotCard(hotspot) {
 
 
     if (hotspot != null) {
-        let confirmDelete = $('<a/>', { id: 'confirmDelete' + id, type: "button", class: "btn btn-secondary", text: 'Confirm' });
+        let confirmDelete = $('<a/>', { id: 'confirmDelete' + id, type: "button", class: "btn btn-secondary btn-confirm-decision", text: 'Confirm' });
 
         $('<button/>', {
             type: 'submit',
             id: 'delete' + id,
-            class: 'btn btn-danger me-2 mt-2',
+            class: 'btn btn-danger me-2 mt-2 btn-complement-white',
             'data-bs-container': "body",
             'data-bs-custom-class': 'popover-center',
             'data-bs-toggle': "popover",

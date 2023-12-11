@@ -49,9 +49,9 @@ aria-hidden="true">
                     <p>{{ desc }}</p> -->
                 </div>
 
-                <div class="container avg-rating-container">
+                <!-- <div class="container avg-rating-container">
                     <h5 id="avg-rating">Average Rating: </h5>
-                </div>
+                </div> -->
 
                 <div class="container review-container">
                     <div class="row">
@@ -63,9 +63,13 @@ aria-hidden="true">
                                 data-bs-dismiss="modal" data-bs-toggle="modal">ADD</button>
                         </div>
                     </div>
+                    <div id = "review-summary-text">
+                        <span id = "avg-rating"></span>
+                        <span id = "number-reviews-text"></span>
+                    </div>
                     <div class="row">
                         <div class="col-12">
-                            <div id="review-list" class="review-content"></div>
+                            <div id="review-list" class="review-content visible-scrollbar overflow-auto"></div>
                         </div>
                     </div>
                 </div>
