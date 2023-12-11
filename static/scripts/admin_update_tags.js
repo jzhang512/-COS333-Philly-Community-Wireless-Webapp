@@ -8,6 +8,9 @@ function setupTags() {
         type: 'GET',
         async: false,
         url: "/api/tags",
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         success: function (data) {
             tags = data;
         },
@@ -55,15 +58,23 @@ function getCategories() {
 function setupLeftCol() {
     let categories = getCategories();
 
+    let opened = [];
+    $("#tagsList").children("div").each((i, child) => {
+        opened.push($(child).is(":visible"));
+    });
+    console.log(opened);
+
     $("#leftCol").empty();
 
     $("<div/>", { id: 'tagsList', role: "tablist", class: "list-group" }).appendTo($("#leftCol"));
 
-    categories.forEach((cat) => {
+    categories.forEach((cat, i) => {
         let header = $('<button/>', { class: "list-group-item category-list-item list-group-item-primary" }).text(cat);
         $('#tagsList').append(header);
         let tagsList = $('<div/>', { id: "collapse" + cat });
-        tagsList.hide();
+        if (opened && ! opened[i]) {
+            tagsList.hide();
+        }
         $('#tagsList').append(tagsList);
 
         header.click(() => {
@@ -116,13 +127,14 @@ function createModal() {
     $("<h5/>", { id: "modalTitle", class: "modal-title" }).appendTo(header);
     $("<button/>", { type: "button", class: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" }).appendTo(header);
 
-    let body = $("<div/>", { class: "modal-body" }).appendTo(modal);
+    let body = $("<div/>", { class: "modal-body p-3" }).appendTo(modal);
     $("<p/>").text("Are you sure you want to delete this tag?").appendTo(body);
-    $("<p/>").text("Deleting this tag will remove it from any hotspots to which it is currently assigned. This action can't be undone.").appendTo(body);
+    $("<p/>").text("Deleting this tag will remove it from any hotspots to which it is currently assigned.").appendTo(body);
+    $("<strong/>").text("This action can't be undone.").appendTo($("<p/>")).appendTo(body);
 
     let footer = $("<div/>", { class: "modal-footer" }).appendTo(modal);
-    $("<button/>", { id: "deleteFinal", class: "btn btn-danger" }).text("Delete").appendTo(footer);
-    $("<button/>", { class: "btn btn-secondary", "data-bs-dismiss": "modal" }).text("Cancel").appendTo(footer);
+    $("<button/>", { id: "deleteFinal", class: "btn btn-danger btn-dark-blue"}).text("Delete").appendTo(footer);
+    $("<button/>", { class: "btn btn-secondary btn-complement-white", "data-bs-dismiss": "modal" }).text("Cancel").appendTo(footer);
 }
 
 function editTag(tag) {
@@ -150,6 +162,9 @@ function editTag(tag) {
             url: "/api/modify_tags",
             data: JSON.stringify([tag]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
                     alert("Error writing to database");
@@ -176,7 +191,7 @@ function editTag(tag) {
 }
 
 function deleteTag(tag) {
-    $("#modalTitle").text("Delete " + tag["tag_name"]);
+    $("#modalTitle").text('Delete "' + tag["tag_name"] + '" Tag');
     $("#deleteFinal").click(() => {
         console.log("Deleting " + tag["tag_name"]);
         console.log(tag);
@@ -185,6 +200,9 @@ function deleteTag(tag) {
             url: "/api/delete_tags",
             data: JSON.stringify([tag["tag_id"]]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
                     alert("Error writing to database");
@@ -238,6 +256,9 @@ function createAddForm() {
             url: "/api/create_tags",
             data: JSON.stringify([tag]),
             contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             success: async (result) => {
                 if (result != "Success") {
                     alert("Error writing to database");

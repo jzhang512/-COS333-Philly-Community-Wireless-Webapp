@@ -3,6 +3,7 @@ $('document').ready(setup);
 let siteTitle = "PCW Admin";
 let tags = [];
 let hotspots = [];
+let admins = [];
 let search_check_timer = null;
 
 async function setup() {
