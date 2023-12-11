@@ -173,11 +173,11 @@ async function manageReview(isVerify, id) {
                 'X-CSRFToken': csrfToken
             },
             error: function () {
-                makeToast(false, "Server issue. Unable to verify this review.")
+                makeToast(false, "Server issue. Unable to approve this review.")
                 return;
             },
             success: function () {
-                makeToast(true, "Successfully verified this review!");
+                makeToast(true, "Successfully approved this review!");
             }
         };
         $.ajax(requestData);
@@ -192,11 +192,11 @@ async function manageReview(isVerify, id) {
                 'X-CSRFToken': csrfToken
             },
             error: function () {
-                makeToast(false, "Server issue. Unable to verify this review.")
+                makeToast(false, "Server issue. Unable to deny this review.")
                 return;
             },
             success: function () {
-                makeToast(true, "Successfully verified this review!");
+                makeToast(true, "Successfully denied this review!");
             }
         };
         $.ajax(requestData);
