@@ -1,9 +1,35 @@
+function setupHotspotInfo() {
+    $('#add-review').click(() => {
+        reviewVisible = true;
+        console.log("Add Review :3");
+        console.log(reviewVisible);
+        $('#sidebar').hide();
+    });
+
+    $('#sidebar').on('show.bs.modal', () => {
+        let hotspot = getHotspot(displayed, active_id);
+        history.pushState(null, "", "?hotspot_id=" + active_id);
+        document.title = siteTitle + " - " + hotspot['name'];
+    });
+
+    $('#sidebar').on('hide.bs.modal', () => {
+        console.log(reviewVisible);
+        if (!reviewVisible) {
+            history.pushState(null, "", "/");
+            document.title = siteTitle;
+        }
+    });
+}
+
 // Master function. 
 async function makePopup(hotspot) {
-    // Send requests to your Flask server
     let id = hotspot['hotspot_id'];
     active_id = id;
 
+    history.pushState(null, "", "?hotspot_id=" + id);
+    document.title = siteTitle + " - " + hotspot['name'];
+
+    // Send requests to your Flask server
     const review_response = await fetch("/api/reviews?id=" + id);
     let reviews = await review_response.json();
     if (reviews == "Database Error") {
@@ -19,16 +45,7 @@ async function makePopup(hotspot) {
         zoom: 15
     })
 
-    history.replaceState(null, "", "?hotspot_id=" + id);
-
     $('#sidebar').modal('show');
-
-    document.title = siteTitle + " - " + hotspot['name'];
-
-    $('#sidebar').on('hide.bs.modal', () => {
-        history.pushState(null, "", "/");
-        document.title = siteTitle;
-    });
 
     $('#hotspot-info-exit-unhovered, #hotspot-info-exit-hovered').on('mouseover', function () {
         $('#hotspot-info-exit-hovered').css({

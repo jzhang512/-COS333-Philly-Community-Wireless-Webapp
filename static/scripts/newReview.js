@@ -1,14 +1,25 @@
-$("#submit-review").click(submitReview);
-$("#close-review").click(clearReview);
-$("#close-review-x").click(clearReview)
+function setupNewReview() {
+    // $('#close-review-x').click(() => {
+    //     $('#newReview').hide();
+    // });
+    // $('#close-review').click(() => {
+    //     $('#newReview').hide();
+    // });
+
+    $("#submit-review").click(submitReview);
+    $('#newReview').on('hide.bs.modal',  clearReview);
+}
 
 function clearReview() {
+    reviewVisible = false;
     $('#success-review').remove();
     $('#failure-review').remove();
     $('#review-text').val('');
     $('input[name="star-rating"]:checked').prop('checked', false);
     $('#submit-review').prop('disabled', false);
     $('#review-body').removeClass('pe-none');
+    $('#sidebar').show();
+    console.log("closing review");
 }
 
 function submitReview() {
@@ -23,7 +34,7 @@ function submitReview() {
         console.log("here2");
         return;
     }
-    console.log("meow");
+    
     review["hotspot_id"] = active_id;
     review["rating"] = stars;
     review["text"] = $("#review-text").val();

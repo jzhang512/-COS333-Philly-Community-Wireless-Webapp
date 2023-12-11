@@ -12,6 +12,7 @@ let active_id = null;
 let tags;
 let hotspots;
 let displayed;
+let reviewVisible = false;
 let siteTitle = "Find Philly Wi-Fi";
 let sort_type = "alphabetical";
 let SMALLSCREENWIDTH = 1150;
@@ -99,6 +100,9 @@ $(document).ready(async () => {
     updateHotspotsList(hotspots);
 
     setup();
+
+    setupHotspotInfo();
+    setupNewReview();
 
     let queryString = window.location.search;
     let params = new URLSearchParams(queryString);
