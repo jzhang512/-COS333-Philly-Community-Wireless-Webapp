@@ -142,13 +142,13 @@ function addAdmin(adminName) {
 
     if (adminName === '') {
         $('#add_email').val('');
-        makeToast(false, "Please enter an email to add");
+        makeToast(false, "Please enter an email.");
         return;
     }
 
     if (!emailRegex.test(adminName)) {
         $('#add_email').val('');
-        makeToast(false, "Please enter a valid email address");
+        makeToast(false, "Please enter a valid email address.");
         return;
     }
 
