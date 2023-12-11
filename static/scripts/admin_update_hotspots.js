@@ -382,6 +382,9 @@ function deleteHotspot(id) {
         url: "/api/delete_hotspots",
         data: JSON.stringify([id]),
         contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         error: function () {
             makeToast(false, "Server Error. Unable to delete hotspot.");
             return;
