@@ -98,13 +98,13 @@ function makeReviewCard(review) {
 
     // let buttonDiv = $('<div/>').addClass("d-flex justify-content-evenly").appendTo(cardBody);
 
-    let confirmApprove = $('<a/>', { id: 'confirmApprove' + review['review_id'], type: "button", class: "btn btn-secondary btn-confirm-review-decision", text: 'Confirm' });
-    let confirmDeny = $('<a/>', { id: 'confirmDeny' + review['review_id'], type: "button", class: "btn btn-secondary btn-confirm-review-decision", text: 'Confirm' });
+    let confirmApprove = $('<a/>', { id: 'confirmApprove' + review['review_id'], type: "button", class: "btn btn-secondary btn-confirm-decision", text: 'Confirm' });
+    let confirmDeny = $('<a/>', { id: 'confirmDeny' + review['review_id'], type: "button", class: "btn btn-secondary btn-confirm-decision", text: 'Confirm' });
 
     $('<button/>', {
         type: 'button',
         id: 'approve' + review['review_id'],
-        class: 'btn btn-success btn-approve-custom-color me-3 mt-3',
+        class: 'btn btn-success btn-dark-blue me-3 mt-3',
         'data-bs-container': "body",
         'data-bs-custom-class': 'popover-center',
         'data-bs-toggle': "popover",
@@ -119,7 +119,7 @@ function makeReviewCard(review) {
     $('<button/>', {
         type: 'button',
         id: 'approve' + review['review_id'],
-        class: 'btn btn-danger btn-deny-custom-color mt-3',
+        class: 'btn btn-danger btn-complement-white mt-3',
         'data-bs-container': "body",
         'data-bs-custom-class': 'popover-center',
         'data-bs-toggle': "popover",
