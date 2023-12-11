@@ -244,6 +244,9 @@ function makeHotspotCard(hotspot) {
             text: 'Delete Hotspot'
         }).appendTo(hotspotCard);
 
+        $(document).off('click', '#confirmDelete' + id);
+        $(document).off('click', '#confirmChanges' + id);
+
         $(document).on('click', '#confirmDelete' + id, function () {
             deleteHotspot(id);
         });
@@ -254,6 +257,7 @@ function makeHotspotCard(hotspot) {
     }
 
     else {
+        $(document).off('click', '#confirmChanges' + id);
         $(document).on('click', '#confirmChanges' + id, function () {
             console.log("failed!");
             addHotspot();
