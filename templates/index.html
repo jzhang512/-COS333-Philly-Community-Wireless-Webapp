@@ -19,7 +19,7 @@
 <body>
     <nav id="nav-bar" class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="{{url_for('static', filename='images/pcwlogo.svg')}}" alt="Logo" width="120" height="40">
             </a>
             <!-- <h4 class = "site-title">Where's Wi-Fi?</h4> -->
@@ -74,8 +74,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="review-label">Add New Review</h1>
-                    <button type="button" id="close-review-x" class="btn-close" data-bs-dismiss="modal"
-                        data-bs-toggle="modal" data-bs-target="#sidebar" aria-label="Close"></button>
+                    <button type="button" id="close-review-x" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <form onsubmit="return false;">
@@ -134,8 +133,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="close-review" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            data-bs-toggle="modal" data-bs-target="#sidebar">Close</button>
+                        <button id="close-review" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button id="submit-review" class="btn btn-primary">Submit Review</button>
                     </div>
                 </form>
