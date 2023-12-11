@@ -6,6 +6,15 @@
     color: red;
 }
 
+#admin-dashboard-text {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.admin-action-title-text {
+    color: #5162ed !important;
+}
+
 .navbar {
     background-color: #5263ED;
     border: 0px solid white;
