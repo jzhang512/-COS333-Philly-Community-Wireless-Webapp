@@ -3,10 +3,12 @@
 # ---------------------------------------------------------------------
 
 import os
+
+import auth
 import flask
 import flask_wtf.csrf
+
 import database_req
-import auth
 
 # ---------------------------------------------------------------------
 app = flask.Flask(__name__)
@@ -233,7 +235,6 @@ def modify_hotspots():
     try:
         hotspots = flask.request.json
         print(hotspots)
-        raise Exception
         database_req.update_hotspots(hotspots)
         database_req.update_hotspot_tags(hotspots)
         return flask.jsonify("Success")
