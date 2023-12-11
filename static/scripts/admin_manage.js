@@ -16,7 +16,7 @@ function setupManage() {
 function setupAdminList(admins) {
     // Clear existing content and prepare for new content
     $("#results-div").empty();
-    $('body').addClass('vh-100 mh-100 overflow-hidden');
+    $('body').addClass('vh-100 mh-100 overflow-auto');
     $('#results-div').addClass("d-flex flex-column vh-100 mh-100")
 
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Add/Remove Administrators").appendTo('#results-div');
@@ -228,6 +228,13 @@ function toggleEditMode() {
     $('#delete-all-admins').toggleClass('invisible visible');
 }
 
+function exitEditMode() {
+    $('.admin-checkbox').each(function () {
+        $(this).hide(); 
+        $(this).prop('disabled', true);
+    });
+}
+
 function resetPaneViewAdmin(id) {
     $('#list-' + id + '-tab').removeClass('active');
     $('#list-' + id).removeClass("active show");
@@ -252,14 +259,16 @@ function handleResponseManage(data) {
     [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 }
 
-function getSearchResults() {
-    let query = $('#search_hotspots_update').val();
+// function getSearchResults() {
+//     let query = $('#search_hotspots_update').val();
 
-    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+//     exitEditMode();
 
-    populateHotspots(by_name_hotspots);
-    $(".selectpicker").selectpicker('render');
-}
+//     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+
+//     populateHotspots(by_name_hotspots);
+//     $(".selectpicker").selectpicker('render');
+// }
 
 
 function debouncedGetResultsAdmin() {
@@ -267,19 +276,19 @@ function debouncedGetResultsAdmin() {
     search_check_timer = setTimeout(getSearchResultsAdmins, 500);
 }
 
-function populateHotspots(hotspots) {
-    $('#list-tab').empty();
-    $('#nav-tabContent').empty();
-    let i = 0;
-    for (let hotspot of hotspots) {
-        if (i == 0) {
-            makeTabElem(hotspot).addClass("active").appendTo('#list-tab');
-            makePaneElem(hotspot).addClass("active show").appendTo('#nav-tabContent');
-        }
-        else {
-            makeTabElem(hotspot).appendTo('#list-tab');
-            makePaneElem(hotspot).appendTo('#nav-tabContent');
-        }
-        i += 1;
-    }
-}
+// function populateHotspots(hotspots) {
+//     $('#list-tab').empty();
+//     $('#nav-tabContent').empty();
+//     let i = 0;
+//     for (let hotspot of hotspots) {
+//         if (i == 0) {
+//             makeTabElem(hotspot).addClass("active").appendTo('#list-tab');
+//             makePaneElem(hotspot).addClass("active show").appendTo('#nav-tabContent');
+//         }
+//         else {
+//             makeTabElem(hotspot).appendTo('#list-tab');
+//             makePaneElem(hotspot).appendTo('#nav-tabContent');
+//         }
+//         i += 1;
+//     }
+// }

@@ -31,10 +31,10 @@
     border-color: #5162ed !important;
 }
 
-.list-group-item-custom-color[aria-selected="true"] {
+/* .list-group-item-custom-color[aria-selected="true"] {
     background-color: #5263ED !important;
     border-color: #3960a6 !important;
-}
+} */
 
 .list-group-item-custom-color.active {
     background-color: #5263ED !important;

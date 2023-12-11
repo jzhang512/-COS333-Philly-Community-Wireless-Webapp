@@ -95,7 +95,7 @@ function debouncedGetResults() {
 }
 
 function createNewHotspot() {
-    console.log("made new!")
+    //console.log("made new!")
     $(".active").removeClass("active show");
     if ($("#list-new")) {
         $("#list-new").remove();
