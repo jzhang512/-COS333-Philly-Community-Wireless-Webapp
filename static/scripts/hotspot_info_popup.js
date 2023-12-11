@@ -1,8 +1,6 @@
 function setupHotspotInfo() {
     $('#add-review').click(() => {
         reviewVisible = true;
-        console.log("Add Review :3");
-        console.log(reviewVisible);
         $('#sidebar').hide();
     });
 
@@ -13,7 +11,6 @@ function setupHotspotInfo() {
     });
 
     $('#sidebar').on('hide.bs.modal', () => {
-        console.log(reviewVisible);
         if (!reviewVisible) {
             history.pushState(null, "", "/");
             document.title = siteTitle;

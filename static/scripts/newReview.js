@@ -19,7 +19,6 @@ function clearReview() {
     $('#submit-review').prop('disabled', false);
     $('#review-body').removeClass('pe-none');
     $('#sidebar').show();
-    console.log("closing review");
 }
 
 function submitReview() {
@@ -29,9 +28,7 @@ function submitReview() {
     let stars = $('input[name="star-rating"]:checked').val() || 0;
 
     if (stars <= 0 || stars > 5) {
-        console.log("here1");
         handleError("Please select at least 1 star.", false);
-        console.log("here2");
         return;
     }
     
