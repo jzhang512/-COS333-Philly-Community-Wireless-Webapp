@@ -15,7 +15,7 @@ function setupTags() {
             tags = data;
         },
         error: function (data) {
-            makeToast(false, data);
+            makeToast(false, "Server Error. Unable to retrieve tags.");
             return;
         }
     };

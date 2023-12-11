@@ -366,7 +366,7 @@ function updateHotspot(id) {
             return;
         },
         success: function () {
-            console.log("successfully modified!");
+            //console.log("successfully modified!");
             hotspots = hotspots.map(old_hotspot => old_hotspot['hotspot_id'] === id ? hotspot : old_hotspot);
             makeToast(true, "Successfully updated hotspot!");
             resetPaneView(id);
