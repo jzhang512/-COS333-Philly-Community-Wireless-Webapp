@@ -152,7 +152,7 @@ function makeHotspotCard(hotspot) {
     }
 
     let selector = $("<select id=\"select" + id + "\" class=\"selectpicker\" data-size=\"10\" data-width=\"50%\" multiple></select>");
-    let optGroups = ["Cost", "Establishment", "Accessibility", "Password", "Amenities"].map(category => {
+    let optGroups = ["Cost", "Establishment", "Accessibility", "Password", "Privacy", "Amenities"].map(category => {
         return $(`<optgroup id="${category}${id}" label="${category}" data-max-options="1">`);
     });
 
