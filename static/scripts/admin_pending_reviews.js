@@ -5,11 +5,36 @@ async function setupReview() {
     history.pushState(null, "Verify Reviews", "/admin/reviews");
 
     document.title = siteTitle + " - Reviews"
-    const response_hotspots = await fetch("/api/hotspots");
-    const hotspots = await response_hotspots.json();
+    let hotspots = [];
+    let reviews = [];
 
-    const response_reviews = await fetch("/api/pending_reviews");
-    const reviews = await response_reviews.json();
+    let requestHotspotData = {
+        type: 'GET',
+        async: false,
+        url: '/api/hotspots',
+        success: function (data) {
+            hotspots = data;
+        },
+        error: function () {
+            makeToast(false, "Server issue. Unable to retrieve hotspots.")
+            return;
+        }
+    };
+    $.ajax(requestHotspotData);
+
+    let requestReviewData = {
+        type: 'GET',
+        async: false,
+        url: '/api/hotspots',
+        success: function (data) {
+            reviews = data;
+        },
+        error: function () {
+            makeToast(false, "Server issue. Unable to retrieve reviews.")
+            return;
+        }
+    };
+    $.ajax(requestReviewData);
 
     for (let i = 0; i < reviews.length; i++) {
         let hotspot = getHotspot(hotspots, reviews[i]['hotspot_id']);
@@ -87,7 +112,7 @@ function makeReviewCard(review) {
     console.log("creating active card!");
     let cardBody = $('<div/>').addClass('card-body').appendTo(reviewCard);
 
-    $('<h5/>').addClass('card-title').html("<h3>Review " + review["review_id"]+"</h3>").appendTo(cardBody);
+    $('<h5/>').addClass('card-title').html("<h3>Review " + review["review_id"] + "</h3>").appendTo(cardBody);
     let stars = makeStars(review["stars"]);
     stars.appendTo(cardBody);
 
@@ -201,7 +226,7 @@ async function manageReview(isVerify, id) {
         };
         $.ajax(requestData);
     }
-  
+
     let reviewTab = $('#list-' + id + '-tab');
     let reviewCard = $('#list-' + id);
 

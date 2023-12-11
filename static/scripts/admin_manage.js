@@ -1,4 +1,3 @@
-const csrfToken = $('meta[name="csrf-token"]').attr('content');
 let editing = false;
 
 function setupManage() {
@@ -8,7 +7,10 @@ function setupManage() {
     let requestDataAdmin = {
         type: 'GET',
         url: "/api/get_all_admin",
-        success: handleResponseManage
+        success: handleResponseManage,
+        error: function () {
+            makeToast(false, "Server error: Unable to retrieve admin.")
+        }
     };
 
     $.ajax(requestDataAdmin);
@@ -44,7 +46,7 @@ function setupAdminList() {
 
     searchDiv.appendTo(leftCol);
 
-    let buttonsRow = $('<div/>', {class: "d-flex"}).appendTo(leftCol);
+    let buttonsRow = $('<div/>', { class: "d-flex" }).appendTo(leftCol);
 
     let editButton = $('<button/>', {
         type: 'button',
@@ -68,9 +70,9 @@ function setupAdminList() {
         text: 'Delete Selected'
     }).appendTo(buttonsRow);
 
-    let flexDiv = $('<div/>', {class: 'border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar'}).appendTo(leftCol)
+    let flexDiv = $('<div/>', { class: 'border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar' }).appendTo(leftCol)
 
-    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group authorized-admin-list'}).appendTo(flexDiv);
+    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group authorized-admin-list' }).appendTo(flexDiv);
 
 
 
@@ -112,10 +114,10 @@ function makeAdminElem(admin) {
     }).appendTo(adminItem);
 
     adminCheckbox.attr("checked", admin["selected"]);
-    if (!editing){
+    if (!editing) {
         adminCheckbox.hide();
     }
-    
+
     adminCheckbox.change(() => {
         admin["selected"] = adminCheckbox.is(":checked");
     });
@@ -241,7 +243,7 @@ function toggleEditMode() {
     $('.admin-checkbox').each(function () {
         // Check if the checkbox is currently visible
         if ($(this).is(':visible')) {
-            $(this).hide(); 
+            $(this).hide();
             $(this).prop('disabled', true);
         } else {
             $(this).show();
@@ -257,7 +259,7 @@ function toggleEditMode() {
 
 function exitEditMode() {
     $('.admin-checkbox').each(function () {
-        $(this).hide(); 
+        $(this).hide();
         $(this).prop('disabled', true);
     });
 }

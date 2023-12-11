@@ -7,7 +7,7 @@ function setupNewReview() {
     // });
 
     $("#submit-review").click(submitReview);
-    $('#newReview').on('hide.bs.modal',  clearReview);
+    $('#newReview').on('hide.bs.modal', clearReview);
 }
 
 function clearReview() {
@@ -31,7 +31,7 @@ function submitReview() {
         handleError("Please select at least 1 star.", false);
         return;
     }
-    
+
     review["hotspot_id"] = active_id;
     review["rating"] = stars;
     review["text"] = $("#review-text").val();
@@ -69,13 +69,13 @@ function handleSuccess() {
     $('#review-body').addClass('pe-none');
 }
 
-function handleError(data, isServer) {
-    let message;
+function handleError(message, isServer) {
+    let text;
 
     if (isServer)
-        message = $('<div/>').text("Failed to create review. Server error: " + data.toString());
+        text = $('<div/>').text("Server Error: Failed to create review.");
     else
-        message = $('<div/>').text(data.toString());
+        text = $('<div/>').text(message.toString());
 
     //let image = $('<svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>');
     let failure = $('<div/>', { id: 'failure-review', class: 'alert alert-danger d-flex align-items-center', role: 'alert' }).append(message);
