@@ -44,7 +44,7 @@ function setup() {
 
     $('<br>').appendTo(searchDiv);
 
-    $('<input type="text" class="form-control search-box" id="search" placeholder = "Search Hotspots Here">').appendTo(searchDiv);
+    $('<input type="text" class="form-control search-box" id="search_hotspots_update" placeholder = "Search Hotspots Here">').appendTo(searchDiv);
     // $('<br>').appendTo(searchDiv);
 
     let tabCol = $('<div/>').addClass("border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar").appendTo(leftCol);
@@ -53,7 +53,7 @@ function setup() {
     $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
 
     getSearchResults();
-    $('#search').on('input', debouncedGetResults);
+    $('#search_hotspots_update').on('input', debouncedGetResults);
 
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2 btn-dark-blue', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
@@ -81,15 +81,13 @@ function populateHotspots(hotspots) {
 }
 
 function getSearchResults() {
-    let query = $('#search').val();
+    let query = $('#search_hotspots_update').val();
 
     const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
 
     populateHotspots(by_name_hotspots);
     $(".selectpicker").selectpicker('render');
 }
-
-let search_check_timer = null;
 
 function debouncedGetResults() {
     clearTimeout(search_check_timer);

@@ -34,7 +34,7 @@ function setupTagsPage() {
     let body = $("<div/>", { class: "row flex-grow-1 mt-3 overflow-hidden" }).appendTo($("#results-div"));
 
     // Left Side
-    $("<div/>", { id: 'leftCol', class: "col-6 mh-100 pb-3 overflow-auto" }).appendTo(body);
+    $("<div/>", { id: 'leftCol', class: "col-6 mh-100 pb-3 overflow-auto visible-scrollbar" }).appendTo(body);
     setupLeftCol();
 
     // Right Side
@@ -90,7 +90,7 @@ function setupLeftCol() {
 }
 
 function setupRightCol() {
-    let newTagButton = $("<button/>", { id: 'newTagButton', class: 'btn btn-success btn-confirm-decision' }).text("Add New").appendTo($("#rightCol"));
+    let newTagButton = $("<button/>", { id: 'newTagButton', class: 'btn btn-success btn-dark-blue' }).text("Add New").appendTo($("#rightCol"));
 
     newTagButton.click(createAddForm);
 }
@@ -242,7 +242,7 @@ function createAddForm() {
     })
 
     let buttons = $("<div/>", { class: "form-row mt-4" }).appendTo(form);
-    let approve = $("<button/>", { class: "btn btn-success me-3 btn-dark-blue" }).text("Add Tag");
+    let approve = $("<button/>", { class: "btn btn-success me-3 btn-confirm-decision" }).text("Add Tag");
     let cancel = $("<button/>", { class: "btn btn-warning btn-complement-white" }).text("Cancel");
     buttons.append(approve, cancel);
 
