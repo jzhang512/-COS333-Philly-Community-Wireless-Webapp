@@ -17,7 +17,7 @@ function setupManage() {
 function setupAdminList() {
     // Clear existing content and prepare for new content
     $("#results-div").empty();
-    $('body').addClass('vh-100 mh-100 overflow-hidden');
+    $('body').addClass('vh-100 mh-100 overflow-auto');
     $('#results-div').addClass("d-flex flex-column vh-100 mh-100")
 
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Add/Remove Administrators").appendTo('#results-div');
@@ -253,6 +253,13 @@ function toggleEditMode() {
     $('#delete-all-admins').toggleClass('invisible visible');
 
     getSearchResultsAdmins();
+}
+
+function exitEditMode() {
+    $('.admin-checkbox').each(function () {
+        $(this).hide(); 
+        $(this).prop('disabled', true);
+    });
 }
 
 function resetPaneViewAdmin(id) {

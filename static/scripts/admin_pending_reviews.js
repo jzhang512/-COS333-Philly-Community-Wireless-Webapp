@@ -36,12 +36,14 @@ function fillReviews(reviews) {
     }
 
     let mainGrid = $('<div/>').addClass("row main-grid flex-grow-1 overflow-hidden");
-    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto  visible-scrollbar").appendTo(mainGrid);
-    let paneCol = $('<div/>').addClass("col-8 col-sm-8 overflow-hidden").appendTo(mainGrid);
+    let reviewCol = $('<div/>').addClass("col-4 border-end mh-100 pb-3 overflow-auto visible-scrollbar").appendTo(mainGrid);
+    let paneCol = $('<div/>').addClass("col-8 col-sm-8").appendTo(mainGrid);
 
     // let activeCol = $('<div/>', { id: 'active-card', class: 'col card active-card' }).text("No review selected.").appendTo(mainGrid);
     let reviewGroup = $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group' }).appendTo(reviewCol); // reviews class add
     let paneGroup = $('<div/>', { id: 'nav-tabContent', class: 'tab-content' }).appendTo(paneCol);
+
+    // let num_reviews = $('<i/>', {})
 
     let i = 0;
     for (let review of reviews) {
