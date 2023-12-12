@@ -405,7 +405,7 @@ function deleteHotspot(id) {
         success: function () {
             hotspots = hotspots.filter(hotspot => hotspot['hotspot_id'] !== id);
             makeToast(true, "Successfully deleted hotspot!");
-            resetPaneView(id);
+            resetPaneView(id, true);
             setup();
         }
     };
@@ -413,13 +413,16 @@ function deleteHotspot(id) {
     $.ajax(deleteRequest);
 }
 
-function resetPaneView(id) {
+function resetPaneView(id, isDelete = false) {
     $('#list-' + id + '-tab').text($('#hotspot-title' + id).val());
-    $('#list-' + id + '-tab').removeClass('active');
-    $('#list-' + id).removeClass("active show");
+    if (isDelete) {
+        $('#list-' + id + '-tab').removeClass('active');
+        $('#list-' + id).removeClass("active show");
+    }
 
-    $('#list-tab > :first-child').addClass('active');
-    $('#nav-tabContent > :first-child').addClass('active show');
+
+    // $('#list-tab > :first-child').addClass('active');
+    // $('#nav-tabContent > :first-child').addClass('active show');
 }
 
 function resetQuery(id) {
