@@ -66,9 +66,7 @@ function setup() {
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2 btn-dark-blue', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
 
-    $(".selectpicker").selectpicker('render');
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+    // $(".selectpicker").selectpicker('render');
 }
 
 function populateHotspots(hotspots) {
@@ -95,6 +93,9 @@ function getSearchResults() {
 
     populateHotspots(by_name_hotspots);
     $(".selectpicker").selectpicker('render');
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
 }
 
 function debouncedGetResults() {
