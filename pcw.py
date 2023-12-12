@@ -17,7 +17,7 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 
 flask_wtf.csrf.CSRFProtect(app)
 
-# valid_subpaths = [None, 'update', 'reviews', 'manage']
+valid_subpaths = [None, 'update', 'reviews', 'manage', 'tags']
 # ---------------------------------------------------------------------
 
 # Routes for authentication
@@ -53,6 +53,10 @@ def logout_google_callback():
 def unauthorized():
     user_email = auth.checkAuthenticate()
     user_name = auth.getName()
+    if user_email == None:
+        html_code = flask.render_template('unauthorized.html')
+        response = flask.make_response(html_code)
+        return response
     # Check if the user is authorized
     if database_req.is_authorized_user(user_email):
         html_code = flask.render_template('admin.html', name=user_name)
@@ -81,21 +85,21 @@ def index():
 @app.route('/admin', methods=['GET'])
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
-    # if admin_path not in valid_subpaths:
-    #     flask.abort(404)
+    if admin_path not in valid_subpaths:
+         flask.abort(404)
 
-    # user_email = auth.checkAuthenticate()
-    # user_name = auth.getName()
-    # # Check if the user is authorized
-    # if database_req.is_authorized_user(user_email):
-    html_code = flask.render_template(
-        'admin.html', name="user_name", csrf_token=flask_wtf.csrf.generate_csrf())
-    response = flask.make_response(html_code)
-    return response
-    # else:
-    #     html_code = flask.render_template('unauthorized.html')
-    #     response = flask.make_response(html_code)
-    #     return response
+    user_email = auth.checkAuthenticate()
+    user_name = auth.getName()
+    # Check if the user is authorized
+    if database_req.is_authorized_user(user_email):
+        html_code = flask.render_template(
+            'admin.html', name="user_name", csrf_token=flask_wtf.csrf.generate_csrf())
+        response = flask.make_response(html_code)
+        return response      
+    else:
+        html_code = flask.render_template('unauthorized.html')
+        response = flask.make_response(html_code)
+        return response
 
 
 @app.route('/api/hotspots', methods=['GET'])
