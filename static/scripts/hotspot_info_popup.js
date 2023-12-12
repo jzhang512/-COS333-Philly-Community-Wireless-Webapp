@@ -170,10 +170,8 @@ function fillPopup(hotspot, reviews) {
     $('#review-list').empty();
 
     if (reviews.length == 0) {
-        let card = $('<div>').addClass('card review-card');
-        let body = $('<div>').addClass('card-body').text("No reviews yet.");
-        card.append(body);
-        $('#review-list').append(card);
+        let text = $('<i>').addClass('d-flex justify-content-center pt-5').text("No reviews yet.");
+        $('#review-list').append(text);
     }
 
     for (let review of reviews) {
