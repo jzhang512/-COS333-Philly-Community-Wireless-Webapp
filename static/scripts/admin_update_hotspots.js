@@ -66,9 +66,7 @@ function setup() {
     let addNew = $('<button/>', { type: 'button', class: 'btn btn-success mb-2 btn-dark-blue', id: 'new-hotspot', text: 'Add New' }).appendTo(leftCol);
     addNew.click(createNewHotspot);
 
-    $(".selectpicker").selectpicker('render');
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+    // $(".selectpicker").selectpicker('render');
 }
 
 function populateHotspots(hotspots) {
@@ -95,6 +93,9 @@ function getSearchResults() {
 
     populateHotspots(by_name_hotspots);
     $(".selectpicker").selectpicker('render');
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
 }
 
 function debouncedGetResults() {
@@ -244,6 +245,9 @@ function makeHotspotCard(hotspot) {
             text: 'Delete Hotspot'
         }).appendTo(hotspotCard);
 
+        $(document).off('click', '#confirmDelete' + id);
+        $(document).off('click', '#confirmChanges' + id);
+
         $(document).on('click', '#confirmDelete' + id, function () {
             deleteHotspot(id);
         });
@@ -254,6 +258,7 @@ function makeHotspotCard(hotspot) {
     }
 
     else {
+        $(document).off('click', '#confirmChanges' + id);
         $(document).on('click', '#confirmChanges' + id, function () {
             console.log("failed!");
             addHotspot();
@@ -400,7 +405,7 @@ function deleteHotspot(id) {
         success: function () {
             hotspots = hotspots.filter(hotspot => hotspot['hotspot_id'] !== id);
             makeToast(true, "Successfully deleted hotspot!");
-            resetPaneView(id);
+            resetPaneView(id, true);
             setup();
         }
     };
@@ -408,13 +413,16 @@ function deleteHotspot(id) {
     $.ajax(deleteRequest);
 }
 
-function resetPaneView(id) {
+function resetPaneView(id, isDelete = false) {
     $('#list-' + id + '-tab').text($('#hotspot-title' + id).val());
-    $('#list-' + id + '-tab').removeClass('active');
-    $('#list-' + id).removeClass("active show");
+    if (isDelete) {
+        $('#list-' + id + '-tab').removeClass('active');
+        $('#list-' + id).removeClass("active show");
+    }
 
-    $('#list-tab > :first-child').addClass('active');
-    $('#nav-tabContent > :first-child').addClass('active show');
+
+    // $('#list-tab > :first-child').addClass('active');
+    // $('#nav-tabContent > :first-child').addClass('active show');
 }
 
 function resetQuery(id) {

@@ -25,7 +25,7 @@ async function setupReview() {
     let requestReviewData = {
         type: 'GET',
         async: false,
-        url: '/api/hotspots',
+        url: '/api/pending_reviews',
         success: function (data) {
             reviews = data;
         },
