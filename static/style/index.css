@@ -114,6 +114,10 @@ article h6.title {
     margin: 5px;
 }
 
+/* #modal-dialog-div-addReview {
+    left: 10%;
+} */
+
 .reviews {
     margin: 20px;
     height: 250px;
@@ -507,9 +511,11 @@ body {
     height: 18px;
 } */
 
+
 @media (min-width: 1151px) {
     .modal-dialog {
-        width: 23%;
+        width: 25%;
+        min-width: 250px;
     }
 
     .filterbar-panel {
@@ -550,6 +556,7 @@ body {
 
 /* Smaller screens. */
 @media (max-width: 1150px) {
+
     .modal-dialog {
         width: 40vh;
     }
