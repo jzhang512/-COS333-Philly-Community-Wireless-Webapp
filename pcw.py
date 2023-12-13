@@ -90,10 +90,15 @@ def admin(admin_path=None):
 
     user_email = auth.checkAuthenticate()
     user_name = auth.getName()
+
+    if user_email == None:
+        html_code = flask.render_template('unauthorized.html')
+        response = flask.make_response(html_code)
+        return response
     # Check if the user is authorized
     if database_req.is_authorized_user(user_email):
         html_code = flask.render_template(
-            'admin.html', name="user_name", csrf_token=flask_wtf.csrf.generate_csrf())
+            'admin.html', name=user_name, csrf_token=flask_wtf.csrf.generate_csrf())
         response = flask.make_response(html_code)
         return response      
     else:
