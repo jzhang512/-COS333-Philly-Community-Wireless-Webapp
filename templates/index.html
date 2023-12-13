@@ -70,75 +70,77 @@
             </symbol>
         </svg>
 
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="review-label">Add New Review</h1>
-                    <button type="button" id="close-review-x" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+        <div class = "d-flex justify-content-center modal-dialog-centered">
+            <div class="modal-dialog" id = "modal-dialog-div-addReview">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="review-label">Add New Review</h1>
+                        <button type="button" id="close-review-x" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <form onsubmit="return false;">
-                    <div class="modal-body" id="review-body">
-                        <div id = "add-review-location-name-text">
-                        </div>
-                        <div class="container-wrapper rate-stars-container">
-                            <div class="mb-2">Star Rating<span class = "red-font">*</span></div>
-                            <div class="container d-flex align-items-center justify-content-center">
-                                <div class="row justify-content-center">
+                    <form onsubmit="return false;">
+                        <div class="modal-body" id="review-body">
+                            <div id = "add-review-location-name-text">
+                            </div>
+                            <div class="container-wrapper rate-stars-container">
+                                <div class="mb-2">Star Rating<span class = "red-font">*</span></div>
+                                <div class="container d-flex align-items-center justify-content-center">
+                                    <div class="row justify-content-center">
 
-                                    <!-- star rating -->
-                                    <div class="rating-wrapper rate-stars">
+                                        <!-- star rating -->
+                                        <div class="rating-wrapper rate-stars">
 
-                                        <!-- star 5 -->
-                                        <input type="radio" id="5-star-rating" class="star-rating" name="star-rating"
-                                            value="5">
-                                        <label for="5-star-rating" class="star-label">
-                                            <i class="fas fa-star d-inline-block"></i>
-                                        </label>
+                                            <!-- star 5 -->
+                                            <input type="radio" id="5-star-rating" class="star-rating" name="star-rating"
+                                                value="5">
+                                            <label for="5-star-rating" class="star-label">
+                                                <i class="fas fa-star d-inline-block"></i>
+                                            </label>
 
-                                        <!-- star 4 -->
-                                        <input type="radio" id="4-star-rating" class="star-rating" name="star-rating"
-                                            value="4">
-                                        <label for="4-star-rating" class="star-label">
-                                            <i class="fas fa-star d-inline-block"></i>
-                                        </label>
+                                            <!-- star 4 -->
+                                            <input type="radio" id="4-star-rating" class="star-rating" name="star-rating"
+                                                value="4">
+                                            <label for="4-star-rating" class="star-label">
+                                                <i class="fas fa-star d-inline-block"></i>
+                                            </label>
 
-                                        <!-- star 3 -->
-                                        <input type="radio" id="3-star-rating" class="star-rating" name="star-rating"
-                                            value="3">
-                                        <label for="3-star-rating" class="star-label">
-                                            <i class="fas fa-star d-inline-block"></i>
-                                        </label>
+                                            <!-- star 3 -->
+                                            <input type="radio" id="3-star-rating" class="star-rating" name="star-rating"
+                                                value="3">
+                                            <label for="3-star-rating" class="star-label">
+                                                <i class="fas fa-star d-inline-block"></i>
+                                            </label>
 
-                                        <!-- star 2 -->
-                                        <input type="radio" id="2-star-rating" class="star-rating" name="star-rating"
-                                            value="2">
-                                        <label for="2-star-rating" class="star-label">
-                                            <i class="fas fa-star d-inline-block"></i>
-                                        </label>
+                                            <!-- star 2 -->
+                                            <input type="radio" id="2-star-rating" class="star-rating" name="star-rating"
+                                                value="2">
+                                            <label for="2-star-rating" class="star-label">
+                                                <i class="fas fa-star d-inline-block"></i>
+                                            </label>
 
-                                        <!-- star 1 -->
-                                        <input type="radio" id="1-star-rating" class="star-rating" name="star-rating"
-                                            value="1">
-                                        <label for="1-star-rating" class="star-label">
-                                            <i class="fas fa-star d-inline-block"></i>
-                                        </label>
+                                            <!-- star 1 -->
+                                            <input type="radio" id="1-star-rating" class="star-rating" name="star-rating"
+                                                value="1">
+                                            <label for="1-star-rating" class="star-label">
+                                                <i class="fas fa-star d-inline-block"></i>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="review-text" class="col-form-label">Comment <i><small>(200 char.
-                                        max)</small></i></label>
-                            <textarea rows="4" maxlength="200" class="form-control " id="review-text"></textarea>
+                            <div class="mb-3">
+                                <label for="review-text" class="col-form-label">Comment <i><small>(200 char.
+                                            max)</small></i></label>
+                                <textarea rows="4" maxlength="200" class="form-control " id="review-text"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="close-review" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="submit-review" class="btn btn-primary">Submit Review</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button id="close-review" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="submit-review" class="btn btn-primary">Submit Review</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
