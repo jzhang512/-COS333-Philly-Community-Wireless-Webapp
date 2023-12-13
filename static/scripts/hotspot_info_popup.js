@@ -117,6 +117,8 @@ function fillPopup(hotspot, reviews) {
 
     if (hotspot['dl_speed'] < 0 && hotspot['ul_speed'] < 0) {
         $('#speed-table-display').hide();
+    } else {
+        $('#speed-table-display').show();
     }
 
     // Add description
