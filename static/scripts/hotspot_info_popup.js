@@ -32,6 +32,8 @@ async function makePopup(hotspot) {
     // Send requests to your Flask server
     const review_response = await fetch("/api/reviews?id=" + id);
     let reviews = await review_response.json();
+
+    console.log("got reviews");
     if (reviews == "Database Error") {
         reviews = [];
         alert("Database Error");
@@ -177,7 +179,7 @@ function fillPopup(hotspot, reviews) {
     }
 
     for (let review of reviews) {
-        // if (review['text']) {
+        if (review['text']) {
             let card = $('<div>').addClass('card review-card');
             let body = $('<div>').addClass('card-body');
             let starDiv = makeStars(review['stars']);
@@ -186,7 +188,7 @@ function fillPopup(hotspot, reviews) {
             body.append(text);
             card.append(header, body);
             $('#review-list').append(card);
-        // }
+        }
     }
 }
 
