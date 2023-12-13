@@ -229,7 +229,7 @@ function createAddForm() {
 
     let label = $("<div/>", { class: "row" });
     label.append($("<div/>", { class: "col-auto" }).append($("<h5/>").text("Name")))
-    label.append($("<div/>", { class: "col" }).append($("<small/>").html("<i>30 char. max</i>")))
+    label.append($("<div/>", { class: "col" }).append($("<small/>").html("<i>30 char. max (keep single-word lengths under 12 char. for optimal display)</i>")))
     form.append(label);
 
     let nameInput = $("<input/>", { type: "text", class: "form-control", placeholder: "Tag Name", maxlength: nameCharLimit });
