@@ -53,19 +53,24 @@ async function updateHotspotsList(hotspots) {
         $('#hotspotsList').append(button);
     });
 
-    $(document).on("click",".list-group-item-action", function () {
+    $(".list-group-item-action").on("click", function () {
         let id = parseInt($(this).attr('id'));
         let hotspot = getHotspot(hotspots, id);
         
         makePopup(hotspot);
-    });
 
-    $('.hotspots-list-button').on('click', function () {
         if ($(window).width() <= SMALLSCREENWIDTH) {
             //  console.log('small window blur')
             hide_search_panel();
-         }
+        }
     });
+
+    // $('.hotspots-list-button').on('click', function () {
+    //     if ($(window).width() <= SMALLSCREENWIDTH) {
+    //         //  console.log('small window blur')
+    //         hide_search_panel();
+    //      }
+    // });
 
     // Display number of results.
     let num_results = hotspots.length;
