@@ -415,14 +415,11 @@ function deleteHotspot(id) {
 
 function resetPaneView(id, isDelete = false) {
     $('#list-' + id + '-tab').text($('#hotspot-title' + id).val());
+
     if (isDelete) {
         $('#list-' + id + '-tab').removeClass('active');
         $('#list-' + id).removeClass("active show");
     }
-
-
-    // $('#list-tab > :first-child').addClass('active');
-    // $('#nav-tabContent > :first-child').addClass('active show');
 }
 
 function resetQuery(id) {
