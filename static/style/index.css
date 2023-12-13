@@ -6,6 +6,12 @@
     color: red;
 }
 
+/* Unauthorized login page. */
+
+#unauthorized-content-div{
+    padding-top: 10%;
+}
+
 /* Admin main page. */
 
 #admin-dashboard-text {
