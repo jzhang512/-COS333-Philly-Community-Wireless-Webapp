@@ -65,6 +65,8 @@
     height: 70%;
 }
 
+/* Navbar */
+
 .navbar {
     background-color: #5263ED;
     border: 0px solid white;
@@ -96,7 +98,11 @@
 .nav-link {
     margin: 0;
     padding: 0;
-    color: #ffffff;
+    color: #ffffff !important;
+}
+
+.nav-link:hover { 
+    color: #ffd40c !important; 
 }
 
 article h6.title {
