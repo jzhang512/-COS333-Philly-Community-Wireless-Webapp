@@ -78,10 +78,10 @@ async function updateHotspotsList(hotspots) {
         $('#number-hotspots-list-text').text('No Results');
     }
     else if (num_results === 1) {
-        $('#number-hotspots-list-text').text('1 result');
+        $('#number-hotspots-list-text').text('1 Result');
     }
     else {
-        $('#number-hotspots-list-text').text(num_results + " results");
+        $('#number-hotspots-list-text').text(num_results + " Results");
     }
 }
 
