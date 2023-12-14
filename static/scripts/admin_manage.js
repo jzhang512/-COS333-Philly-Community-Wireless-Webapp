@@ -1,4 +1,5 @@
 let editing = false;
+let user_email = $('#admin-email').data("email");
 
 function setupManage() {
     history.pushState(null, "Manage Admin", "/admin/manage");
@@ -25,7 +26,7 @@ function setupAdminList() {
     $('<h2/>').addClass("row m-3 flex-shrink-1").text("Add/Remove Administrators").appendTo('#results-div');
     let mainGridAdmin = $('<div/>').addClass("row flex-grow-1 mt-3 mb-2 overflow-hidden").appendTo('#results-div');
 
-    let leftCol = $('<div/>').addClass("d-flex flex-column col-4 mh-100 overflow-hidden").appendTo(mainGridAdmin);
+    let leftCol = $('<div/>', { id: 'adminList' }).addClass("d-flex flex-column col-4 mh-100 overflow-hidden").appendTo(mainGridAdmin);
     let rightCol = $('<div/>').addClass("col-8 mh-100 px-3 pb-5").appendTo(mainGridAdmin);
 
     let addDivAdmin = $('<div/>').appendTo(rightCol);
@@ -72,7 +73,7 @@ function setupAdminList() {
 
     let flexDiv = $('<div/>', { class: 'border rounded-2 my-3 flex-grow-1 overflow-auto visible-scrollbar' }).appendTo(leftCol)
 
-    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group authorized-admin-list' }).appendTo(flexDiv);
+    $('<div/>', { role: 'tablist', id: 'list-tab', class: 'list-group authorized-admin-list pe-none' }).appendTo(flexDiv);
 
 
 
@@ -127,7 +128,6 @@ function makeAdminElem(admin) {
 
 function getSearchResultsAdmins() {
     let query = $('#search_admin_emails').val();
-
     const by_name_admins = admins.filter(item => item["admin_key"].toLowerCase().includes(query.toLowerCase()));
     const selected = admins.filter(item => item["selected"]);
     let displayed = union(by_name_admins, selected);
@@ -180,7 +180,6 @@ function addAdmin(adminName) {
 
     let addAdminRequest = {
         type: 'POST',
-        async: false,
         url: "/api/add_admin",
         data: JSON.stringify(adminName),
         contentType: 'application/json',
@@ -191,6 +190,7 @@ function addAdmin(adminName) {
         success: function () {
             makeToast(true, "Successfully added admin!");
             //console.log("Admin created!")
+            editing = false;
             resetPaneViewAdmin()
         },
         headers: {
@@ -203,10 +203,27 @@ function addAdmin(adminName) {
 
 function deleteAdmin() {
     var selectedAdmins = [];
+    let deleteSelf = false;
+
     $('.admin-checkbox:checked').each(function () {
+        let email = $(this).prev().text();
         let adminId = $(this).attr('id').split('-')[1]; // Extract the admin ID from the checkbox ID
         selectedAdmins.push(adminId);
+        if (email == user_email) {
+            deleteSelf = true;
+            return;
+        }
     });
+
+    if (deleteSelf) {
+        makeToast(false, "Logged in admins cannot delete themselves.");
+        return;
+    }
+
+    if (admins.length - selectedAdmins.length < 1) {
+        makeToast(false, "You cannot delete all admin.")
+        return;
+    }
 
     if (selectedAdmins.length === 0) {
         makeToast(false, "Please select at least one admin.")
@@ -239,6 +256,7 @@ function deleteAdmin() {
 
 function toggleEditMode() {
     editing = !editing;
+    $('#list-tab').toggleClass("pe-none");
     if (!editing) { // reset selections
         admins.forEach((admin) => {
             admin["selected"] = false;

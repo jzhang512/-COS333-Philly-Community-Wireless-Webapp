@@ -76,12 +76,19 @@ $(document).ready(async () => {
     document.title = siteTitle;
 
     const response = await fetch("/api/hotspots?ratings='True'");
-    hotspots = await response.json();
 
-    if (hotspots == "Database Error") {
+    if (!response.ok) {
+        alert("Server or database error fetching hotspots.");
         hotspots = [];
-        alert("Database error fetching hotspots");
     }
+    else {
+        hotspots = await response.json();
+    }
+
+    // if (hotspots == "Database Error") {
+    //     hotspots = [];
+    //     alert("Database error fetching hotspots");
+    // }
 
     for (let i = 0; i < hotspots.length; i++) {
         avg = average(hotspots[i]['ratings']);

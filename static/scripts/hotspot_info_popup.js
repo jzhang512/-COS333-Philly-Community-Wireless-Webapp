@@ -30,14 +30,22 @@ async function makePopup(hotspot) {
     document.title = siteTitle + " - " + hotspot['name'];
 
     // Send requests to your Flask server
+    let reviews;
     const review_response = await fetch("/api/reviews?id=" + id);
-    let reviews = await review_response.json();
 
-    console.log("got reviews");
-    if (reviews == "Database Error") {
+    if (!review_response.ok) {
+        alert("Server or database error fetching reviews.");
         reviews = [];
-        alert("Database Error");
     }
+    else {
+        reviews = await review_response.json();
+    }
+
+    // console.log("got reviews");
+    // if (reviews == "Database Error") {
+    //     reviews = [];
+    //     alert("Database Error");
+    // }
 
     // call script to populate popup with information
     fillPopup(hotspot, reviews);
