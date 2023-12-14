@@ -86,7 +86,7 @@ def index():
 @app.route('/admin/', methods=['GET'])
 def admin(admin_path=None):
     if admin_path not in valid_subpaths:
-         flask.abort(404)
+        flask.abort(404)
 
     user_email = auth.checkAuthenticate()
     user_name = auth.getName()
@@ -100,7 +100,7 @@ def admin(admin_path=None):
         html_code = flask.render_template(
             'admin.html', name=user_name, csrf_token=flask_wtf.csrf.generate_csrf())
         response = flask.make_response(html_code)
-        return response      
+        return response
     else:
         html_code = flask.render_template('unauthorized.html')
         response = flask.make_response(html_code)

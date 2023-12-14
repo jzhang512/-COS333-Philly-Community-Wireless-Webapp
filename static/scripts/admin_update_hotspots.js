@@ -1,5 +1,7 @@
 // $('#new-hotspot').click(createNewHotspot);
 
+let hotspotSet = new Set();
+
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
     console.log("pushed");
@@ -13,6 +15,7 @@ function setupMap() {
             hotspots = data;
             hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
             setup();
+            fillSet(hotspots);
         },
         error: function () {
             makeToast(false, "Server error: Unable to retrieve hotspots.");
@@ -35,6 +38,14 @@ function setupMap() {
 
     $.ajax(tagRequestData);
     $.ajax(requestData);
+}
+
+function fillSet(hotspots) {
+    for (let hotspot of hotspots) {
+        // Create a key to represent a unique hotspot
+        let key = hotspot['name'].toLowerCase() + hotspot['latitude'] + hotspot['longitude'];
+        hotspotSet.add(key);
+    }
 }
 
 function setup() {
@@ -69,6 +80,30 @@ function setup() {
     // $(".selectpicker").selectpicker('render');
 }
 
+function getSearchResults() {
+    let query = $('#search_hotspots_update').val();
+
+    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
+
+    if (by_name_hotspots.length == 0) {
+        $('#list-tab').empty();
+        $('#nav-tabContent').empty();
+        $('<i>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
+    }
+    else {
+        populateHotspots(by_name_hotspots);
+    }
+    $(".selectpicker").selectpicker('render');
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
+}
+
+function debouncedGetResults() {
+    clearTimeout(search_check_timer);
+    search_check_timer = setTimeout(getSearchResults, 500);
+}
+
 function populateHotspots(hotspots) {
     $('#list-tab').empty();
     $('#nav-tabContent').empty();
@@ -86,25 +121,9 @@ function populateHotspots(hotspots) {
     }
 }
 
-function getSearchResults() {
-    let query = $('#search_hotspots_update').val();
-
-    const by_name_hotspots = hotspots.filter(item => item["name"].toLowerCase().includes(query.toLowerCase()));
-
-    populateHotspots(by_name_hotspots);
-    $(".selectpicker").selectpicker('render');
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
-
-}
-
-function debouncedGetResults() {
-    clearTimeout(search_check_timer);
-    search_check_timer = setTimeout(getSearchResults, 500);
-}
-
 function createNewHotspot() {
     //console.log("made new!")
+    makeToast(true, "New hotspot form created!");
     $(".active").removeClass("active show");
     if ($("#list-new")) {
         $("#list-new").remove();
@@ -415,14 +434,11 @@ function deleteHotspot(id) {
 
 function resetPaneView(id, isDelete = false) {
     $('#list-' + id + '-tab').text($('#hotspot-title' + id).val());
+
     if (isDelete) {
         $('#list-' + id + '-tab').removeClass('active');
         $('#list-' + id).removeClass("active show");
     }
-
-
-    // $('#list-tab > :first-child').addClass('active');
-    // $('#nav-tabContent > :first-child').addClass('active show');
 }
 
 function resetQuery(id) {
@@ -452,6 +468,7 @@ function verifyHotspot(id = 'new') {
         return false;
     }
 
+
     let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + address + ".json?proximity=ip&access_token=pk.eyJ1IjoianY4Mjk0IiwiYSI6ImNsbzRzdjQyZjA0bDgycW51ejdtYXBteWEifQ.5epqP-7J4pRUTJAmYygM8A"
     let result = true;
 
@@ -465,15 +482,24 @@ function verifyHotspot(id = 'new') {
                 makeToast(false, "No valid address found. Please try again.");
                 result = false;
             }
+
             else {
-                $('#hotspot-lati' + id).val(points[0]['center'][1]);
-                $('#hotspot-long' + id).val(points[0]['center'][0]);
+                let key = title.toLowerCase() + points[0]['center'][1] + points[0]['center'][0];
+                console.log(key);
+                if (hotspotSet.has(key)) {
+                    makeToast(false, "This hotspot already exists.")
+                    result = false;
+                }
+                else {
 
-                let start = points[0]['place_name'];
-                let index = start.indexOf(points[0]['properties']['address']);
+                    $('#hotspot-lati' + id).val(points[0]['center'][1]);
+                    $('#hotspot-long' + id).val(points[0]['center'][0]);
 
-                $('#hotspot-address' + id).val(start.substring(index));
-                // setTimeout(function () { }, 4000);
+                    let start = points[0]['place_name'];
+                    let index = start.indexOf(points[0]['properties']['address']);
+
+                    $('#hotspot-address' + id).val(start.substring(index));
+                }
             }
         },
         error: function () {
