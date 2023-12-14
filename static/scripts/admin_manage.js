@@ -191,6 +191,7 @@ function addAdmin(adminName) {
         success: function () {
             makeToast(true, "Successfully added admin!");
             //console.log("Admin created!")
+            editing = false;
             resetPaneViewAdmin()
         },
         headers: {

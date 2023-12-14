@@ -22,7 +22,7 @@ async function updateHotspotsList(hotspots) {
             distance_button = $("<span class='distance-pill'>").text(hotspot['dist'].toFixed(1)  + " mi");
         } else {
             distance_button = $("<span>");
-            distance_button.append($("<i class = 'no-rating-text'>").text("no distance data"))
+            distance_button.append($("<i class = 'no-rating-text'>").text("No Distance Data"))
         }
         top_row.append(distance_button);
         // hotspot_buttonText += (hotspot['dist'] !== undefined) ? '<span class = "distance-pill">' + hotspot['dist'].toFixed(1) + ' mi</span>' : ''
@@ -75,13 +75,13 @@ async function updateHotspotsList(hotspots) {
     // Display number of results.
     let num_results = hotspots.length;
     if (num_results === 0) {
-        $('#number-hotspots-list-text').text('no results');
+        $('#number-hotspots-list-text').text('No Results');
     }
     else if (num_results === 1) {
-        $('#number-hotspots-list-text').text('1 result');
+        $('#number-hotspots-list-text').text('1 Result');
     }
     else {
-        $('#number-hotspots-list-text').text(num_results + " results");
+        $('#number-hotspots-list-text').text(num_results + " Results");
     }
 }
 
