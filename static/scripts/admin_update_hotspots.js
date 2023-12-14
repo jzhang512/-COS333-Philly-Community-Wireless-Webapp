@@ -302,8 +302,8 @@ function buildHotspot(id = 'new') {
     }
 
     hotspot['hotspot_id'] = parseInt(id) || 'new';
-    hotspot['address'] = $('#hotspot-address' + id).val();
-    hotspot['name'] = $('#hotspot-title' + id).val();
+    hotspot['address'] = $('#hotspot-address' + id).val().trim();
+    hotspot['name'] = $('#hotspot-title' + id).val().trim();
 
     let ulSpeed = parseFloat($('#hotspot-ul' + id).val());
     let dlSpeed = parseFloat($('#hotspot-dl' + id).val());
