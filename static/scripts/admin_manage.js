@@ -127,11 +127,11 @@ function makeAdminElem(admin) {
 
 function getSearchResultsAdmins() {
     let query = $('#search_admin_emails').val();
-    console.log("Searching for " + query);
 
     const by_name_admins = admins.filter(item => item["admin_key"].toLowerCase().includes(query.toLowerCase()));
     const selected = admins.filter(item => item["selected"]);
     let displayed = union(by_name_admins, selected);
+
     displayed.sort((a, b) => {
         let aSearch = a["admin_key"].toLowerCase().includes(query.toLowerCase());
         let bSearch = b["admin_key"].toLowerCase().includes(query.toLowerCase());
@@ -141,17 +141,23 @@ function getSearchResultsAdmins() {
             return 1;
         }
         return a['admin_key'].localeCompare(b['admin_key']);
-    })
+    });
+
+    if (displayed.length == 0) {
+        $('#list-tab').empty();
+        $('<i>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
+    }
+    else {
+        populateAdmins(displayed);
+    }
 
     // console.log(by_name_admins)
 
-    populateAdmins(displayed);
 }
 
 function populateAdmins(admins) {
-    console.log("Populating " + admins.length + " elements.");
+    // console.log("Populating " + admins.length + " elements.");
     $('#list-tab').empty();
-    // $('#nav-tabContent').empty();
     for (let admin of admins) {
         makeAdminElem(admin).appendTo('#list-tab');
     }

@@ -2,9 +2,15 @@ mapboxgl.accessToken = 'pk.eyJ1IjoianY4Mjk0IiwiYSI6ImNsbzRzdjQyZjA0bDgycW51ejdtY
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-75.1649, 39.9250],
-    zoom: 11
+    center: [-75.1649, 39.9470],
+    zoom: 11,
+    minZoom: 2
 });
+
+const nav = new mapboxgl.NavigationControl({
+    visualizePitch: true
+});
+map.addControl(nav, 'bottom-right');
 
 // All global variables for application's map side.
 //---------------------------------------------------------------------
@@ -163,13 +169,13 @@ $(document).ready(async () => {
 
         if ($(this).is(':checked')) {
             //console.log('Checkbox with ID ' + this.id + ' is checked!');
-            
+
             // Perform actions when checkbox is checked
             filterTagsId.push(parseInt(this.id.slice(5)));   // filterTags is global!
         }
         else {
             //console.log('Checkbox with ID ' + this.id + ' is unchecked!');
-            
+
             // Perform actions when checkbox is unchecked. Removes from
             // list of tags to filter.
             const index = filterTagsId.indexOf(parseInt(this.id.slice(5)));
@@ -183,12 +189,12 @@ $(document).ready(async () => {
         if ($('.custom-filter-checkbox:checked').length !== 0) {
             console.log("none checked");
             $('#are-filters-active-text').css({
-                'display':'inline'
+                'display': 'inline'
             });
         }
         else {
             $('#are-filters-active-text').css({
-                'display':'none'
+                'display': 'none'
             });
         }
 
@@ -330,7 +336,7 @@ map.on('load', async () => {
         if ($(window).width() <= SMALLSCREENWIDTH) {
             hide_search_panel();
             hide_small_filter_panel();
-         }
+        }
     });
 
     const popup = new mapboxgl.Popup({
