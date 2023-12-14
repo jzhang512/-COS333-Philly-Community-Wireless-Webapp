@@ -155,18 +155,30 @@ function editTag(tag) {
 
     let row = $("<span/>", { class: 'd-flex form-row' });
     let input = $("<input/>", { type: 'text', class: 'form-control', value: tag["tag_name"] });
+  
     let approve = $("<button/>", { class: 'mx-2 btn btn-success btn-circle btn-small btn-confirm-decision', text: "Confirm" });
     let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small btn-complement-white', text: "Cancel" });
+
     row.append(input, approve, cancel);
     row.appendTo($("#tag" + tag["tag_id"]));
 
     approve.click(() => {
-        tag["tag_name"] = input.val().trim();
+        var new_name = input.val().trim();
 
-        if (!tag["tag_name"]) {
+        if (!new_name) {
             makeToast(false, "Please provide a tag name.");
             return;
         }
+        console.log(new_name);
+
+        for (const tag2 of tags) {
+            if (tag2["category"] == tag["category"] && tag2["tag_name"] == new_name) {
+                makeToast(false, "This tag already exists.");
+                return;
+            }
+        }
+
+        tag["tag_name"] = new_name;
 
         let request = {
             type: 'POST',
@@ -258,25 +270,31 @@ function createAddForm() {
     })
 
     let buttons = $("<div/>", { class: "form-row mt-4" }).appendTo(form);
-    let approve = $("<button/>", { class: "btn btn-success me-3 btn-confirm-decision" }).text("Add Tag");
+    let approve = $("<button/>", { class: "btn btn-success me-3 btn-dark-blue" }).text("Add Tag");
     let cancel = $("<button/>", { class: "btn btn-warning btn-complement-white" }).text("Cancel");
     buttons.append(approve, cancel);
 
     approve.click(() => {
-        let tag = {};
-        tag["tag_name"] = nameInput.val().trim();
+        let new_tag = {};
+        new_tag["tag_name"] = nameInput.val().trim();
+        new_tag["category"] = selectCat.val().trim();
+        console.log(new_tag);
 
-        if (!tag['tag_name']) {
+        if (!new_tag["tag_name"]) {
             makeToast(false, "Please provide a tag name.");
             return;
         }
+        for (const tag of tags) {
+            if (tag["category"] == new_tag["category"] && tag["tag_name"] == new_tag["tag_name"]) {
+                makeToast(false, "This tag already exists.");
+                return;
+            }
+        }
 
-        tag["category"] = selectCat.val();
-        console.log(tag);
         let request = {
             type: 'POST',
             url: "/api/create_tags",
-            data: JSON.stringify([tag]),
+            data: JSON.stringify([new_tag]),
             contentType: 'application/json',
             headers: {
                 'X-CSRFToken': csrfToken
