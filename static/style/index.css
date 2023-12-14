@@ -8,7 +8,7 @@
 
 /* Unauthorized login page. */
 
-#unauthorized-content-div{
+#unauthorized-content-div {
     padding-top: 10%;
 }
 
@@ -26,9 +26,9 @@
 /* Admin update tags. */
 
 .category-list-item {
-   background-color: #e7ebf5 !important;
-   border-color:#dee2e6 !important;
-   color: black;
+    background-color: #e7ebf5 !important;
+    border-color: #dee2e6 !important;
+    color: black;
 }
 
 .btn-confirm-decision {
@@ -101,8 +101,8 @@
     color: #ffffff !important;
 }
 
-.nav-link:hover { 
-    color: #ffd40c !important; 
+.nav-link:hover {
+    color: #ffd40c !important;
 }
 
 article h6.title {
@@ -195,15 +195,9 @@ article h6.title {
 
 .modal.left .modal-body {
     overflow-y: auto;
+    padding-bottom: 10%;
 }
 
-.modal-body {
-    padding-bottom: 25%;
-}
-
-/* .main-grid {
-    margin: 200px;
-} */
 
 .modal.right.fade .modal-dialog {
     left: -320px;
@@ -360,7 +354,7 @@ body {
 }
 
 #are-filters-active-text {
-    display:none;
+    display: none;
 }
 
 .searchbar-sort {
@@ -492,13 +486,13 @@ body {
 }
 
 .custom-filter-checkbox:checked {
-    background-color:#3960a6 !important;
+    background-color: #3960a6 !important;
     border-color: #3960a6 !important;
     /* border-color: #5162ed; */
 }
 
 .admin-checkbox {
-    background-color:#3960a6 !important;
+    background-color: #3960a6 !important;
     border-color: #3960a6 !important;
     color: #3960a6 !important;
 }
@@ -756,10 +750,7 @@ body {
 }
 
 .review-content {
-    /* background-color: #E1E6F6;
-    padding: 2.5%;
-    border-radius: 10px;  */
-    height: 40vh;
+    height: 400px;
     overflow-y: scroll;
     overflow-x: auto;
 }

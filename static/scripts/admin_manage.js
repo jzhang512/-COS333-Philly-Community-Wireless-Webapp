@@ -145,7 +145,7 @@ function getSearchResultsAdmins() {
 
     if (displayed.length == 0) {
         $('#list-tab').empty();
-        $('<i>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
+        $('<i/>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
     }
     else {
         populateAdmins(displayed);
