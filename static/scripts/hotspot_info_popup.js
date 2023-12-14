@@ -4,7 +4,7 @@ function setupHotspotInfo() {
         $('#sidebar').hide();
 
         let hotspot = getHotspot(displayed, active_id);
-        $('#add-review-location-name-text').html('<i>'+hotspot['name']+'</i>');
+        $('#add-review-location-name-text').html('<strong>' + hotspot['name'] + '</strong>');
     });
 
     $('#sidebar').on('show.bs.modal', () => {
@@ -51,19 +51,19 @@ async function makePopup(hotspot) {
 
     $('#hotspot-info-exit-unhovered, #hotspot-info-exit-hovered').on('mouseover', function () {
         $('#hotspot-info-exit-hovered').css({
-            'display':'block',
+            'display': 'block',
         });
         $('#hotspot-info-exit-unhovered').css({
-            'display':'none',
+            'display': 'none',
         });
     });
 
     $('#hotspot-info-exit-unhovered, #hotspot-info-exit-hovered').on('mouseout', function () {
         $('#hotspot-info-exit-unhovered').css({
-            'display':'block',
+            'display': 'block',
         });
         $('#hotspot-info-exit-hovered').css({
-            'display':'none',
+            'display': 'none',
         });
     });
 }
@@ -85,9 +85,9 @@ function fillPopup(hotspot, reviews) {
         .attr('href', link)
         .text(hotspot['address'])
         .append('<svg id = "new-tab-hotspot" class="external-link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">' +
-        '<path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>' +
-        '<path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>' +
-        '</svg>');
+            '<path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>' +
+            '<path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>' +
+            '</svg>');
 
     // Reset and add tags
     $('#tag-container').empty();
@@ -107,7 +107,7 @@ function fillPopup(hotspot, reviews) {
         $('#no-ul-speed').hide();
         $('#ul-speed-container').hide();
     }
-    
+
     if (hotspot['dl_speed'] >= 0) {
         $('#no-dl-speed').hide();
         $('#dl-speed-container').show();
@@ -169,12 +169,12 @@ function fillPopup(hotspot, reviews) {
     else {
         $('#number-reviews-text').text('');
     }
-    
+
 
     $('#review-list').empty();
 
     if (reviews.length == 0) {
-        let text = $('<i>').addClass('d-flex justify-content-center pt-5').text("No reviews yet.");
+        let text = $('<i/>').addClass('d-flex justify-content-center pt-5').text("No reviews yet.");
         $('#review-list').append(text);
     }
 
@@ -183,7 +183,7 @@ function fillPopup(hotspot, reviews) {
             let card = $('<div>').addClass('card review-card');
             let body = $('<div>').addClass('card-body');
             let starDiv = makeStars(review['stars']);
-            let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>'+review['time']+'</span>');
+            let header = $('<div>').addClass('card-header review-time-container').append(starDiv).append('<span>' + review['time'] + '</span>');
             let text = $('<div>').text(review['text']);
             body.append(text);
             card.append(header, body);

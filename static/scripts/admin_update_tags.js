@@ -2,7 +2,6 @@
 function setupTags() {
     history.pushState(null, "Update Tags", "/admin/tags");
     document.title = siteTitle + " - Update Tags";
-    $("#results-div").empty();
 
     let tagRequestData = {
         type: 'GET',
@@ -28,6 +27,7 @@ function setupTags() {
 let activeTag = null;
 
 function setupTagsPage() {
+    $("#results-div").empty();
     $('body').addClass('vh-100 mh-100 overflow-hidden');
     $('#results-div').addClass('d-flex flex-column vh-100 mh-100 overflow-hidden');
     $("<h2/>", { class: "row m-3 flex-shrink-1" }).text("Update/Add/Remove Tags").appendTo($("#results-div"));
@@ -87,6 +87,7 @@ function setupLeftCol() {
         listItem.append(setTag(tag));
         listItem.appendTo($("#collapse" + tag["category"]));
     });
+    $('<i/>').addClass('d-flex justify-content-center pt-1').text("Click a category to expand").appendTo('#leftCol');
 }
 
 function setupRightCol() {
@@ -100,9 +101,14 @@ function setTag(tag) {
     row.append($("<span/>").text(tag["tag_name"]));
 
     let icons = $("<span/>");
-    let editButton = $("<button/>", { class: 'btn btn-warning btn-dark-blue' }).append($("<i/>", { class: 'bi bi-pencil' })).appendTo(icons);
-    let deleteButton = $("<button/>", { class: 'btn btn-danger btn-complement-white', "data-bs-toggle": 'modal', "data-bs-target": '#deleteTagModal' })
-        .append($("<i/>", { class: 'bi bi-trash' })).appendTo(icons);
+    let editButton = $("<button/>", { class: 'mx-2 btn btn-warning btn-dark-blue', text: "Edit" }).appendTo(icons);
+    let deleteButton = $("<button/>", {
+        class: 'btn btn-danger btn-complement-white',
+        text: "Delete",
+        "data-bs-toggle": 'modal',
+        "data-bs-target": '#deleteTagModal'
+    }).appendTo(icons);
+
     row.append(icons);
 
     editButton.click(() => {
@@ -149,23 +155,25 @@ function editTag(tag) {
 
     let row = $("<span/>", { class: 'd-flex form-row' });
     let input = $("<input/>", { type: 'text', class: 'form-control', value: tag["tag_name"] });
-    let approve = $("<button/>", { class: 'btn btn-success btn-circle btn-small btn-dark-blue' }).append($("<i/>", { class: 'bi bi-check2-circle' }));
-    let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small btn-complement-white' }).append($("<i/>", { class: 'bi bi-x-circle' }));
+  
+    let approve = $("<button/>", { class: 'mx-2 btn btn-success btn-circle btn-small btn-confirm-decision', text: "Confirm" });
+    let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small btn-complement-white', text: "Cancel" });
+
     row.append(input, approve, cancel);
     row.appendTo($("#tag" + tag["tag_id"]));
 
     approve.click(() => {
-        var new_name = input.val();
-        console.log(new_name);
+        var new_name = input.val().trim();
 
-        if (new_name == "") {
-            makeToast(false, "Please enter tag name!");
-            // console.log("Please enter tag name!")
+        if (!new_name) {
+            makeToast(false, "Please provide a tag name.");
             return;
         }
+        console.log(new_name);
+
         for (const tag2 of tags) {
             if (tag2["category"] == tag["category"] && tag2["tag_name"] == new_name) {
-                makeToast(false, "Tag already exists!");
+                makeToast(false, "This tag already exists.");
                 return;
             }
         }
@@ -189,6 +197,9 @@ function editTag(tag) {
                 makeToast(true, "Successfully edited tag!");
                 // update tags
                 tags = await getTags(setupLeftCol);
+            },
+            error: function () {
+                makeToast(false, "Server error: Unable to edit tag.")
             }
         };
         $.ajax(request);
@@ -209,7 +220,6 @@ function deleteTag(tag) {
     $("#modalTitle").text('Delete "' + tag["tag_name"] + '" Tag');
     $("#deleteFinal").click(() => {
         console.log("Deleting " + tag["tag_name"]);
-        console.log(tag);
         let request = {
             type: 'POST',
             url: "/api/delete_tags",
@@ -221,7 +231,6 @@ function deleteTag(tag) {
             success: async (result) => {
                 if (result != "Success") {
                     makeToast(false, "Server error: Unable to delete tag.");
-                    console.log(result);
                     return;
                 }
 
@@ -229,6 +238,9 @@ function deleteTag(tag) {
                 makeToast(true, "Successfully deleted tag!");
                 tags = await getTags();
                 setupLeftCol();
+            },
+            error: function () {
+                makeToast(false, "Server error: Unable to delete tag.")
             }
         };
         $.ajax(request);
@@ -264,18 +276,17 @@ function createAddForm() {
 
     approve.click(() => {
         let new_tag = {};
-        new_tag["tag_name"] = nameInput.val();
-        new_tag["category"] = selectCat.val();
+        new_tag["tag_name"] = nameInput.val().trim();
+        new_tag["category"] = selectCat.val().trim();
         console.log(new_tag);
 
-        if (new_tag["tag_name"] == "") {
-            makeToast(false, "Please enter tag name!");
-            // console.log("Please enter tag name!")
+        if (!new_tag["tag_name"]) {
+            makeToast(false, "Please provide a tag name.");
             return;
         }
         for (const tag of tags) {
             if (tag["category"] == new_tag["category"] && tag["tag_name"] == new_tag["tag_name"]) {
-                makeToast(false, "Tag already exists!");
+                makeToast(false, "This tag already exists.");
                 return;
             }
         }
@@ -297,7 +308,11 @@ function createAddForm() {
                 // update tags
                 makeToast(true, "Successfully created tag!");
                 tags = await getTags();
-                setupLeftCol();
+                //setupLeftCol();
+                setupTagsPage();
+            },
+            error: function () {
+                makeToast(false, "Server error: Unable to create tag.")
             }
         };
         $.ajax(request);

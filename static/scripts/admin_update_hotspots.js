@@ -88,7 +88,7 @@ function getSearchResults() {
     if (by_name_hotspots.length == 0) {
         $('#list-tab').empty();
         $('#nav-tabContent').empty();
-        $('<i>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
+        $('<i/>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
     }
     else {
         populateHotspots(by_name_hotspots);
