@@ -88,7 +88,7 @@ function getSearchResults() {
     if (by_name_hotspots.length == 0) {
         $('#list-tab').empty();
         $('#nav-tabContent').empty();
-        $('<i>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
+        $('<i/>').addClass('d-flex justify-content-center pt-2').text("No results").appendTo('#list-tab');
     }
     else {
         populateHotspots(by_name_hotspots);
@@ -302,8 +302,8 @@ function buildHotspot(id = 'new') {
     }
 
     hotspot['hotspot_id'] = parseInt(id) || 'new';
-    hotspot['address'] = $('#hotspot-address' + id).val();
-    hotspot['name'] = $('#hotspot-title' + id).val();
+    hotspot['address'] = $('#hotspot-address' + id).val().trim();
+    hotspot['name'] = $('#hotspot-title' + id).val().trim();
 
     let ulSpeed = parseFloat($('#hotspot-ul' + id).val());
     let dlSpeed = parseFloat($('#hotspot-dl' + id).val());

@@ -1,81 +1,81 @@
 <div class="modal left fade" id="sidebar" tabindex="" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-body">
-            <div class="nav flex-sm-column flex-row">
-                <span id = "hotspot-info-exit-button-span">
-                    <svg data-bs-dismiss="modal" class = "hotspot-info-exit-button" id = "hotspot-info-exit-unhovered" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                    </svg>
-                    <svg data-bs-dismiss="modal" class = "hotspot-info-exit-button" id = "hotspot-info-exit-hovered" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-                    </svg>
-                </span>
-                <div class="container title-address col-12">
-                    <h3 class = "hotspot-title" id="hotspot-title">Title</h3>
-                    <div class="container tag-container-display" id="tag-container"></div>
-                    
-                    <h6 class="hotspot-address-text" id="hotspot-address"><a id="hotspot-googlemaps-link" href="" target="childWindow">Address</a>
-                    </h6>
-        
-                    <i id = "open-with-googlemaps-text"><small>Click address to open with Google Maps.</small></i>
-                </div>
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="nav flex-sm-column flex-row">
+                    <span id="hotspot-info-exit-button-span">
+                        <svg data-bs-dismiss="modal" class="hotspot-info-exit-button" id="hotspot-info-exit-unhovered"
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                        <svg data-bs-dismiss="modal" class="hotspot-info-exit-button" id="hotspot-info-exit-hovered"
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                        </svg>
+                    </span>
+                    <div class="container title-address col-12">
+                        <h3 class="hotspot-title" id="hotspot-title">Title</h3>
+                        <div class="container tag-container-display" id="tag-container"></div>
 
-                <div class="container speeds-container">
-                    <table class="table table-sm" id = "speed-table-display">
-                        <tbody>
-                            <tr id="no-ul-speed">
-                                <td>No data for upload speed.</td>
-                            </tr>
-                            <tr id="ul-speed-container">
-                                <td>Upload Speed</td>
-                                <td><strong id="ul-speed">0 Mbps</strong></td>
-                            </tr>
-                            <tr id="no-dl-speed">
-                                <td>No data for download speed.</td>
-                            </tr>
-                            <tr id="dl-speed-container">
-                                <td>Download Speed</td>
-                                <td><strong id="dl-speed">0 Mbps</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <h6 class="hotspot-address-text" id="hotspot-address"><a id="hotspot-googlemaps-link" href=""
+                                target="childWindow">Address</a>
+                        </h6>
 
-                <div class="container descrip-container" id="descrip-div">
-                    <!-- <strong>Description:</strong>
-                    <p>{{ desc }}</p> -->
-                </div>
+                        <i id="open-with-googlemaps-text"><small>Click address to open with Google Maps.</small></i>
+                    </div>
 
-                <!-- <div class="container avg-rating-container">
-                    <h5 id="avg-rating">Average Rating: </h5>
-                </div> -->
+                    <div class="container speeds-container">
+                        <table class="table table-sm" id="speed-table-display">
+                            <tbody>
+                                <tr id="no-ul-speed">
+                                    <td>No data for upload speed.</td>
+                                </tr>
+                                <tr id="ul-speed-container">
+                                    <td>Upload Speed</td>
+                                    <td><strong id="ul-speed">0 Mbps</strong></td>
+                                </tr>
+                                <tr id="no-dl-speed">
+                                    <td>No data for download speed.</td>
+                                </tr>
+                                <tr id="dl-speed-container">
+                                    <td>Download Speed</td>
+                                    <td><strong id="dl-speed">0 Mbps</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <div class="container review-container">
-                    <div class="row">
-                        <div class="col-6">
-                            <h5>Reviews</h5>
+                    <div class="container descrip-container" id="descrip-div"></div>
+
+                    <div class="container review-container">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5>Reviews</h5>
+                            </div>
+                            <div class="col-6 text-end">
+                                <button id="add-review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
+                                    data-bs-toggle="modal">ADD</button>
+                            </div>
                         </div>
-                        <div class="col-6 text-end">
-                            <button id="add-review" class="btn btn-secondary btn-sm" data-bs-target="#newReview"
-                                data-bs-toggle="modal">ADD</button>
+                        <div id="review-summary-text">
+                            <span id="avg-rating"></span>
+                            <span id="number-reviews-text"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="review-list" class="review-content visible-scrollbar overflow-auto"></div>
+                            </div>
                         </div>
                     </div>
-                    <div id = "review-summary-text">
-                        <span id = "avg-rating"></span>
-                        <span id = "number-reviews-text"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="review-list" class="review-content visible-scrollbar overflow-auto"></div>
-                        </div>
-                    </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
