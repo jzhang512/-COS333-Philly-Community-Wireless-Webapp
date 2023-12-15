@@ -1,7 +1,5 @@
 // $('#new-hotspot').click(createNewHotspot);
 
-let hotspotSet = new Set();
-
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
     console.log("pushed");
@@ -15,7 +13,6 @@ function setupMap() {
             hotspots = data;
             hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
             setup();
-            fillSet(hotspots);
         },
         error: function () {
             makeToast(false, "Server error: Unable to retrieve hotspots.");
@@ -38,14 +35,6 @@ function setupMap() {
 
     $.ajax(tagRequestData);
     $.ajax(requestData);
-}
-
-function fillSet(hotspots) {
-    for (let hotspot of hotspots) {
-        // Create a key to represent a unique hotspot
-        let key = hotspot['name'].toLowerCase() + hotspot['latitude'] + hotspot['longitude'];
-        hotspotSet.add(key);
-    }
 }
 
 function setup() {
@@ -289,6 +278,18 @@ function makeHotspotCard(hotspot) {
     return hotspotCard;
 }
 
+function checkSpeeds(id) {
+    let ulSpeed = parseFloat($('#hotspot-ul' + id).val());
+    let dlSpeed = parseFloat($('#hotspot-dl' + id).val());
+
+    console.log(ulSpeed);
+    console.log(isNaN(ulSpeed));
+    console.log(dlSpeed);
+    console.log(isNaN(dlSpeed));
+
+    return !(isNaN(ulSpeed) || isNaN(dlSpeed));
+}
+
 function buildHotspot(id = 'new') {
     let hotspot = {};
     let newTags = $('#select' + id).val();
@@ -308,8 +309,8 @@ function buildHotspot(id = 'new') {
     let ulSpeed = parseFloat($('#hotspot-ul' + id).val());
     let dlSpeed = parseFloat($('#hotspot-dl' + id).val());
 
-    $('#hotspot-ul' + id).val(Number.isInteger(ulSpeed) ? ulSpeed : -1);
-    $('#hotspot-dl' + id).val(Number.isInteger(dlSpeed) ? dlSpeed : -1);
+    $('#hotspot-ul' + id).val(ulSpeed);
+    $('#hotspot-dl' + id).val(dlSpeed);
 
     hotspot['ul_speed'] = parseFloat($('#hotspot-ul' + id).val());
     hotspot['dl_speed'] = parseFloat($('#hotspot-dl' + id).val());
@@ -347,12 +348,24 @@ function buildData(id = 'new') {
 }
 
 function addHotspot() {
+    if (!checkSpeeds('new')) {
+        makeToast(false, "Upload/Download speeds must be numbers");
+        return;
+    }
     if (!verifyHotspot()) {
         return;
     }
 
     let hotspot = buildHotspot();
     let data = buildData();
+
+    for (var hotspot2 of hotspots) {
+        if (hotspot2["hotspot_id"] == hotspot["hotspot_id"]) continue;
+        if (hotspot2["name"] == hotspot["name"] && hotspot2["address"] == hotspot["address"]) {
+            makeToast(false, "That location already exists");
+            return;
+        }
+    }
 
     let addRequest = {
         type: 'POST',
@@ -377,13 +390,25 @@ function addHotspot() {
 }
 
 function updateHotspot(id) {
+    if (!checkSpeeds(id)) {
+        makeToast(false, "Upload/Download speeds must be numbers");
+        return;
+    }
     if (!verifyHotspot(id)) {
-        return
+        return;
     }
     console.log("updating");
 
     let hotspot = buildHotspot(id);
     let data = buildData(id);
+
+    for (var hotspot2 of hotspots) {
+        if (hotspot2["hotspot_id"] == hotspot["hotspot_id"]) continue;
+        if (hotspot2["name"] == hotspot["name"] && hotspot2["address"] == hotspot["address"]) {
+            makeToast(false, "That location already exists");
+            return;
+        }
+    }
 
     let updateRequest = {
         type: 'POST',
@@ -481,26 +506,16 @@ function verifyHotspot(id = 'new') {
             if (points.length == 0) {
                 makeToast(false, "No valid address found. Please try again.");
                 result = false;
+                return;
             }
 
-            else {
-                let key = title.toLowerCase() + points[0]['center'][1] + points[0]['center'][0];
-                console.log(key);
-                if (hotspotSet.has(key)) {
-                    makeToast(false, "This hotspot already exists.")
-                    result = false;
-                }
-                else {
+            $('#hotspot-lati' + id).val(points[0]['center'][1]);
+            $('#hotspot-long' + id).val(points[0]['center'][0]);
 
-                    $('#hotspot-lati' + id).val(points[0]['center'][1]);
-                    $('#hotspot-long' + id).val(points[0]['center'][0]);
+            let start = points[0]['place_name'];
+            let index = start.indexOf(points[0]['properties']['address']);
 
-                    let start = points[0]['place_name'];
-                    let index = start.indexOf(points[0]['properties']['address']);
-
-                    $('#hotspot-address' + id).val(start.substring(index));
-                }
-            }
+            $('#hotspot-address' + id).val(start.substring(index));
         },
         error: function () {
             makeToast(false, "A MapBox server error has occurred.");
