@@ -54,6 +54,7 @@ async function updateHotspotsList(hotspots) {
     });
 
     $(".list-group-item-action").on("click", function () {
+
         let id = parseInt($(this).attr('id'));
         let hotspot = getHotspot(hotspots, id);
         
