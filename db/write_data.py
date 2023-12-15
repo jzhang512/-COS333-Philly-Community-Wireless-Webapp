@@ -43,7 +43,7 @@ def add_user_review_imp(hotspot_id, rating, comment, time):
     except Exception as ex: 
         session.rollback()
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error - Write")
+        raise db.DatabaseError("Database Error - Write")
 #     finally:
 #           _engine.dispose()
 
@@ -79,7 +79,7 @@ def remove_hotspots(remove_list):
     except Exception as ex: 
         session.rollback()
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error - Write")
+        raise db.DatabaseError("Database Error - Write")
 #     finally:
 #           _engine.dispose()
     
@@ -99,7 +99,7 @@ def visualization_hotspots(list, hide):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #      _engine.dispose()
 
@@ -135,7 +135,7 @@ def update_hotspots_imp(hotspots):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #      _engine.dispose()
 
@@ -178,7 +178,7 @@ def create_hotspots_imp(hotspots_to_create):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
 
@@ -208,7 +208,7 @@ def update_hotspots_tags(hotspots_and_tags):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
         
@@ -236,7 +236,7 @@ def add_new_tags(tags_to_add):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
 
@@ -257,7 +257,7 @@ def delete_existing_tags(tag_id_list):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
 
@@ -281,7 +281,7 @@ def update_tags_imp(tags_to_update):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
 
@@ -314,7 +314,7 @@ def approve_review(review_id):
      except Exception as ex: 
         session.rollback()
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error - Write")
+        raise db.DatabaseError("Database Error - Write")
      # finally:
      #      _engine.dispose()
 
@@ -333,7 +333,7 @@ def delete_pending_review(review_id):
      except Exception as ex: 
         session.rollback()
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        raise Exception("Database Error - Write")
+        raise db.DatabaseError("Database Error - Write")
      # finally:
      #      _engine.dispose()
 
@@ -353,7 +353,7 @@ def update_admin_username(admin_id, username):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
 
@@ -374,7 +374,7 @@ def add_new_admin(admin_key):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
      # finally:
      #     _engine.dispose()
 
@@ -392,7 +392,7 @@ def remove_admins(admins_to_delete):
      except Exception as ex:
           session.rollback()
           print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-          raise Exception("Database Error - Write")
+          raise db.DatabaseError("Database Error - Write")
 # ---------------------------------------------------------------------
 def main():
      # visualization_hotspots([23], False)

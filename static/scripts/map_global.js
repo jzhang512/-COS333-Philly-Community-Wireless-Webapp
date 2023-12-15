@@ -15,9 +15,9 @@ map.addControl(nav, 'bottom-right');
 // All global variables for application's map side.
 //---------------------------------------------------------------------
 let active_id = null;
-let tags;
-let hotspots;
-let displayed;
+let tags = [];
+let hotspots = [];
+let displayed = [];
 let reviewVisible = false;
 let siteTitle = "Find Philly Wi-Fi";
 let sort_type = "alphabetical";
