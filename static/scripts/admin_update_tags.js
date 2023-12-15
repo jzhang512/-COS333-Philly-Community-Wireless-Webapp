@@ -266,9 +266,16 @@ function createAddForm() {
     form.append($("<h5/>", { class: "mt-3" }).text("Category"));
     let selectCat = $("<select/>", { class: "form-select" }).appendTo(form);
 
-    categories.forEach((cat) => {
-        selectCat.append($("<option>", { value: cat }).text(cat));
-    })
+    // categories.forEach((cat) => {
+    //     selectCat.append($("<option>", { value: cat }).text(cat));
+    // })
+
+    selectCat.append($("<option>", { value: "Accessibility" }).text("Accessibility"));
+    selectCat.append($("<option>", { value: "Amenities" }).text("Amenities"));
+    selectCat.append($("<option>", { value: "Cost" }).text("Cost"));
+    selectCat.append($("<option>", { value: "Establishment" }).text("Establishment"));
+    selectCat.append($("<option>", { value: "Password" }).text("Password"));
+    selectCat.append($("<option>", { value: "Privacy" }).text("Privacy"));
 
     let buttons = $("<div/>", { class: "form-row mt-4" }).appendTo(form);
     let approve = $("<button/>", { class: "btn btn-success me-3 btn-dark-blue" }).text("Add Tag");
