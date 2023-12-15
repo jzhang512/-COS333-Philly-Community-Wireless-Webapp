@@ -338,18 +338,26 @@ map.on('load', async () => {
             e.features[0].geometry.coordinates[0] += e.lngLat.lng > e.features[0].geometry.coordinates[0] ? 360 : -360;
         }
 
-        let id = e.features[0].properties.ID;
-        active_id = id;
+        try{
+            let id = e.features[0].properties.ID;
+            active_id = id;
 
-        // let coordinates = e.features[0].geometry.coordinates;
+            // let coordinates = e.features[0].geometry.coordinates;
 
-        const hotspot = getHotspot(hotspots, id);
-        makePopup(hotspot);
+            const hotspot = getHotspot(hotspots, id);
+            makePopup(hotspot);
 
-        // For smaller screens.
-        if ($(window).width() <= SMALLSCREENWIDTH) {
-            hide_search_panel();
-            hide_small_filter_panel();
+            // For smaller screens.
+            if ($(window).width() <= SMALLSCREENWIDTH) {
+                hide_search_panel();
+                hide_small_filter_panel();
+            }
+        }
+        catch (error) {
+            alert("Server or database error fetching hotspot information. Please email phillycommunitywireless@gmail.com if the issue persists.");
+            // You can handle the error in different ways based on your application's requirements
+            // For example, you might want to show a user-friendly message to the user
+            hotspots = [];
         }
     });
 
