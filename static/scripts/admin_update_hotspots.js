@@ -1,6 +1,6 @@
 // $('#new-hotspot').click(createNewHotspot);
 
-let hotspotSet = new Set();
+// let hotspotSet = new Set();
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
@@ -15,7 +15,7 @@ function setupMap() {
             hotspots = data;
             hotspots.sort((a, b) => a['name'].localeCompare(b['name']))
             setup();
-            fillSet(hotspots);
+            // fillSet(hotspots);
         },
         error: function () {
             makeToast(false, "Server error: Unable to retrieve hotspots.");
@@ -40,13 +40,13 @@ function setupMap() {
     $.ajax(requestData);
 }
 
-function fillSet(hotspots) {
-    for (let hotspot of hotspots) {
-        // Create a key to represent a unique hotspot
-        let key = hotspot['name'].toLowerCase() + hotspot['latitude'] + hotspot['longitude'];
-        hotspotSet.add(key);
-    }
-}
+// function fillSet(hotspots) {
+//     for (let hotspot of hotspots) {
+//         // Create a key to represent a unique hotspot
+//         let key = hotspot['name'].toLowerCase() + hotspot['latitude'] + hotspot['longitude'];
+//         hotspotSet.add(key);
+//     }
+// }
 
 function setup() {
     $("#results-div").empty();
@@ -484,22 +484,22 @@ function verifyHotspot(id = 'new') {
             }
 
             else {
-                let key = title.toLowerCase() + points[0]['center'][1] + points[0]['center'][0];
-                console.log(key);
-                if (hotspotSet.has(key)) {
-                    makeToast(false, "This hotspot already exists.")
-                    result = false;
-                }
-                else {
+                // let key = title.toLowerCase() + points[0]['center'][1] + points[0]['center'][0];
+                // console.log(key);
+                // if (hotspotSet.has(key)) {
+                //     makeToast(false, "This hotspot already exists.")
+                //     result = false;
+                // }
+                // else {
 
-                    $('#hotspot-lati' + id).val(points[0]['center'][1]);
-                    $('#hotspot-long' + id).val(points[0]['center'][0]);
+                $('#hotspot-lati' + id).val(points[0]['center'][1]);
+                $('#hotspot-long' + id).val(points[0]['center'][0]);
 
-                    let start = points[0]['place_name'];
-                    let index = start.indexOf(points[0]['properties']['address']);
+                let start = points[0]['place_name'];
+                let index = start.indexOf(points[0]['properties']['address']);
 
-                    $('#hotspot-address' + id).val(start.substring(index));
-                }
+                $('#hotspot-address' + id).val(start.substring(index));
+                // }
             }
         },
         error: function () {

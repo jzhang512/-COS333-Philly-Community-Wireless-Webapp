@@ -155,7 +155,7 @@ function editTag(tag) {
 
     let row = $("<span/>", { class: 'd-flex form-row' });
     let input = $("<input/>", { type: 'text', class: 'form-control', value: tag["tag_name"] });
-  
+
     let approve = $("<button/>", { class: 'mx-2 btn btn-success btn-circle btn-small btn-confirm-decision', text: "Confirm" });
     let cancel = $("<button/>", { class: 'btn btn-warning btn-circle btn-small btn-complement-white', text: "Cancel" });
 
@@ -172,7 +172,7 @@ function editTag(tag) {
         console.log(new_name);
 
         for (const tag2 of tags) {
-            if (tag2["category"] == tag["category"] && tag2["tag_name"] == new_name) {
+            if (tag2["category"] == tag["category"] && tag2["tag_name"].toLowerCase() == new_name.toLowerCase()) {
                 makeToast(false, "This tag already exists.");
                 return;
             }
@@ -285,7 +285,7 @@ function createAddForm() {
             return;
         }
         for (const tag of tags) {
-            if (tag["category"] == new_tag["category"] && tag["tag_name"] == new_tag["tag_name"]) {
+            if (tag["category"] == new_tag["category"] && tag["tag_name"].toLowerCase() == new_tag["tag_name"].toLowerCase()) {
                 makeToast(false, "This tag already exists.");
                 return;
             }
