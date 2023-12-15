@@ -172,6 +172,7 @@ function editTag(tag) {
         console.log(new_name);
 
         for (const tag2 of tags) {
+            if (tag2["tag_id"] == tag["tag_id"]) continue;
             if (tag2["category"] == tag["category"] && tag2["tag_name"].toLowerCase() == new_name.toLowerCase()) {
                 makeToast(false, "This tag already exists.");
                 return;
