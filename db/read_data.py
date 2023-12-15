@@ -89,7 +89,7 @@ def get_pins_all(include_reviews=False):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        # sys.exit(1)
+        raise database.DatabaseError("Database Error - Read")
 
 # ---------------------------------------------------------------------
 
@@ -118,7 +118,7 @@ def get_single_review(hotspot_id: int):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        # sys.exit(1)
+        raise database.DatabaseError("Database Error - Read")
 
 # ---------------------------------------------------------------------
 
@@ -152,7 +152,7 @@ def get_all_reviews(just_ratings=False):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        # sys.exit(1)
+        raise database.DatabaseError("Database Error - Read")
 
 # ---------------------------------------------------------------------
 
@@ -182,7 +182,7 @@ def get_pending_reviews():
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        # sys.exit(1)
+        raise database.DatabaseError("Database Error - Read")
 
 # ---------------------------------------------------------------------
 
@@ -213,7 +213,7 @@ def get_tags_category(cat: str = ""):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        # sys.exit(1)
+        raise database.DatabaseError("Database Error - Read")
 
 
 # ---------------------------------------------------------------------
@@ -233,6 +233,7 @@ def is_authorized_user(key: str = ""):
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
+        raise database.DatabaseError("Database Error - Read")
 # ---------------------------------------------------------------------
 def get_all_admin():
     try:
@@ -256,7 +257,7 @@ def get_all_admin():
   
     except Exception as ex:
         print(str(sys.argv[0]) + ": " + str(ex), file = sys.stderr)
-        # sys.exit(1)   
+        raise database.DatabaseError("Database Error - Read")
 # ---------------------------------------------------------------------
 
 def main():

@@ -13,6 +13,15 @@ import sqlalchemy
 
 # ---------------------------------------------------------------------
 
+class DatabaseError(Exception):
+    def __init__(self, string):
+        self.error = string
+    
+    def __str__(self):
+        return self.error
+
+# ---------------------------------------------------------------------
+
 Base = sqlalchemy.ext.declarative.declarative_base()
 
 class MapBox (Base):
