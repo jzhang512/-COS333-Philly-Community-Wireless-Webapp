@@ -31,14 +31,22 @@ async function makePopup(hotspot) {
 
     // Send requests to your Flask server
     let reviews;
-    const review_response = await fetch("/api/reviews?id=" + id);
 
-    if (!review_response.ok) {
-        alert("Server or database error fetching reviews.");
-        reviews = [];
+    try {
+        const review_response = await fetch("/api/reviews?id=" + id);
+        if (!review_response.ok) {
+            alert("Server or database error fetching reviews.");
+            reviews = [];
+        }
+        else {
+            reviews = await review_response.json();
+        }
     }
-    else {
-        reviews = await review_response.json();
+    catch (error) {
+        alert("Server or database error fetching hotspot information. Please email phillycommunitywireless@gmail.com if the issue persists.");
+        // You can handle the error in different ways based on your application's requirements
+        // For example, you might want to show a user-friendly message to the user
+        hotspots = [];
     }
 
     // console.log("got reviews");

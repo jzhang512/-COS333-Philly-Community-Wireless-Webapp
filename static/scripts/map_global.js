@@ -75,14 +75,21 @@ $(document).ready(async () => {
     // The initial setup.
     document.title = siteTitle;
 
-    const response = await fetch("/api/hotspots?ratings='True'");
-
-    if (!response.ok) {
-        alert("Server or database error fetching hotspots.");
-        hotspots = [];
+    try {
+        const response = await fetch("/api/hotspots?ratings='True'");
+        if (!response.ok) {
+            alert("Server or database error fetching hotspots. Please email phillycommunitywireless@gmail.com if the issue persists.");
+            hotspots = [];
+        }
+        else {
+            hotspots = await response.json();
+        }
     }
-    else {
-        hotspots = await response.json();
+    catch (error) {
+        console.error("Failed to fetch hotspots:", error.message);
+        // You can handle the error in different ways based on your application's requirements
+        // For example, you might want to show a user-friendly message to the user
+        hotspots = [];
     }
 
     // if (hotspots == "Database Error") {
