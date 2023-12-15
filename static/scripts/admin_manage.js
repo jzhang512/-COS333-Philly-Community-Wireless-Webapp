@@ -182,6 +182,13 @@ function addAdmin(adminName) {
         return;
     }
 
+    for (const admin of admins) {
+        if (admin.admin_key === adminName) {
+            makeToast(false, "That email address is already authorized.");
+            return;
+        }
+    }
+
     let addAdminRequest = {
         type: 'POST',
         url: "/api/add_admin",
