@@ -2,7 +2,7 @@
 
 function setupMap() {
     history.pushState(null, "Update Map", "/admin/update");
-    console.log("pushed");
+    // console.log("pushed");
     document.title = siteTitle + " - Update Hotspots";
 
     let requestData = {
@@ -268,7 +268,7 @@ function makeHotspotCard(hotspot) {
     else {
         $(document).off('click', '#confirmChanges' + id);
         $(document).on('click', '#confirmChanges' + id, function () {
-            console.log("failed!");
+            // console.log("failed!");
             addHotspot();
         });
     }
@@ -281,11 +281,6 @@ function makeHotspotCard(hotspot) {
 function checkSpeeds(id) {
     let ulSpeed = parseFloat($('#hotspot-ul' + id).val());
     let dlSpeed = parseFloat($('#hotspot-dl' + id).val());
-
-    console.log(ulSpeed);
-    console.log(isNaN(ulSpeed));
-    console.log(dlSpeed);
-    console.log(isNaN(dlSpeed));
 
     return !(isNaN(ulSpeed) || isNaN(dlSpeed));
 }
@@ -397,7 +392,7 @@ function updateHotspot(id) {
     if (!verifyHotspot(id)) {
         return;
     }
-    console.log("updating");
+    // console.log("updating");
 
     let hotspot = buildHotspot(id);
     let data = buildData(id);
