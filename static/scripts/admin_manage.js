@@ -107,21 +107,25 @@ function makeAdminElem(admin) {
         class: 'flex-grow-1 text-wrap'
     }).appendTo(adminItem);
 
-    // Checkbox (hidden initially)
-    let adminCheckbox = $('<input/>', {
-        type: 'checkbox',
-        class: 'admin-checkbox',
-        id: 'admin-' + admin['admin_id']
-    }).appendTo(adminItem);
+    // console.log($("#admin-email").data("email"));
 
-    adminCheckbox.attr("checked", admin["selected"]);
-    if (!editing) {
-        adminCheckbox.hide();
+    if (admin['admin_key'] != $("#admin-email").data("email")) {
+        // Checkbox (hidden initially)
+        let adminCheckbox = $('<input/>', {
+            type: 'checkbox',
+            class: 'admin-checkbox',
+            id: 'admin-' + admin['admin_id']
+        }).appendTo(adminItem);
+
+        adminCheckbox.attr("checked", admin["selected"]);
+        if (!editing) {
+            adminCheckbox.hide();
+        }
+
+        adminCheckbox.change(() => {
+            admin["selected"] = adminCheckbox.is(":checked");
+        });
     }
-
-    adminCheckbox.change(() => {
-        admin["selected"] = adminCheckbox.is(":checked");
-    });
 
     return adminItem;
 }
