@@ -35,7 +35,7 @@ async function makePopup(hotspot) {
     try {
         const review_response = await fetch("/api/reviews?id=" + id);
         if (!review_response.ok) {
-            alert("Server or database error fetching reviews.");
+            alert("Server or database error fetching reviews. Please email phillycommunitywireless@gmail.com if the issue persists.");
             reviews = [];
         }
         else {

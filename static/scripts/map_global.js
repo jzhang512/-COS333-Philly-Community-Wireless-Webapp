@@ -86,7 +86,7 @@ $(document).ready(async () => {
         }
     }
     catch (error) {
-        console.error("Failed to fetch hotspots:", error.message);
+        console.error("Server or database error fetching hotspots. Please email phillycommunitywireless@gmail.com if the issue persists.");
         // You can handle the error in different ways based on your application's requirements
         // For example, you might want to show a user-friendly message to the user
         hotspots = [];
